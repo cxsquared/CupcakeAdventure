@@ -1,0 +1,32 @@
+{
+	"actors": [
+		{
+			"name": "fridge",
+			"x": 0,
+			"y": 0,
+			"width": -1,
+			"height": -1,
+			"components": [
+				{
+					"name": "PickUpComponent",
+					"Data": {
+					}
+				}
+			]
+		},
+		{
+			"name": "test",
+			"x": 0,
+			"y": 0,
+			"width": -1,
+			"height": -1,
+			"components": [
+				{
+					"name": "PickUpComponent",
+					"Data": {
+					}
+				}
+			]
+		}
+	]
+}

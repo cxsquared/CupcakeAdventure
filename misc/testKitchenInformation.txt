@@ -1,0 +1,2 @@
+Fridge x: 219 y:61
+Cabinet x: 16 y: 58
