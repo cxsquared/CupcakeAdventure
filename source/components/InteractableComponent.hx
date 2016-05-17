@@ -1,5 +1,8 @@
 package components;
 
+import flixel.util.FlxCollision;
+import flixel.FlxG;
+
 class InteractableComponent implements ActorComponent {
 
 	public var owner:Actor;
@@ -12,6 +15,9 @@ class InteractableComponent implements ActorComponent {
 	}
 
 	public function update(DeltaTime:Float) {
+		if (FlxCollision.pixelPerfectPointCheck(FlxG.mouse.x, FlxG.mouse.y, owner) && FlxG.mouse.justPressed) {
+			onInteract();
+		}
 	}
 
 	public function getComponentID():Int {

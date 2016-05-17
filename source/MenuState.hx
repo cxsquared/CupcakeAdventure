@@ -18,26 +18,13 @@ class MenuState extends FlxState
 
 		var af = new ActorFactory();
 
-		haxe.Log.trace(Assets.getText(AssetPaths.testKitchen__json));
-
-		var background = new FlxSprite(AssetPaths.kitchen_Background__png);
+		var background = new FlxSprite(AssetPaths.FridgeCabinet__png);
 		add(background);
-		var jsData = Json.parse(Assets.getText(AssetPaths.testKitchen__json));
-		/*
-		FlxG.log.add(Reflect.field(jsData, "actors"));
-		var actorsData:Array<Dynamic> = Reflect.field(jsData, "actors");
-		for (actor in actorsData) {
-			FlxG.log.add(Reflect.field(actor, "name"));
-		}
-		FlxG.log.add(Reflect.fields(Reflect.field(jsData, "actors")).toString());
-		*/
-		var fridge:Actor = af.createActor(Reflect.field(jsData, "actors")[0]);
-		fridge.loadGraphic(AssetPaths.kitchen_Fridge__png);
 
-		add(fridge);
-
-		var cabinet = new FlxSprite(AssetPaths.kitchen_Cabinet__png);
+		var jsData = Json.parse(Assets.getText(AssetPaths.testCabinetFridge__json));
+		var cabinet:Actor = af.createActor(Reflect.field(jsData, "actors")[0]);
 		add(cabinet);
+
 	}
 
 	override public function update(elapsed:Float):Void

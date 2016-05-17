@@ -13,6 +13,7 @@ class ActorFactory {
 	public function new() {
 		actorComponentCreators = new Map<String, Class<ActorComponent>>();
 		actorComponentCreators.set("PickUpComponent", PickUpComponent);
+		actorComponentCreators.set("AnimationComponent", AnimationComponent);
 	}
 
 	public function createActor(Data:Dynamic):Actor {
@@ -20,10 +21,32 @@ class ActorFactory {
 		FlxG.log.add("Creating new actor");
 
 		if (actor.init(getNextActorId())) {
-			FlxG.log.add("Adding components " + Data);
+			// Location
+			var x = Std.parseInt(Reflect.field(Data, "x"));
+			if (x >= 0) {
+				actor.x = x;
+			}
+
+			var y = Std.parseInt(Reflect.field(Data, "y"));
+			if (y >= 0) {
+				actor.y = y;
+			}
+
+			// Image
+			var graphicFile = Reflect.field(Data, "spriteSheet");
+			if (graphicFile != "" && graphicFile != null) {
+				var width = Std.parseInt(Reflect.field(Data, "width"));
+				var height = Std.parseInt(Reflect.field(Data, "height"));
+				if (width > 0 && height > 0) {
+					actor.loadGraphic(graphicFile, true, width, height);
+				} else {
+					actor.loadGraphic(graphicFile);
+				}
+			}
+
+			// Components
 			var componentsData:Array<Dynamic> = Reflect.field(Data, "components");
 			for (component in componentsData) {
-				FlxG.log.add("Adding new component");
 				var newComponent:ActorComponent = createComponent(component);
 
 				if (newComponent != null) {
@@ -44,12 +67,13 @@ class ActorFactory {
 	}
 
 	private function createComponent(Data:Dynamic):ActorComponent {
-		FlxG.log.add(Data);
+		//FlxG.log.add(Data);
 		FlxG.log.add("Creating new component " + Reflect.field(Data, "name"));
 		if (actorComponentCreators.exists(Reflect.field(Data, "name"))) {
 			var newComponent:ActorComponent = Type.createInstance(actorComponentCreators[Reflect.field(Data, "name")], []);
-
-			if (newComponent.init(Reflect.field(Data, "data"))) {
+			var componentData:String = Std.string(Reflect.field(Data, "data"));
+			FlxG.log.add("Data should be sent like " + componentData);
+			if (newComponent.init(Std.string(Reflect.field(Data, "data")))) {
 				return newComponent;
 			} else {
 				FlxG.log.error("Component " + Reflect.field(Data, "name") + " failed to initialize.");

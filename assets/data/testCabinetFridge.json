@@ -1,0 +1,38 @@
+{
+	"actors": [
+		{
+			"name": "cabinet",
+			"x": 0,
+			"y": 36,
+			"width": 196,
+			"height": 189,
+			"spriteSheet": "assets/images/cabinetFridge/cabinet.png",
+			"components": [
+				{
+					"name": "AnimationComponent",
+					"data": {
+						"frameRate": 10,
+						"animations": [
+							{
+								"name": "justLeftDoor",
+								"frames": [0, 1, 2]
+							},
+							{
+								"name": "justRightDoor",
+								"frames": [3, 4, 5]
+							},
+							{
+								"name": "rightAfterLeft",
+								"frames": [6, 7, 8]
+							},
+							{
+								"name": "leftAfterRight",
+								"frames": [9, 10, 11]
+							}
+						]
+					}
+				}
+			]
+		}
+	]
+}
