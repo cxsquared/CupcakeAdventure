@@ -1,4 +1,37 @@
 {
 	"background": "assets/images/bookshelf/Bookshelf.png",
-	"actors": []
+	"actors": [
+		{
+			"name": "arrow",
+			"x": 3,
+			"y": 186,
+			"width": -1,
+			"height": -1,
+			"spriteSheet": "assets/images/arrows/left.png",
+			"components": [
+				{
+					"name": "SceneChangeComponent",
+					"data": {
+						"target": "Shelf"
+					}
+				}
+			]
+		}, 
+		{
+			"name": "oven",
+			"x": 255,
+			"y": 109,
+			"width": -1,
+			"height": -1,
+			"spriteSheet": "assets/images/bookshelf/bookshelfOven.png",
+			"components": [
+				{
+					"name": "SceneChangeComponent",
+					"data": {
+						"target": "Kitchen"
+					}
+				}
+			]
+		}
+	]
 }

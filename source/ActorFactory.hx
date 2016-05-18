@@ -78,7 +78,7 @@ class ActorFactory {
 		if (actorComponentCreators.exists(Reflect.field(Data, "name"))) {
 			var newComponent:ActorComponent = Type.createInstance(actorComponentCreators[Reflect.field(Data, "name")], []);
 			var componentData:String = Std.string(Reflect.field(Data, "data"));
-			FlxG.log.add("Data should be sent like " + componentData);
+			//FlxG.log.add("Data should be sent like " + componentData);
 			if (newComponent.init(Reflect.field(Data, "data"))) {
 				return newComponent;
 			} else {

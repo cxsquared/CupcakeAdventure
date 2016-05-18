@@ -6,6 +6,7 @@ import flixel.FlxG;
 import openfl.Assets;
 import haxe.Json;
 import flixel.FlxSprite;
+import flixel.tweens.FlxTween;
 
 class SceneManager extends FlxTypedGroup<FlxSpriteGroup> {
 	
@@ -21,8 +22,11 @@ class SceneManager extends FlxTypedGroup<FlxSpriteGroup> {
 		return instance;
 	}
 
+
+	public var changingScenes:Bool = false;
 	var scenes:Map<String, FlxSpriteGroup>;
 	var currentScene:FlxSpriteGroup;
+	var nextScene:FlxSpriteGroup;
 
 	private function new():Void {
 		if (SceneManager.instance == null) {
@@ -51,16 +55,21 @@ class SceneManager extends FlxTypedGroup<FlxSpriteGroup> {
 	}
 
 	public function changeScene(Name:String):Void {
-		var nextScene = getScene(Name);
-		if (nextScene != null) {
-			if (currentScene != null) {
-				currentScene.setPosition(-FlxG.width, -FlxG.height);
-			}
+		if (nextScene == null && !changingScenes) {
+			FlxG.log.add("Changing Scenes");
+			nextScene = getScene(Name);
+			if (nextScene != null) {
+				changingScenes = true;
+				if (currentScene != null) {
+					FlxTween.tween(currentScene, { x: -FlxG.width, y: -FlxG.height }, .25);
+				}
 
-			nextScene.setPosition(0, 0);
-			currentScene = nextScene;
+				FlxTween.tween(nextScene, { x: 0, y:0 }, .35, { onComplete: sceneChanged, onUpdate: sceneTween}).start;
+			} else {
+				FlxG.log.error("Unable to set " + Name + " as current scene.");
+			}
 		} else {
-			FlxG.log.error("Unable to set " + Name + " as current scene.");
+			FlxG.log.error("Can't change scnese while scenes are changing.");
 		}
 	}
 
@@ -73,6 +82,8 @@ class SceneManager extends FlxTypedGroup<FlxSpriteGroup> {
 			scenes.set(Reflect.field(scene, "name"), newScene);
 			add(newScene);
 			if (currentScene != null) {
+				//currentScene.alpha = 0;
+				currentScene = newScene;
 				currentScene.setPosition(-FlxG.width, -FlxG.height);
 			}
 			currentScene = newScene;

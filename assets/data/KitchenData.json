@@ -1,4 +1,21 @@
 {
 	"background": "assets/images/kitchen/Kitchen.png",
-	"actors": []
+	"actors": [
+		{
+			"name": "arrow",
+			"x": 300,
+			"y": 220,
+			"width": -1,
+			"height": -1,
+			"spriteSheet": "assets/images/arrows/down.png",
+			"components": [
+				{
+					"name": "SceneChangeComponent",
+					"data": {
+						"target": "Bookshelf"
+					}
+				}
+			]
+		}
+	]
 }

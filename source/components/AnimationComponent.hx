@@ -15,9 +15,9 @@ class AnimationComponent implements ActorComponent {
 	
 	public function init(Data:Dynamic):Bool {
 		animationData = new Map<String, AnimData>();
-		FlxG.log.add("Creating a new Animation Component with Data: " + Std.string(Reflect.fields(Data)));
+		//FlxG.log.add("Creating a new Animation Component with Data: " + Std.string(Reflect.fields(Data)));
 		var animations:Array<Dynamic> = Reflect.field(Data, "animations");
-		FlxG.log.add(animations);
+		//FlxG.log.add(animations);
 		if (animations != null && animations.length > 0) {
 			for (animation in animations) {
 				var animData:AnimData = { frames:Reflect.field(animation, "frames"), looped: Reflect.field(animation, "looped")};
