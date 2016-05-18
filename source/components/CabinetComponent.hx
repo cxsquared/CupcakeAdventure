@@ -1,6 +1,8 @@
 package components;
 
 import flixel.FlxG;
+import SoundManager;
+import AssetPaths;
 
 class CabinetComponent extends InteractableComponent {
 
@@ -9,6 +11,7 @@ class CabinetComponent extends InteractableComponent {
 
 	override public function init(Data:Dynamic):Bool {
 		super.init(Data);
+		//SoundManager.GetInstance().loadSounds(AssetPaths.CabinetSounds__json);
 		return true;
 	}
 
@@ -37,12 +40,14 @@ class CabinetComponent extends InteractableComponent {
 	private function rightClicked():Void {
 		if (rightOpen) {
 			rightOpen = false;
+			FlxG.sound.play(AssetPaths.closeCabinet__wav);
 			if (leftOpen) {
 				owner.animation.play("rightAfterLeft", false, true);
 			} else {
 				owner.animation.play("justRightDoor", false,  true);
 			}
 		} else {
+			FlxG.sound.play(AssetPaths.openCabinet__wav);
 			rightOpen = true;
 			if (leftOpen) {
 				owner.animation.play("rightAfterLeft", false);
@@ -56,6 +61,7 @@ class CabinetComponent extends InteractableComponent {
 		FlxG.log.add("Right Clicked");
 		if (leftOpen) {
 			leftOpen = false;
+			FlxG.sound.play(AssetPaths.closeCabinet__wav);
 			if (rightOpen) {
 				owner.animation.play("leftAfterRight", false, true);
 			} else {
@@ -63,6 +69,7 @@ class CabinetComponent extends InteractableComponent {
 			}
 		} else {
 			leftOpen = true;
+			FlxG.sound.play(AssetPaths.openCabinet__wav);
 			if (rightOpen) {
 				owner.animation.play("leftAfterRight", false);
 			} else {
