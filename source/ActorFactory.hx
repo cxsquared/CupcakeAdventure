@@ -11,9 +11,14 @@ class ActorFactory {
 	private var actorComponentCreators:Map<String, Class<Dynamic>>;
 
 	public function new() {
+		createComponentMap();
+	}
+
+	private function createComponentMap():Void {
 		actorComponentCreators = new Map<String, Class<ActorComponent>>();
 		actorComponentCreators.set("PickUpComponent", PickUpComponent);
 		actorComponentCreators.set("AnimationComponent", AnimationComponent);
+		actorComponentCreators.set("CabinetComponent", CabinetComponent);
 	}
 
 	public function createActor(Data:Dynamic):Actor {
@@ -73,7 +78,7 @@ class ActorFactory {
 			var newComponent:ActorComponent = Type.createInstance(actorComponentCreators[Reflect.field(Data, "name")], []);
 			var componentData:String = Std.string(Reflect.field(Data, "data"));
 			FlxG.log.add("Data should be sent like " + componentData);
-			if (newComponent.init(Std.string(Reflect.field(Data, "data")))) {
+			if (newComponent.init(Reflect.field(Data, "data"))) {
 				return newComponent;
 			} else {
 				FlxG.log.error("Component " + Reflect.field(Data, "name") + " failed to initialize.");

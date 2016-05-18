@@ -20,8 +20,8 @@ class InteractableComponent implements ActorComponent {
 		}
 	}
 
-	public function getComponentID():Int {
-		return -1; // This number should never be refferenced
+	public function getComponentID():ActorComponentTypes {
+		return ActorComponentTypes.INVALID; // This number should never be refferenced
 	}
 
 	private function onInteract() {

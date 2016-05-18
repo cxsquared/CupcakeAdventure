@@ -7,7 +7,7 @@ import flixel.system.FlxAssets.FlxGraphicAsset;
 
 class Actor extends FlxSprite {
 	
-	private var actorComponents:Map<Int, ActorComponent>;
+	private var actorComponents:Map<ActorComponentTypes, ActorComponent>;
 
 	private var actorID:Int;
 
@@ -16,7 +16,7 @@ class Actor extends FlxSprite {
 	override public function new(?X:Float = 0, ?Y:Float = 0, ?SimpleGraphic:FlxGraphicAsset) {
 		super(X, Y, SimpleGraphic);
 
-		actorComponents = new Map<Int, ActorComponent>();
+		actorComponents = new Map<ActorComponentTypes, ActorComponent>();
 	}
 
 	public function init(ID:Int):Bool {
@@ -56,7 +56,7 @@ class Actor extends FlxSprite {
 		return actorID;
 	}
 
-	public function getComponent(ComponentID:Int):ActorComponent {
+	public function getComponent(ComponentID:ActorComponentTypes):ActorComponent {
 		if (actorComponents.exists(ComponentID)){
 			return actorComponents.get(ComponentID);
 		}

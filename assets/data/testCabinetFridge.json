@@ -15,22 +15,30 @@
 						"animations": [
 							{
 								"name": "justLeftDoor",
-								"frames": [0, 1, 2]
+								"frames": [0, 1, 2],
+								"looped": false
 							},
 							{
 								"name": "justRightDoor",
-								"frames": [3, 4, 5]
+								"frames": [3, 4, 5],
+								"looped": false
 							},
 							{
 								"name": "rightAfterLeft",
-								"frames": [6, 7, 8]
+								"frames": [6, 7, 8],
+								"looped": false
 							},
 							{
 								"name": "leftAfterRight",
-								"frames": [9, 10, 11]
+								"frames": [9, 10, 11],
+								"looped": false
 							}
 						]
 					}
+				},
+				{
+					"name": "CabinetComponent",
+					"data": {}
 				}
 			]
 		}

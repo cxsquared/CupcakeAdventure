@@ -2,19 +2,26 @@ package components;
 
 import flixel.FlxG;
 
+typedef AnimData = { 
+	var frames:Array<Int>; 
+	var looped:Bool;
+}
+
 class AnimationComponent implements ActorComponent {
 
 	public var owner:Actor;
-	private var animationData:Map<String, Array<Int>>;
+	private var animationData:Map<String, AnimData>;
 	private var frameRate:Int;
 	
 	public function init(Data:Dynamic):Bool {
+		animationData = new Map<String, AnimData>();
 		FlxG.log.add("Creating a new Animation Component with Data: " + Std.string(Reflect.fields(Data)));
 		var animations:Array<Dynamic> = Reflect.field(Data, "animations");
 		FlxG.log.add(animations);
 		if (animations != null && animations.length > 0) {
 			for (animation in animations) {
-				animationData.set(Reflect.field(animation, "name"), Reflect.field(animation, "frames"));
+				var animData:AnimData = { frames:Reflect.field(animation, "frames"), looped: Reflect.field(animation, "looped")};
+				animationData.set(Reflect.field(animation, "name"), animData);
 			}
 		} else {
 			FlxG.log.error("No animations in data for component " + getComponentID());
@@ -31,15 +38,16 @@ class AnimationComponent implements ActorComponent {
 
 	public function postInit(){
 		for (animation in animationData.keys()) {
-			owner.animation.add(animation, animationData.get(animation));
+			var animData = animationData.get(animation);
+			owner.animation.add(animation, animData.frames, frameRate, animData.looped);
 		}
 	}
 
 	public function update(DeltaTime:Float) {
 	}
 
-	public function getComponentID():Int {
-		return 2;
+	public function getComponentID():ActorComponentTypes {
+		return ActorComponentTypes.ANIMATION;
 	}
 
 	public function ChangeAnimation(Name:String, Reversed:Bool=false) {

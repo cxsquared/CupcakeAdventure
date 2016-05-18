@@ -17,8 +17,8 @@ class PickUpComponent extends InteractableComponent {
 		super.update(DeltaTime);
 	}
 
-	override public function getComponentID():Int {
-		return 1; // This number should never be refferenced
+	override public function getComponentID():ActorComponentTypes {
+		return ActorComponentTypes.PICKUP;
 	}
 
 	override private function onInteract() {
