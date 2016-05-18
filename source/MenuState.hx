@@ -17,14 +17,12 @@ class MenuState extends FlxState
 		super.create();
 
 		var af = new ActorFactory();
+		var sm = SceneManager.getInstance();
 
-		var background = new FlxSprite(AssetPaths.FridgeCabinet__png);
-		add(background);
+		sm.loadScenes(AssetPaths.sceneData__json, af);
+		sm.changeScene("CabinetFridge");
 
-		var jsData = Json.parse(Assets.getText(AssetPaths.testCabinetFridge__json));
-		var cabinet:Actor = af.createActor(Reflect.field(jsData, "actors")[0]);
-		add(cabinet);
-
+		add(sm);
 	}
 
 	override public function update(elapsed:Float):Void

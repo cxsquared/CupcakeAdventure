@@ -3,6 +3,7 @@ package;
 import flixel.system.FlxSound;
 import haxe.Json;
 import flixel.FlxG;
+import openfl.Assets;
 
 class SoundManager {
 	
@@ -20,15 +21,16 @@ class SoundManager {
 		return instance;
 	}
 
-	public function new() {
+	private function new() {
 		if (SoundManager.instance != null){
 			SoundManager.instance = this;
 			soundsMap = new Map<String, FlxSound>();
 		}
 	}
 
-	public function loadSounds(Data:String):Void {
-		var jsData = Json.parse(Data);
+	public function loadSounds(JSONDataPath:String):Void {
+
+		var jsData = Json.parse(Assets.getText(JSONDataPath));
 		var soundData:Array<String> = Reflect.field(jsData, "sounds");
 
 		for (sound in soundData) {

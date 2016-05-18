@@ -1,0 +1,20 @@
+{
+	"scenes": [
+		{
+			"name": "CabinetFridge",
+			"data": "assets/data/CabinetFridgeData.json"
+		},
+		{
+			"name": "Bookshelf",
+			"data": "assets/data/BookshelfData.json"
+		},
+		{
+			"name": "Kitchen",
+			"data": "assets/data/KitchenData.json"
+		},
+		{
+			"name": "Shelf",
+			"data": "assets/data/ShelfData.json"
+		}
+	]	
+}

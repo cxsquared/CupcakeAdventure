@@ -19,6 +19,7 @@ class ActorFactory {
 		actorComponentCreators.set("PickUpComponent", PickUpComponent);
 		actorComponentCreators.set("AnimationComponent", AnimationComponent);
 		actorComponentCreators.set("CabinetComponent", CabinetComponent);
+		actorComponentCreators.set("SceneChangeComponent", SceneChangeComponent);
 	}
 
 	public function createActor(Data:Dynamic):Actor {

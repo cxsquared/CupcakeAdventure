@@ -5,4 +5,5 @@ enum ActorComponentTypes {
 	PICKUP;
 	ANIMATION;
 	CABINET;
+	SCENECHANGE;
 }

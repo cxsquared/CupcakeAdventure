@@ -1,0 +1,37 @@
+{
+	"background": "assets/images/shelves/Shelf.png",
+	"actors": [
+		{
+			"name": "arrow",
+			"x": 252,
+			"y": 202,
+			"width": -1,
+			"height": -1,
+			"spriteSheet": "assets/images/arrows/down.png",
+			"components": [
+				{
+					"name": "SceneChangeComponent",
+					"data": {
+						"target": "Bookshelf"
+					}
+				}
+			]
+		},
+		{
+			"name": "cabinet",
+			"x": 0,
+			"y": 41,
+			"width": -1,
+			"height": -1,
+			"spriteSheet": "assets/images/shelves/shelvesCabinet.png",
+			"components": [
+				{
+					"name": "SceneChangeComponent",
+					"data": {
+						"target": "CabinetFridge"
+					}
+				}
+			]
+		}
+	]
+}
