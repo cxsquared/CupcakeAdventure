@@ -7,4 +7,5 @@ enum ActorComponentTypes {
 	CABINET;
 	SCENECHANGE;
 	HIGHLIGHT;
+	DESCRIPTION;
 }

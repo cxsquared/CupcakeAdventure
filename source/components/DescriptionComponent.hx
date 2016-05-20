@@ -1,0 +1,71 @@
+package components;
+
+import flixel.text.FlxText;
+import flixel.util.FlxColor;
+import flixel.util.FlxTimer;
+
+class DescriptionComponent extends InteractableComponent {
+
+	var text:FlxText;
+	var description:String;
+	var viewLength:Float = 2.5;
+
+	var viewTimer:FlxTimer;
+
+	override public function init(Data:Dynamic):Bool {
+		super.init(Data);
+
+		description = Reflect.field(Data, "description");
+
+		if (Reflect.hasField(Data, "viewLength")) {
+			viewLength = Reflect.field(Data, "viewLength");
+		}
+
+		text = new FlxText();
+		text.text = description;
+		text.alpha = 0;
+
+		if (Reflect.hasField(Data, "color")) {
+			var color = Reflect.field(Data, "color");
+			text.color = FlxColor.fromRGB(Reflect.field(color, "r"), Reflect.field(color, "g"), Reflect.field(color, "b"), 0);	
+		}
+
+		viewTimer = new FlxTimer();
+
+		return true;
+	}
+
+	override public function postInit(){
+		super.postInit();
+	}
+
+	override public function update(DeltaTime:Float) {
+		super.update(DeltaTime);
+
+		text.x = owner.x + owner.width/2 - text.width/2;
+		text.y = owner.y - text.height - 10;
+
+		if (!owner.alive && !viewTimer.active) {
+			text.alpha = 0;
+			text.kill();
+		}
+	}
+
+	override public function getComponentID():ActorComponentTypes {
+		return ActorComponentTypes.DESCRIPTION;
+	}
+
+	override private function onInteract() {
+		text.alpha = 1;
+		viewTimer.start(viewLength, textTimerComplete, 1);
+	}
+
+	private function textTimerComplete(t:FlxTimer):Void {
+		text.alpha = 0;
+	}
+
+	override public function onAdd(Owner:Dynamic) {
+		Owner.add(text);
+	}
+	
+}
