@@ -14,6 +14,7 @@ class PlayState extends FlxState
 {
 	var actorFactory:ActorFactory;
 	var sceneManager:SceneManager;
+	var inventoryUI:InventoryUI;
 
 	override public function create():Void
 	{
@@ -26,6 +27,9 @@ class PlayState extends FlxState
 		sceneManager.changeScene("CabinetFridge");
 
 		add(sceneManager);
+
+		inventoryUI = new InventoryUI();
+		add(inventoryUI);
 	}
 
 	override public function update(elapsed:Float):Void

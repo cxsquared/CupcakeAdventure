@@ -45,7 +45,7 @@
 					"name": "PickUpComponent",
 					"data": {
 						"description": "Salt makes everything sweeter.",
-						"iconPath": ""
+						"iconPath": "assets/images/inventory/saltInv.png"
 					}
 				},
 				{

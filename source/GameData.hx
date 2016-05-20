@@ -5,6 +5,7 @@ import flixel.FlxG;
 class GameData {
 	
 	private static var instance:GameData;
+	public var heldItem:InventorySprite;
 	public var inventory:Inventory;
 
 	public static function getInstance():GameData {
