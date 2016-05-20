@@ -7,6 +7,7 @@ import openfl.Assets;
 import haxe.Json;
 import flixel.FlxSprite;
 import flixel.tweens.FlxTween;
+import flixel.math.FlxRandom;
 
 class SceneManager extends FlxTypedGroup<FlxSpriteGroup> {
 	
@@ -61,16 +62,22 @@ class SceneManager extends FlxTypedGroup<FlxSpriteGroup> {
 			if (nextScene != null) {
 				changingScenes = true;
 				if (currentScene != null) {
-					FlxTween.tween(currentScene, { x: -FlxG.width, y: -FlxG.height }, .25);
+					FlxTween.tween(currentScene, { x: FlxG.width * FlxG.random.int(-1, 1, [0]), y: FlxG.height * FlxG.random.int(-1, 1, [0])}, .25);
 				}
 
-				FlxTween.tween(nextScene, { x: 0, y:0 }, .35, { onComplete: sceneChanged, onUpdate: sceneTween}).start;
+				FlxTween.tween(nextScene, { x: 0, y:0 }, .35, { onComplete: sceneChanged }).start;
 			} else {
 				FlxG.log.error("Unable to set " + Name + " as current scene.");
 			}
 		} else {
 			FlxG.log.error("Can't change scnese while scenes are changing.");
 		}
+	}
+
+	private function sceneChanged(t:FlxTween):Void {
+		changingScenes = false;
+		currentScene = nextScene;
+		nextScene = null;
 	}
 
 	public function loadScenes(JSONDataPath:String, ActorFactory:ActorFactory):Void {
