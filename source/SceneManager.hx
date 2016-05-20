@@ -105,7 +105,7 @@ class SceneManager extends FlxTypedGroup<FlxSpriteGroup> {
 
 		var actorsData:Array<Dynamic> = Reflect.field(jsData, "actors");
 		for (actorData in actorsData) {
-			newScene.add(ActorFactory.createActor(actorData));
+			ActorFactory.createActor(actorData).addToState(newScene);
 		}
 
 		return newScene;

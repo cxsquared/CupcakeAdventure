@@ -24,6 +24,12 @@ class InteractableComponent implements ActorComponent {
 		return ActorComponentTypes.INVALID; // This number should never be refferenced
 	}
 
+	public function onAdd(Owner:Dynamic):Void {
+	}
+	
+	public function destory():Void {
+	}
+
 	private function onInteract() {
 	}
 }

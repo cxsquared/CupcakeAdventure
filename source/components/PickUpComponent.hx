@@ -4,8 +4,15 @@ import flixel.FlxG;
 
 class PickUpComponent extends InteractableComponent {
 
+	var description:String;
+	var iconPath:String;
+
 	override public function init(Data:Dynamic):Bool {
 		super.init(Data);
+
+		description = Reflect.field(Data, "description");
+		iconPath = Reflect.field(Data, "iconPath");
+
 		return true;
 	}
 
@@ -22,6 +29,7 @@ class PickUpComponent extends InteractableComponent {
 	}
 
 	override private function onInteract() {
-		FlxG.log.add("Component pressed " + this.owner.getID());
+		GameData.getInstance().inventory.addNewItem(owner.name, description, owner.getID(), iconPath);
+		owner.kill();
 	}
 }

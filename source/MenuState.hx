@@ -16,13 +16,7 @@ class MenuState extends FlxState
 	{
 		super.create();
 
-		var af = new ActorFactory();
-		var sm = SceneManager.getInstance();
-
-		sm.loadScenes(AssetPaths.sceneData__json, af);
-		sm.changeScene("CabinetFridge");
-
-		add(sm);
+		FlxG.switchState(new PlayState());
 	}
 
 	override public function update(elapsed:Float):Void

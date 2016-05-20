@@ -9,4 +9,6 @@ interface ActorComponent {
 	public function postInit():Void;
 	public function update(DeltaTime:Float):Void;
 	public function getComponentID():ActorComponentTypes;
+	public function onAdd(Owner:Dynamic):Void;
+	public function destory():Void;
 }

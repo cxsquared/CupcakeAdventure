@@ -57,5 +57,11 @@ class AnimationComponent implements ActorComponent {
 			FlxG.log.error("Animation " + Name + " doesn't exists in animaiton component on " + owner.getID());
 		}
 	}
+
+	public function onAdd(Owner:Dynamic):Void {
+	}
+
+	public function destory():Void {
+	}
 	
 }
