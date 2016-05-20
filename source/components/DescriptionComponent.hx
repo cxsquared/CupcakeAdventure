@@ -24,6 +24,8 @@ class DescriptionComponent extends InteractableComponent {
 		text = new FlxText();
 		text.text = description;
 		text.alpha = 0;
+		text.setFormat(text.font, 10, text.color);
+		text.setBorderStyle(OUTLINE, FlxColor.BLACK, 1);
 
 		if (Reflect.hasField(Data, "color")) {
 			var color = Reflect.field(Data, "color");
