@@ -90,7 +90,6 @@ class SceneManager extends FlxTypedGroup<FlxSpriteGroup> {
 			add(newScene);
 			if (currentScene != null) {
 				//currentScene.alpha = 0;
-				currentScene = newScene;
 				currentScene.setPosition(-FlxG.width, -FlxG.height);
 			}
 			currentScene = newScene;

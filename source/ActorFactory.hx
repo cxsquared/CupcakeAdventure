@@ -25,6 +25,7 @@ class ActorFactory {
 		actorComponentCreators.set("SceneChangeComponent", SceneChangeComponent);
 		actorComponentCreators.set("HighlightComponent", HighlightComponent);
 		actorComponentCreators.set("DescriptionComponent", DescriptionComponent);
+		actorComponentCreators.set("LetterComponent", LetterComponent);
 	}
 
 	public function createActor(Data:Dynamic):Actor {

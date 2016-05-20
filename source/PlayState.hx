@@ -24,7 +24,7 @@ class PlayState extends FlxState
 		sceneManager = SceneManager.getInstance();
 
 		sceneManager.loadScenes(AssetPaths.sceneData__json, actorFactory);
-		sceneManager.changeScene("CabinetFridge");
+		sceneManager.changeScene("Kitchen");
 
 		add(sceneManager);
 

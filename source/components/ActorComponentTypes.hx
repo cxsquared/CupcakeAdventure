@@ -8,4 +8,5 @@ enum ActorComponentTypes {
 	SCENECHANGE;
 	HIGHLIGHT;
 	DESCRIPTION;
+	LETTER;
 }
