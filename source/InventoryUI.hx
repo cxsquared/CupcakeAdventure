@@ -23,8 +23,13 @@ class InventoryUI extends FlxSpriteGroup {
 		var newCount = GameData.getInstance().inventory.getAllItems().length;
 		//FlxG.watch.addQuick("inventory count", newCount);
 		if (newCount != inventoryCount) {
+			for (sprite in members) {
+				if (sprite != background) {
+					members.remove(sprite);
+				}
+			}
 			// Update inventory
-			for (itemIndex in inventoryCount...newCount) {
+			for (itemIndex in 0...newCount) {
 				var newItem = new InventorySprite();
 				var item = GameData.getInstance().inventory.getAllItems()[itemIndex];
 				newItem.inventoryData = item;

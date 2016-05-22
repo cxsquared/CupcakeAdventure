@@ -26,7 +26,9 @@ class Inventory {
 	// Can return null if item doesn't exist
 	public function getItem(Name:String):InventoryItem {
 		if (inventoryItems.exists(Name)) {
-			return inventoryItems.get(Name);
+			var item = inventoryItems.get(Name);
+			inventoryItems.remove(Name);
+			return item;
 		}
 
 		return null;

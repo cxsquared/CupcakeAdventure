@@ -44,6 +44,23 @@
 			]
 		},
 		{
+			"name": "sticky",
+			"x": 253,
+			"y": 99,
+			"width": -1,
+			"height": -1,
+			"spriteSheet": "assets/images/cabinetFridge/stickyHiFridge.png",
+			"components": [
+				{
+					"name": "LetterComponent",
+					"data": {
+						"viewOnStart": false,
+						"letterSprite": "assets/images/cabinetFridge/hiSticky.png"
+					}
+				}
+			]
+		},
+		{
 			"name": "arrow",
 			"x": 263,
 			"y": 217,

@@ -1,10 +1,11 @@
 package components;
 
+import Inventory.InventoryItem;
 import flixel.util.FlxCollision;
 import flixel.FlxG;
 
-class InteractableComponent implements ActorComponent {
-
+class DropItemComponent implements ActorComponent {
+	
 	public var owner:Actor;
 	
 	public function init(Data:Dynamic):Bool {
@@ -15,13 +16,14 @@ class InteractableComponent implements ActorComponent {
 	}
 
 	public function update(DeltaTime:Float) {
-		if (FlxCollision.pixelPerfectPointCheck(FlxG.mouse.x, FlxG.mouse.y, owner) && FlxG.mouse.justPressed) {
-			onInteract();
+		if (FlxCollision.pixelPerfectPointCheck(FlxG.mouse.x, FlxG.mouse.y, owner) && FlxG.mouse.justReleased && GameData.getInstance().heldItem != null) {
+			var item = GameData.getInstance().heldItem;
+			onDrop(item);
 		}
 	}
 
 	public function getComponentID():ActorComponentTypes {
-		FlxG.log.error("Invalid interactable Component");
+		FlxG.log.error("Invalid dropable Component");
 		return ActorComponentTypes.INVALID; // This number should never be refferenced
 	}
 
@@ -31,6 +33,6 @@ class InteractableComponent implements ActorComponent {
 	public function destory():Void {
 	}
 
-	private function onInteract() {
+	private function onDrop(Item:InventorySprite) {
 	}
 }

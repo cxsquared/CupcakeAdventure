@@ -26,6 +26,7 @@ class ActorFactory {
 		actorComponentCreators.set("HighlightComponent", HighlightComponent);
 		actorComponentCreators.set("DescriptionComponent", DescriptionComponent);
 		actorComponentCreators.set("LetterComponent", LetterComponent);
+		actorComponentCreators.set("MixerComponent", MixerComponent);
 	}
 
 	public function createActor(Data:Dynamic):Actor {

@@ -9,4 +9,5 @@ enum ActorComponentTypes {
 	HIGHLIGHT;
 	DESCRIPTION;
 	LETTER;
+	MIXER;
 }
