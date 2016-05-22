@@ -29,7 +29,9 @@ class MixerComponent extends DropItemComponent {
 	}
 
 	override private function onDrop(Item:InventorySprite) {
+		owner.animation.play("mix");
 		items.push(GameData.getInstance().inventory.getItem(Item.inventoryData.Name));
+		GameData.getInstance().heldItem = null;
 	}
 	
 }

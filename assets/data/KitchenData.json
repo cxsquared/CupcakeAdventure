@@ -21,8 +21,8 @@
 			"name": "mixer",
 			"x": 229,
 			"y": 125,
-			"width": -1,
-			"height": -1,
+			"width": 20,
+			"height": 38,
 			"spriteSheet": "assets/images/kitchen/mixer.png",
 			"components": [
 				{
@@ -38,6 +38,19 @@
 							"g": 150,
 							"b": 55
 						}
+					}
+				},
+				{
+					"name": "AnimationComponent",
+					"data": {
+						"frameRate": 10,
+						"animations": [
+							{
+								"name": "mix",
+								"frames": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+								"looped": false
+							}
+						]
 					}
 				}
 			]

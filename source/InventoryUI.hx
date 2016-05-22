@@ -23,6 +23,7 @@ class InventoryUI extends FlxSpriteGroup {
 		var newCount = GameData.getInstance().inventory.getAllItems().length;
 		//FlxG.watch.addQuick("inventory count", newCount);
 		if (newCount != inventoryCount) {
+			// TODO: Erasing this is really bad. I should think about passing around invneotry data beter.
 			for (sprite in members) {
 				if (sprite != background) {
 					members.remove(sprite);
