@@ -32,6 +32,40 @@
 					}
 				}
 			]
+		},
+		{
+			"name": "salt",
+			"x": 124,
+			"y": 82,
+			"width": -1,
+			"height": -1,
+			"spriteSheet": "assets/images/shelves/salt.png",
+			"components": [
+				{
+					"name": "PickUpComponent",
+					"data": {
+						"description": "Salt makes everything sweeter.",
+						"iconPath": "assets/images/inventory/saltInv.png"
+					}
+				},
+				{
+					"name": "HighlightComponent",
+					"data": {
+						"sprite": "assets/images/shelves/saltHighlight.png"
+					}
+				},
+				{
+					"name": "DescriptionComponent",
+					"data": {
+						"description": "No need to get salty.",
+						"color": {
+							"r": 0,
+							"g": 150,
+							"b": 225
+						}
+					}
+				}
+			]
 		}
 	]
 }

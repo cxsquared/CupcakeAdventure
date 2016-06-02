@@ -6,4 +6,8 @@ enum ActorComponentTypes {
 	ANIMATION;
 	CABINET;
 	SCENECHANGE;
+	HIGHLIGHT;
+	DESCRIPTION;
+	LETTER;
+	MIXER;
 }

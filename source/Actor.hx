@@ -4,6 +4,7 @@ import flixel.FlxSprite;
 import flixel.FlxG;
 import components.*;
 import flixel.system.FlxAssets.FlxGraphicAsset;
+import flixel.FlxState;
 
 class Actor extends FlxSprite {
 	
@@ -33,13 +34,13 @@ class Actor extends FlxSprite {
 	}
 
 	override public function update(elapsed:Float) {
+		super.update(elapsed);
 		//FlxG.log.add("Updating actor " + actorID);
 		// Update Components
 		for (component in actorComponents) {
 			component.update(elapsed);
 			//FlxG.log.add("Updating component " + component.getComponentID() + " on actor " + actorID);
 		}
-		super.update(elapsed);
 	}
 
 	public function addComponent(ActorComponent:ActorComponent) {
@@ -64,5 +65,13 @@ class Actor extends FlxSprite {
 		FlxG.log.warn("Couldn't find actor component " + ComponentID + " on actor " + actorID);
 
 		return null;
+	}
+
+	public function addToState(Owner:Dynamic) {
+		Owner.add(this);
+
+		for (component in actorComponents) {
+			component.onAdd(Owner);
+		}
 	}
 }

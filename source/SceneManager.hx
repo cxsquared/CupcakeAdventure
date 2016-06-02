@@ -7,6 +7,7 @@ import openfl.Assets;
 import haxe.Json;
 import flixel.FlxSprite;
 import flixel.tweens.FlxTween;
+import flixel.math.FlxRandom;
 
 class SceneManager extends FlxTypedGroup<FlxSpriteGroup> {
 	
@@ -61,7 +62,7 @@ class SceneManager extends FlxTypedGroup<FlxSpriteGroup> {
 			if (nextScene != null) {
 				changingScenes = true;
 				if (currentScene != null) {
-					FlxTween.tween(currentScene, { x: -FlxG.width, y: -FlxG.height }, .25);
+					FlxTween.tween(currentScene, { x: FlxG.width * FlxG.random.int(-1, 1, [0]), y: FlxG.height * FlxG.random.int(-1, 1, [0])}, .25);
 				}
 
 				FlxTween.tween(nextScene, { x: 0, y:0 }, .35, { onComplete: sceneChanged }).start;
@@ -89,7 +90,6 @@ class SceneManager extends FlxTypedGroup<FlxSpriteGroup> {
 			add(newScene);
 			if (currentScene != null) {
 				//currentScene.alpha = 0;
-				currentScene = newScene;
 				currentScene.setPosition(-FlxG.width, -FlxG.height);
 			}
 			currentScene = newScene;
@@ -104,7 +104,7 @@ class SceneManager extends FlxTypedGroup<FlxSpriteGroup> {
 
 		var actorsData:Array<Dynamic> = Reflect.field(jsData, "actors");
 		for (actorData in actorsData) {
-			newScene.add(ActorFactory.createActor(actorData));
+			ActorFactory.createActor(actorData).addToState(newScene);
 		}
 
 		return newScene;

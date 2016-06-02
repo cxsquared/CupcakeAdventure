@@ -10,8 +10,11 @@ class ActorFactory {
 
 	private var actorComponentCreators:Map<String, Class<Dynamic>>;
 
+	public var actors:Map<Int, Actor>;
+
 	public function new() {
 		createComponentMap();
+		actors = new Map<Int, Actor>();
 	}
 
 	private function createComponentMap():Void {
@@ -20,6 +23,10 @@ class ActorFactory {
 		actorComponentCreators.set("AnimationComponent", AnimationComponent);
 		actorComponentCreators.set("CabinetComponent", CabinetComponent);
 		actorComponentCreators.set("SceneChangeComponent", SceneChangeComponent);
+		actorComponentCreators.set("HighlightComponent", HighlightComponent);
+		actorComponentCreators.set("DescriptionComponent", DescriptionComponent);
+		actorComponentCreators.set("LetterComponent", LetterComponent);
+		actorComponentCreators.set("MixerComponent", MixerComponent);
 	}
 
 	public function createActor(Data:Dynamic):Actor {
@@ -63,6 +70,9 @@ class ActorFactory {
 			}
 
 			actor.postInit();
+			actor.name = Reflect.field(Data, "name");
+
+			actors.set(actor.getID(), actor);
 
 			return actor;
 		} else {
@@ -94,5 +104,13 @@ class ActorFactory {
 	private function getNextActorId():Int {
 		++lastActorId;
 		return lastActorId;		
+	}
+
+	public function getActor(ID:Int):Actor {
+		if (actors.exists(ID)) {
+			return actors.get(ID);
+		}
+
+		return null;
 	}
 }
