@@ -64,13 +64,19 @@ class SceneManager extends FlxTypedGroup<FlxSpriteGroup> {
 					FlxTween.tween(currentScene, { x: -FlxG.width, y: -FlxG.height }, .25);
 				}
 
-				FlxTween.tween(nextScene, { x: 0, y:0 }, .35, { onComplete: sceneChanged, onUpdate: sceneTween}).start;
+				FlxTween.tween(nextScene, { x: 0, y:0 }, .35, { onComplete: sceneChanged }).start;
 			} else {
 				FlxG.log.error("Unable to set " + Name + " as current scene.");
 			}
 		} else {
 			FlxG.log.error("Can't change scnese while scenes are changing.");
 		}
+	}
+
+	private function sceneChanged(t:FlxTween):Void {
+		changingScenes = false;
+		currentScene = nextScene;
+		nextScene = null;
 	}
 
 	public function loadScenes(JSONDataPath:String, ActorFactory:ActorFactory):Void {

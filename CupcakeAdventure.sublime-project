@@ -4,22 +4,22 @@
 		{
 			"follow_symlinks": true,
 			"name": "CupcakeAdventure",
-			"path": "D:\\Cody\\coding\\haxe/CupcakeAdventure"
+			"path": "~/Documents/coding/haxe/CupcakeAdventure"
 		},
 		{
 			"follow_symlinks": true,
 			"name": "Flixel",
-			"path": "C:\\HaxeToolkit\\haxe\\lib\\flixel/4,0,1/"
+			"path": "~/mac/Flixel/4,0,1/"
 		},
 		{
 			"follow_symlinks": true,
 			"name": "Flixel Addons",
-			"path": "C:\\HaxeToolkit\\haxe\\lib\\flixel-addons/2,0,0/"
+			"path": "~/mac/Flixel-addons/2,0,0/"
 		},
 		{
 			"follow_symlinks": true,
 			"name": "Haxe",
-			"path": "C:\\HaxeToolkit\\haxe\\std"
+			"path": "/usr/lib/haxe/std"
 		}
 	]
 }
