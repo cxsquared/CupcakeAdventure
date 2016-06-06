@@ -3,6 +3,7 @@ package components;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
+import flixel.FlxG;
 
 class DescriptionComponent extends InteractableComponent {
 
@@ -46,6 +47,12 @@ class DescriptionComponent extends InteractableComponent {
 
 		text.x = owner.x + owner.width/2 - text.width/2;
 		text.y = owner.y - text.height - 10;
+
+		if (text.x + text.width > FlxG.width) {
+			text.x = FlxG.width - text.width;
+		} else if (text.x < 0) {
+			text.x = 0;
+		}
 
 		if (!owner.alive && !viewTimer.active) {
 			text.alpha = 0;
