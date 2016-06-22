@@ -44,7 +44,7 @@ class Actor extends FlxSprite {
 	}
 
 	public function addComponent(ActorComponent:ActorComponent) {
-		FlxG.log.add("Adding component " + ActorComponent.getComponentID() + " on actor " + actorID);
+		//FlxG.log.add("Adding component " + ActorComponent.getComponentID() + " on actor " + actorID);
 		if (!actorComponents.exists(ActorComponent.getComponentID())){
 			actorComponents.set(ActorComponent.getComponentID(), ActorComponent);
 			ActorComponent.owner = this;

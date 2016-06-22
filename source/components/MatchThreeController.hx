@@ -132,6 +132,7 @@ class MatchThreeController implements ActorComponent {
 			}
 			numberOfMatches = 0;
 			fillBoardHoles();
+			checkItems();
 		}
 	}
 
@@ -148,7 +149,9 @@ class MatchThreeController implements ActorComponent {
 				//FlxG.log.add("Y:" + y);
 				var lastY = 1;
 				//FlxG.log.add("Checking coll " + y + " for none itemsData");
+				var changed = false;
 				while(itemsData[y][x] == NONE) {
+					changed = true;
 					if (y - lastY <  0) {
 						//FlxG.log.add("At the top of coll " + y + " so we need a new item.");
 						itemsData[y][x] = getRandomItem();
@@ -159,7 +162,9 @@ class MatchThreeController implements ActorComponent {
 					}
 				}
 				// Re adding actor to fill the new item
-				items[y].add(createItem(x, y, itemsData[y][x]));
+				if (changed) {
+					items[y].add(createItem(x, y, itemsData[y][x]));
+				}
 				y--;
 			}
 		}
@@ -416,5 +421,34 @@ class MatchThreeController implements ActorComponent {
 		}
 
 		FlxG.log.error("Can't remove item at " + x + ":" + y + " because it can't be found.");
+	}
+
+	public function switchItems(firstItemCords:FlxPoint, secondItemCords:FlxPoint, shouldCheck:Bool=true):Void {
+		if (firstItemCords.x >= width || firstItemCords.y >= height || firstItemCords.x < 0 || firstItemCords.y < 0
+			|| secondItemCords.x >= width || secondItemCords.y >= height || secondItemCords.x < 0 || secondItemCords.y < 0) {
+			FlxG.log.error("Corrdinates of item " + firstItemCords + " and " + secondItemCords + " are out of bounds.");
+			return;
+		}
+		var firstActor = getItemActor(Math.floor(firstItemCords.x), Math.floor(firstItemCords.y));
+		var secondActor = getItemActor(Math.floor(secondItemCords.x), Math.floor(secondItemCords.y));
+		var firstComponent = cast(firstActor.getComponent(ActorComponentTypes.MATCHTHREEITEM), MatchThreeItemComponent);
+		var secondComponent = cast(secondActor.getComponent(ActorComponentTypes.MATCHTHREEITEM), MatchThreeItemComponent);
+		
+		firstComponent.gridX = Math.floor(secondItemCords.x);
+		firstComponent.gridY = Math.floor(secondItemCords.y);
+		secondComponent.gridX = Math.floor(firstItemCords.x);
+		secondComponent.gridY = Math.floor(firstItemCords.y);
+
+		var firstItem = itemsData[Math.floor(firstItemCords.y)][Math.floor(firstItemCords.x)];
+		var secondItem = itemsData[Math.floor(secondItemCords.x)][Math.floor(secondItemCords.y)];
+
+		itemsData[Math.floor(firstItemCords.y)][Math.floor(firstItemCords.x)] = secondItem;
+		itemsData[Math.floor(secondItemCords.y)][Math.floor(secondItemCords.x)] = firstItem;
+
+		if (shouldCheck) {
+			if (!checkItems()) {
+				switchItems(secondItemCords, firstItemCords, false);
+			}
+		}
 	}
 }

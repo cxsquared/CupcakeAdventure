@@ -46,7 +46,7 @@ class ActorFactory {
 
 	public function createActor(Data:Dynamic):Actor {
 		var actor:Actor = new Actor();
-		FlxG.log.add("Creating new actor");
+		//FlxG.log.add("Creating new actor");
 
 		if (actor.init(getNextActorId())) {
 			// Location
@@ -89,6 +89,8 @@ class ActorFactory {
 
 			actors.set(actor.getID(), actor);
 
+			FlxG.watch.addQuick("Actors", actor.getID());
+
 			return actor;
 		} else {
 			FlxG.log.error("Actor " + actor.getID() + " failed to initialize.");
@@ -99,7 +101,7 @@ class ActorFactory {
 
 	private function createComponent(Data:Dynamic):ActorComponent {
 		//FlxG.log.add(Data);
-		FlxG.log.add("Creating new component " + Reflect.field(Data, "name"));
+		//FlxG.log.add("Creating new component " + Reflect.field(Data, "name"));
 		if (actorComponentCreators.exists(Reflect.field(Data, "name"))) {
 			var newComponent:ActorComponent = Type.createInstance(actorComponentCreators[Reflect.field(Data, "name")], []);
 			var componentData:String = Std.string(Reflect.field(Data, "data"));
