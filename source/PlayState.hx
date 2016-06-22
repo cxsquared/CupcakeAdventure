@@ -20,8 +20,8 @@ class PlayState extends FlxState
 	{
 		super.create();
 
-		actorFactory = new ActorFactory();
-		sceneManager = SceneManager.getInstance();
+		actorFactory = ActorFactory.GetInstance();
+		sceneManager = SceneManager.GetInstance();
 
 		sceneManager.loadScenes(AssetPaths.sceneData__json, actorFactory);
 		sceneManager.changeScene("Kitchen");

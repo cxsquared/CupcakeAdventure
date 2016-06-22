@@ -1,9 +1,13 @@
-// MatchThreeController.hx -- Controls the match three mini-game items and flow
+// MatchThreeController.hx -- Controls the match three mini-game itemsData and flow
 package components;
 
 import flixel.FlxG;
 import flixel.math.FlxPoint;
 import flixel.math.FlxRandom;
+import flixel.group.FlxGroup.FlxTypedGroup;
+import Actor;
+import ActorFactory;
+import flixel.FlxSprite;
 
 typedef MatchData = Array<FlxPoint>;
 
@@ -29,7 +33,9 @@ class MatchThreeController implements ActorComponent {
 	private var startingY = 10;
 	private var itemSize = 44;
 
-	private var items:Array<Array<MatchThreeItems>>; // [Row][Column]
+	private var itemsData:Array<Array<MatchThreeItems>>; // [Column][Row]
+	private var items:FlxTypedGroup<FlxSprite>;
+
 	private var matches:Array<MatchData>;
 	private var possibleItems:Array<MatchThreeItems>;
 	private var numberOfMatches = 0;
@@ -37,9 +43,10 @@ class MatchThreeController implements ActorComponent {
 	private var rand:FlxRandom;
 	
 	public function init(Data:Dynamic):Bool {
-		items = new Array<Array<MatchThreeItems>>();
+		itemsData = new Array<Array<MatchThreeItems>>();
 		matches = new Array<MatchData>();
 		rand = new FlxRandom();
+		items = new FlxTypedGroup<FlxSprite>();
 
 		possibleItems = new Array<MatchThreeItems>();
 		possibleItems.push(FLOUR);
@@ -47,21 +54,21 @@ class MatchThreeController implements ActorComponent {
 		possibleItems.push(SALT);
 		possibleItems.push(MILK);
 		possibleItems.push(BUTTER);
-		generateBoard();
 
-		//FlxG.log.add(items[0][0]);
-		//FlxG.log.add(items[width-1][height-1]);
+		//FlxG.log.add(itemsData[0][0]);
+		//FlxG.log.add(itemsData[width-1][height-1]);
 
 		return true;
 	}
 
 	public function postInit():Void {
+		generateBoard();
 		checkItems();
 	}
 
 	public function update(DeltaTime:Float):Void {
 		var rowCount = 0;
-		for (row in items) {
+		for (row in itemsData) {
 			FlxG.watch.addQuick("Item row " + rowCount, row);
 			rowCount++;
 		}
@@ -77,19 +84,30 @@ class MatchThreeController implements ActorComponent {
 	}
 
 	public function onAdd(Owner:Dynamic):Void {
-
+		Owner.add(items);
 	}
 
-	public function destory():Void {
+	public function destroy():Void {
+		for (match in matches) {
+			for (item in match) {
+				var tempItem = item;
+				match.remove(item);
+				tempItem.destroy();
+			}
+		}
 	}
 
 	private function generateBoard():Void {
+
 		for (y in 0...height) {
 			var row = new Array<MatchThreeItems>();
 			for (x in 0...width) {
-				row.push(getRandomItem());			
+				var newItem = getRandomItem();
+				row.push(newItem);
+
+				items.add(createItem(x, y, newItem));			
 			}
-			items.push(row);
+			itemsData.push(row);
 		}
 	}
 
@@ -98,9 +116,9 @@ class MatchThreeController implements ActorComponent {
 			resolvingMatches = true;
 			numberOfMatches = matches.length;
 			for (match in matches) {
-				updateScore(items[Math.floor(match[0].y)][Math.floor(match[0].x)], match.length);
+				updateScore(itemsData[Math.floor(match[0].y)][Math.floor(match[0].x)], match.length);
 				for (item in match) {
-					items[Math.floor(item.y)][Math.floor(item.x)] = NONE;
+					itemsData[Math.floor(item.y)][Math.floor(item.x)] = NONE;
 					//FlxG.log.add("Removing item " + Math.floor(item.x) + ":" + Math.floor(item.y));
 				}
 				matches.remove(match);
@@ -122,14 +140,14 @@ class MatchThreeController implements ActorComponent {
 			while (y >= 0) {
 				//FlxG.log.add("Y:" + y);
 				var lastY = 1;
-				//FlxG.log.add("Checking coll " + y + " for none items");
-				while(items[y][x] == NONE) {
+				//FlxG.log.add("Checking coll " + y + " for none itemsData");
+				while(itemsData[y][x] == NONE) {
 					if (y - lastY <  0) {
 						//FlxG.log.add("At the top of coll " + y + " so we need a new item.");
-						items[y][x] = getRandomItem();
+						itemsData[y][x] = getRandomItem();
 					} else {
-						//FlxG.log.add("Replacing item at " + x + ":" + y + " with item " + items[y-lastY][x] + " at " + x + ":" + y);
-						items[y][x] = items[y-lastY][x];
+						//FlxG.log.add("Replacing item at " + x + ":" + y + " with item " + itemsData[y-lastY][x] + " at " + x + ":" + y);
+						itemsData[y][x] = itemsData[y-lastY][x];
 						lastY++;
 					}
 				}
@@ -171,8 +189,8 @@ class MatchThreeController implements ActorComponent {
 					tempMatch = new Array<FlxPoint>();
 				}
 				if (x > 0) {
-					//FlxG.log.add(items[y][x] + " is " + items[y][x-1] + " ? " + (items[y][x] == items[y][x-1]));
-					if (items[y][x] == items[y][x-1]) {
+					//FlxG.log.add(itemsData[y][x] + " is " + itemsData[y][x-1] + " ? " + (itemsData[y][x] == itemsData[y][x-1]));
+					if (itemsData[y][x] == itemsData[y][x-1]) {
 						// Two in a row
 						//FlxG.log.add("Adding point " + x + ":" + y + " to temp array");
 						tempMatch.push(new FlxPoint(x, y));
@@ -219,7 +237,7 @@ class MatchThreeController implements ActorComponent {
 					tempMatch = new Array<FlxPoint>();
 				}
 				if (y > 0) {
-					if (items[y][x] == items[y-1][x]) {
+					if (itemsData[y][x] == itemsData[y-1][x]) {
 						// Two in a row
 						tempMatch.push(new FlxPoint(x, y));
 					} else if (tempMatch.length >= 3) {
@@ -302,7 +320,55 @@ class MatchThreeController implements ActorComponent {
 		return null;
 	}
 
+	private function createItem(x:Int, y:Int, itemType:MatchThreeItems): Actor {
+		var af:ActorFactory = ActorFactory.GetInstance();
+		var itemName:String = itemType.getName();
+		var actor = af.createActor({
+			"name": "item_" + x + "_" + y,
+			"x": 0,
+			"y": 0,
+			"width": -1,
+			"height": -1,
+			"spriteSheet": "",
+			"components": [
+				{
+					"name": "MatchThreeItemComponent",
+					"data": {
+						"x": x,
+						"y": y,
+						"type": itemName
+					}
+				}
+			]
+		});
+
+		var itComp = cast(actor.getComponent(ActorComponentTypes.MATCHTHREEITEM), components.MatchThreeItemComponent);
+		itComp.controller = this;
+
+		return actor;
+	}
+
 	public function isResovling():Bool {
 		return resolvingMatches;	
+	}
+
+	public function getStartingPoint():FlxPoint {
+		return new FlxPoint(startingX, startingY);
+	}
+
+	public static function itemTypeFromString(itemName:String):MatchThreeItems {
+		if (itemName.toUpperCase() == "FLOUR") {
+			return FLOUR;
+		} else if (itemName.toUpperCase() == "SUGAR") {
+			return SUGAR;
+		} else if (itemName.toUpperCase() == "MILK") {
+			return MILK;
+		} else if (itemName.toUpperCase() == "BUTTER") {
+			return BUTTER;
+		} else if (itemName.toUpperCase() == "SALT") {
+			return SALT;
+		}
+
+		return NONE;
 	}
 }

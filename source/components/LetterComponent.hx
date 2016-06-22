@@ -62,7 +62,7 @@ class LetterComponent extends InteractableComponent {
 		Owner.add(letter);
 	}
 	
-	override public function destory():Void {
+	override public function destroy():Void {
 		letter.destroy();
 	}
 	

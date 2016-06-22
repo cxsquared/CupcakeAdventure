@@ -13,7 +13,7 @@ class SceneManager extends FlxTypedGroup<FlxSpriteGroup> {
 	
 	static var instance:SceneManager;
 
-	public static function getInstance():SceneManager {
+	public static function GetInstance():SceneManager {
 		if (instance != null) {
 			return SceneManager.instance;
 		}

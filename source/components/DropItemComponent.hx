@@ -30,7 +30,7 @@ class DropItemComponent implements ActorComponent {
 	public function onAdd(Owner:Dynamic):Void {
 	}
 	
-	public function destory():Void {
+	public function destroy():Void {
 	}
 
 	private function onDrop(Item:InventorySprite) {

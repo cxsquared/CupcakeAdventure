@@ -25,7 +25,7 @@ class SceneChangeComponent extends InteractableComponent {
 	}
 
 	override private function onInteract() {
-		SceneManager.getInstance().changeScene(targetScene);
+		SceneManager.GetInstance().changeScene(targetScene);
 	}
 	
 }

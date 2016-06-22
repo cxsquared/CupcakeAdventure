@@ -40,7 +40,7 @@ class HighlightComponent implements ActorComponent {
 		Owner.add(highlightSprite);
 	}
 
-	public function destory():Void {
+	public function destroy():Void {
 		highlightSprite.destroy();
 	}
 }

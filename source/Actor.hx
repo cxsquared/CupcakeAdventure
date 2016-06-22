@@ -74,4 +74,12 @@ class Actor extends FlxSprite {
 			component.onAdd(Owner);
 		}
 	}
+
+	override public function destroy():Void {
+		for (component in actorComponents) {
+			component.destroy();
+		}
+
+		super.destroy();
+	}
 }

@@ -6,13 +6,26 @@ import components.*;
 import flash.utils.Object;
 
 class ActorFactory {
+
+	private static var instance:ActorFactory;
+
+	public static function GetInstance():ActorFactory {
+		if (instance != null) {
+			return instance;
+		}
+
+		var af = new ActorFactory();
+		ActorFactory.instance = af;
+		return instance;
+	}
+
 	private var lastActorId:Int;
 
 	private var actorComponentCreators:Map<String, Class<Dynamic>>;
 
 	public var actors:Map<Int, Actor>;
 
-	public function new() {
+	private function new() {
 		createComponentMap();
 		actors = new Map<Int, Actor>();
 	}
@@ -114,5 +127,11 @@ class ActorFactory {
 		}
 
 		return null;
+	}
+
+	public function destroy():Void {
+		for (actor in actors) {
+			actor.destroy();
+		}
 	}
 }

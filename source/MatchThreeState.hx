@@ -10,7 +10,7 @@ class MatchThreeState extends FlxState {
 	{
 		super.create();
 
-		actorFactory = new ActorFactory();
+		actorFactory = ActorFactory.GetInstance();
 
 		var actor = actorFactory.createActor({
 			"name": "manager",
@@ -27,7 +27,7 @@ class MatchThreeState extends FlxState {
 			]
 		});
 
-		add(actor);
+		actor.addToState(this);
 
 	}
 
