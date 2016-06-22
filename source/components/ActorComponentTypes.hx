@@ -10,4 +10,6 @@ enum ActorComponentTypes {
 	DESCRIPTION;
 	LETTER;
 	MIXER;
+	MATCHTHREE;
+	MATCHTHREEITEM;
 }
