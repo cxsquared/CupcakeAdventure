@@ -8,6 +8,7 @@ import flixel.math.FlxRandom;
 typedef MatchData = Array<FlxPoint>;
 
 enum MatchThreeItems {
+	NONE;
 	FLOUR;
 	SUGAR;
 	SALT;
@@ -19,6 +20,9 @@ class MatchThreeController implements ActorComponent {
 
 	public var owner:Actor;
 
+	private var resolvingMatches = false;
+	private var score = 0;
+
 	private var width = 5;
 	private var height = 5;
 	private var startingX = 86;
@@ -27,6 +31,8 @@ class MatchThreeController implements ActorComponent {
 
 	private var items:Array<Array<MatchThreeItems>>; // [Row][Column]
 	private var matches:Array<MatchData>;
+	private var possibleItems:Array<MatchThreeItems>;
+	private var numberOfMatches = 0;
 
 	private var rand:FlxRandom;
 	
@@ -35,16 +41,16 @@ class MatchThreeController implements ActorComponent {
 		matches = new Array<MatchData>();
 		rand = new FlxRandom();
 
-		var itemTest = new Array<MatchThreeItems>();
-		itemTest.push(FLOUR);
-		itemTest.push(SUGAR);
-		itemTest.push(SALT);
-		itemTest.push(MILK);
-		itemTest.push(BUTTER);
-		generateBoard(itemTest);
+		possibleItems = new Array<MatchThreeItems>();
+		possibleItems.push(FLOUR);
+		possibleItems.push(SUGAR);
+		possibleItems.push(SALT);
+		possibleItems.push(MILK);
+		possibleItems.push(BUTTER);
+		generateBoard();
 
-		FlxG.log.add(items[0][0]);
-		FlxG.log.add(items[width-1][height-1]);
+		//FlxG.log.add(items[0][0]);
+		//FlxG.log.add(items[width-1][height-1]);
 
 		return true;
 	}
@@ -60,7 +66,10 @@ class MatchThreeController implements ActorComponent {
 			rowCount++;
 		}
 
-		FlxG.watch.addQuick("Number of matches", matches.length);
+		resolveMatches();
+
+		FlxG.watch.addQuick("Score", score);
+		//FlxG.watch.addQuick("Number of matches", matches.length);
 	}
 
 	public function getComponentID():ActorComponentTypes {
@@ -74,14 +83,66 @@ class MatchThreeController implements ActorComponent {
 	public function destory():Void {
 	}
 
-	private function generateBoard(ingredientTypes:Array<MatchThreeItems>):Void {
+	private function generateBoard():Void {
 		for (y in 0...height) {
 			var row = new Array<MatchThreeItems>();
 			for (x in 0...width) {
-				row.push(ingredientTypes[rand.int(0, ingredientTypes.length - 1)]);			
+				row.push(getRandomItem());			
 			}
 			items.push(row);
 		}
+	}
+
+	private function resolveMatches():Void {
+		if (matches.length > 0 && !resolvingMatches) {
+			resolvingMatches = true;
+			numberOfMatches = matches.length;
+			for (match in matches) {
+				updateScore(items[Math.floor(match[0].y)][Math.floor(match[0].x)], match.length);
+				for (item in match) {
+					items[Math.floor(item.y)][Math.floor(item.x)] = NONE;
+					//FlxG.log.add("Removing item " + Math.floor(item.x) + ":" + Math.floor(item.y));
+				}
+				matches.remove(match);
+			}
+			numberOfMatches = 0;
+			fillBoardHoles();
+		}
+	}
+
+	private function updateScore(itemType:MatchThreeItems, amount:Int):Void {
+		score += itemType.getIndex() * amount;
+	}
+
+	private function fillBoardHoles():Void {
+		//FlxG.log.add("Filling board back up");
+		for (x in 0...width) {
+			//FlxG.log.add("X:" + x);
+			var y = height-1;
+			while (y >= 0) {
+				//FlxG.log.add("Y:" + y);
+				var lastY = 1;
+				//FlxG.log.add("Checking coll " + y + " for none items");
+				while(items[y][x] == NONE) {
+					if (y - lastY <  0) {
+						//FlxG.log.add("At the top of coll " + y + " so we need a new item.");
+						items[y][x] = getRandomItem();
+					} else {
+						//FlxG.log.add("Replacing item at " + x + ":" + y + " with item " + items[y-lastY][x] + " at " + x + ":" + y);
+						items[y][x] = items[y-lastY][x];
+						lastY++;
+					}
+				}
+
+				y--;
+			}
+		}
+
+		resolvingMatches = false;
+	}
+
+	private function getRandomItem():MatchThreeItems {
+		return possibleItems[rand.int(0, possibleItems.length - 1)];
 	}
 
 	private function checkItems():Bool {
@@ -110,26 +171,26 @@ class MatchThreeController implements ActorComponent {
 					tempMatch = new Array<FlxPoint>();
 				}
 				if (x > 0) {
-					FlxG.log.add(items[y][x] + " is " + items[y][x-1] + " ? " + (items[y][x] == items[y][x-1]));
+					//FlxG.log.add(items[y][x] + " is " + items[y][x-1] + " ? " + (items[y][x] == items[y][x-1]));
 					if (items[y][x] == items[y][x-1]) {
 						// Two in a row
-						FlxG.log.add("Adding point " + x + ":" + y + " to temp array");
+						//FlxG.log.add("Adding point " + x + ":" + y + " to temp array");
 						tempMatch.push(new FlxPoint(x, y));
 					} else if (tempMatch.length >= 3) {
 						// this one doesn't match but it has 3 in it
-						FlxG.log.add("Adding temp array to matches and nulling tempMatch");
+						//FlxG.log.add("Adding temp array to matches and nulling tempMatch");
 						hMatches.push(tempMatch);
 						tempMatch = new Array<FlxPoint>();
 						tempMatch.push(new FlxPoint(x, y));
 					} else {
-						FlxG.log.add("Nulling temp match");
-					// this one doesn't match and the temp array doesn't have 3
+						//FlxG.log.add("Nulling temp match");
+						// this one doesn't match and the temp array doesn't have 3
 						tempMatch = new Array<FlxPoint>();
 						tempMatch.push(new FlxPoint(x, y));
 					}
 				} else {
 					// always add the first one
-					FlxG.log.add("Adding first point " + x + ":" + y + " to temp array");
+					//FlxG.log.add("Adding first point " + x + ":" + y + " to temp array");
 					tempMatch.push(new FlxPoint(x, y));
 				}
 			}
@@ -140,10 +201,11 @@ class MatchThreeController implements ActorComponent {
 			tempMatch = null;
 		}
 
-		FlxG.log.add(hMatches.length + " horizontal matches");
+		/*FlxG.log.add(hMatches.length + " horizontal matches");
 		for (match in hMatches) {
 			FlxG.log.add("horizontal match " + match);
 		}
+		*/
 
 		return hMatches;
 	}
@@ -182,11 +244,12 @@ class MatchThreeController implements ActorComponent {
 			tempMatch = null;
 		}
 
+		/*
 		FlxG.log.add(vMatches.length + " vertical matches");
 		for (match in vMatches) {
 			FlxG.log.add("Vertical match " + match);
 		}
-
+		*/
 		return vMatches;
 	}
 
@@ -237,5 +300,9 @@ class MatchThreeController implements ActorComponent {
 		}
 
 		return null;
+	}
+
+	public function isResovling():Bool {
+		return resolvingMatches;	
 	}
 }
