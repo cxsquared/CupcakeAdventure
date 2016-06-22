@@ -34,7 +34,7 @@ class MatchThreeController implements ActorComponent {
 	private var itemSize = 44;
 
 	private var itemsData:Array<Array<MatchThreeItems>>; // [Column][Row]
-	private var items:FlxTypedGroup<FlxSprite>;
+	private var items:Array<FlxTypedGroup<FlxSprite>>;
 
 	private var matches:Array<MatchData>;
 	private var possibleItems:Array<MatchThreeItems>;
@@ -46,7 +46,7 @@ class MatchThreeController implements ActorComponent {
 		itemsData = new Array<Array<MatchThreeItems>>();
 		matches = new Array<MatchData>();
 		rand = new FlxRandom();
-		items = new FlxTypedGroup<FlxSprite>();
+		items = new Array<FlxTypedGroup<FlxSprite>>();
 
 		possibleItems = new Array<MatchThreeItems>();
 		possibleItems.push(FLOUR);
@@ -55,6 +55,8 @@ class MatchThreeController implements ActorComponent {
 		possibleItems.push(MILK);
 		possibleItems.push(BUTTER);
 
+		generateBoard();
+
 		//FlxG.log.add(itemsData[0][0]);
 		//FlxG.log.add(itemsData[width-1][height-1]);
 
@@ -62,7 +64,6 @@ class MatchThreeController implements ActorComponent {
 	}
 
 	public function postInit():Void {
-		generateBoard();
 		checkItems();
 	}
 
@@ -84,7 +85,9 @@ class MatchThreeController implements ActorComponent {
 	}
 
 	public function onAdd(Owner:Dynamic):Void {
-		Owner.add(items);
+		for (row in items) {
+			Owner.add(row);
+		}
 	}
 
 	public function destroy():Void {
@@ -101,13 +104,15 @@ class MatchThreeController implements ActorComponent {
 
 		for (y in 0...height) {
 			var row = new Array<MatchThreeItems>();
+			var itemRow = new FlxTypedGroup<FlxSprite>();
 			for (x in 0...width) {
 				var newItem = getRandomItem();
 				row.push(newItem);
 
-				items.add(createItem(x, y, newItem));			
+				itemRow.add(createItem(x, y, newItem));			
 			}
 			itemsData.push(row);
+			items.push(itemRow);
 		}
 	}
 
@@ -118,7 +123,9 @@ class MatchThreeController implements ActorComponent {
 			for (match in matches) {
 				updateScore(itemsData[Math.floor(match[0].y)][Math.floor(match[0].x)], match.length);
 				for (item in match) {
+					// Have to remove data and actual actors
 					itemsData[Math.floor(item.y)][Math.floor(item.x)] = NONE;
+					removeItemActor(Math.floor(item.x), Math.floor(item.y));
 					//FlxG.log.add("Removing item " + Math.floor(item.x) + ":" + Math.floor(item.y));
 				}
 				matches.remove(match);
@@ -151,7 +158,8 @@ class MatchThreeController implements ActorComponent {
 						lastY++;
 					}
 				}
-
+				// Re adding actor to fill the new item
+				items[y].add(createItem(x, y, itemsData[y][x]));
 				y--;
 			}
 		}
@@ -370,5 +378,43 @@ class MatchThreeController implements ActorComponent {
 		}
 
 		return NONE;
+	}
+
+	private function getItemActor(x:Int, y:Int):Actor {
+		if (y >= height || x >= width) {
+			FlxG.log.error("Can't get item at " + x + ":" + y + " because it's out of bounds.");
+			return null;
+		}
+		var row = items[y];
+		for (item in row) {
+			var actor = cast(item, Actor);
+			var aComponent = cast (actor.getComponent(ActorComponentTypes.MATCHTHREEITEM), MatchThreeItemComponent);
+			if (aComponent.gridX == x) {
+				return actor;
+			}
+		}
+
+		FlxG.log.error("Can't get item at " + x + ":" + y + " because it can't be found.");
+		return null;
+	}
+
+	private function removeItemActor(x:Int, y:Int):Void {
+		if (y >= height || x >= width) {
+			FlxG.log.error("Can't remove item at " + x + ":" + y + " because it's out of bounds.");
+			return;
+		}
+		var row = items[y];
+		for (item in row) {
+			var actor = cast(item, Actor);
+			var aComponent = cast (actor.getComponent(ActorComponentTypes.MATCHTHREEITEM), MatchThreeItemComponent);
+			if (aComponent.gridX == x) {
+				var tempItem = row.remove(item);
+				tempItem.visible = false;
+				tempItem.destroy();
+				return;
+			}
+		}
+
+		FlxG.log.error("Can't remove item at " + x + ":" + y + " because it can't be found.");
 	}
 }
