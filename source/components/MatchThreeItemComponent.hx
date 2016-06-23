@@ -5,6 +5,7 @@ import flixel.FlxG;
 import flixel.util.FlxCollision;
 import flixel.FlxObject;
 import flixel.math.FlxPoint;
+import flixel.tweens.FlxTween;
 
 class MatchThreeItemComponent implements ActorComponent {
 
@@ -15,6 +16,10 @@ class MatchThreeItemComponent implements ActorComponent {
 	public var gridY:Int;
 	public var itemType:MatchThreeItems;
 	public var selected = false;
+
+	private var dropping = false;
+
+	private var dropSpeed = 0.5;
 
 	public function init(Data:Dynamic):Bool {
 		gridX = Reflect.field(Data, "x");
@@ -35,11 +40,11 @@ class MatchThreeItemComponent implements ActorComponent {
 			selected = false;
 		}
 
-		if (!selected) {
+		if (!selected && !dropping) {
 			var startingPoint = controller.getStartingPoint();
 			owner.x = startingPoint.x + gridX * owner.width;
 			owner.y = startingPoint.y + gridY * owner.height;
-		} else {
+		} else if (selected && !dropping) {
 			FlxG.watch.addQuick("X distance", Math.abs(FlxG.mouse.x - owner.getMidpoint().x));
 			if (Math.abs(FlxG.mouse.x - owner.getMidpoint().x) > owner.width * .75 || 
 				Math.abs(FlxG.mouse.y - owner.getMidpoint().y) > owner.height * .75){
@@ -112,5 +117,18 @@ class MatchThreeItemComponent implements ActorComponent {
 		}
 
 		return FlxObject.NONE;
+	}
+
+	public function drop(startX:Float, startY:Float):Void {
+		owner.x = startX;
+		owner.y = startY;
+		var newY = controller.getStartingPoint().y + gridY * owner.height;
+		FlxTween.tween(owner, {y:newY}, dropSpeed, { onComplete:doneDropping });
+		dropping = true;
+	}
+
+	private function doneDropping(t:FlxTween):Void {
+		dropping = false;
+		controller.numberOfItemsWaiting--;
 	}
 }

@@ -136,4 +136,10 @@ class ActorFactory {
 			actor.destroy();
 		}
 	}
+
+	public function removeActor(ID:Int):Void {
+		if (!actors.remove(ID)){
+			FlxG.log.warn("Couldn't remove actor " + ID);
+		}
+	}
 }

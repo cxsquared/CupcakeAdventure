@@ -80,6 +80,8 @@ class Actor extends FlxSprite {
 			component.destroy();
 		}
 
+		ActorFactory.GetInstance().removeActor(this.getID());
+
 		super.destroy();
 	}
 }

@@ -25,6 +25,7 @@ class MatchThreeController implements ActorComponent {
 	public var owner:Actor;
 
 	private var resolvingMatches = false;
+	private var shouldReslove = false;
 	private var score = 0;
 
 	private var width = 5;
@@ -41,6 +42,8 @@ class MatchThreeController implements ActorComponent {
 	private var numberOfMatches = 0;
 
 	private var rand:FlxRandom;
+
+	public var numberOfItemsWaiting = 0;
 	
 	public function init(Data:Dynamic):Bool {
 		itemsData = new Array<Array<MatchThreeItems>>();
@@ -76,6 +79,9 @@ class MatchThreeController implements ActorComponent {
 
 		FlxG.watch.addQuick("Score", score);
 		//FlxG.watch.addQuick("Number of matches", matches.length);
+		if (shouldReslove && numberOfItemsWaiting <= 0) {
+			resolveMatches();
+		}
 	}
 
 	public function getComponentID():ActorComponentTypes {
@@ -106,8 +112,10 @@ class MatchThreeController implements ActorComponent {
 			for (x in 0...width) {
 				var newItem = getRandomItem();
 				row.push(newItem);
-
-				itemRow.add(createItem(x, y, newItem));			
+				var actor = createItem(x, y, newItem);
+				var itComp = cast(actor.getComponent(ActorComponentTypes.MATCHTHREEITEM), MatchThreeItemComponent);
+				itemRow.add(actor);
+				itComp.drop(startingX + itComp.gridX * actor.width, (startingY + itComp.gridY * actor.height) - FlxG.height);			
 			}
 			itemsData.push(row);
 			items.push(itemRow);
@@ -116,6 +124,7 @@ class MatchThreeController implements ActorComponent {
 
 	private function resolveMatches():Void {
 		if (matches.length > 0 && !resolvingMatches) {
+			shouldReslove = false;
 			resolvingMatches = true;
 			numberOfMatches = matches.length;
 			var numberRemoved = 0;
@@ -169,11 +178,16 @@ class MatchThreeController implements ActorComponent {
 				}
 				// Re adding actor to fill the new item
 				if (changed) {
+					var actor = createItem(x, y, itemsData[y][x]);
+					var itComp = cast(actor.getComponent(ActorComponentTypes.MATCHTHREEITEM), MatchThreeItemComponent);
 					if (y - lastY >= 0){
 						itemsData[y- lastY][x] = NONE;
 						removeItemActor(x, (y-lastY));
+						itComp.drop(startingX + x * actor.width, (startingY + (y-lastY) * actor.height) - FlxG.height);
+					} else {
+						itComp.drop(startingX + itComp.gridX * actor.width, (startingY + itComp.gridY * actor.height) - FlxG.height);
 					}
-					items[y].add(createItem(x, y, itemsData[y][x]));
+					items[y].add(actor);
 				}
 				y--;
 			}
@@ -199,7 +213,7 @@ class MatchThreeController implements ActorComponent {
 		compareMatches(vMatches, hMatches);
 
 		if (matches.length > 0) {
-			resolveMatches();
+			shouldReslove = true;
 			return true;
 		}
 
@@ -370,6 +384,8 @@ class MatchThreeController implements ActorComponent {
 
 		var itComp = cast(actor.getComponent(ActorComponentTypes.MATCHTHREEITEM), components.MatchThreeItemComponent);
 		itComp.controller = this;
+
+		numberOfItemsWaiting++;
 
 		return actor;
 	}
