@@ -74,8 +74,6 @@ class MatchThreeController implements ActorComponent {
 			rowCount++;
 		}
 
-		resolveMatches();
-
 		FlxG.watch.addQuick("Score", score);
 		//FlxG.watch.addQuick("Number of matches", matches.length);
 	}
@@ -120,16 +118,19 @@ class MatchThreeController implements ActorComponent {
 		if (matches.length > 0 && !resolvingMatches) {
 			resolvingMatches = true;
 			numberOfMatches = matches.length;
+			var numberRemoved = 0;
 			for (match in matches) {
 				updateScore(itemsData[Math.floor(match[0].y)][Math.floor(match[0].x)], match.length);
 				for (item in match) {
 					// Have to remove data and actual actors
 					itemsData[Math.floor(item.y)][Math.floor(item.x)] = NONE;
 					removeItemActor(Math.floor(item.x), Math.floor(item.y));
+					numberRemoved++;
 					//FlxG.log.add("Removing item " + Math.floor(item.x) + ":" + Math.floor(item.y));
 				}
 				matches.remove(match);
 			}
+			FlxG.log.add("Removing " + numberRemoved + " items.");
 			numberOfMatches = 0;
 			fillBoardHoles();
 			checkItems();
@@ -142,6 +143,7 @@ class MatchThreeController implements ActorComponent {
 
 	private function fillBoardHoles():Void {
 		//FlxG.log.add("Filling board back up");
+		var newItems = 0;
 		for (x in 0...width) {
 			//FlxG.log.add("X:" + x);
 			var y = height-1;
@@ -153,21 +155,31 @@ class MatchThreeController implements ActorComponent {
 				while(itemsData[y][x] == NONE) {
 					changed = true;
 					if (y - lastY <  0) {
+						newItems++;
 						//FlxG.log.add("At the top of coll " + y + " so we need a new item.");
 						itemsData[y][x] = getRandomItem();
 					} else {
 						//FlxG.log.add("Replacing item at " + x + ":" + y + " with item " + itemsData[y-lastY][x] + " at " + x + ":" + y);
 						itemsData[y][x] = itemsData[y-lastY][x];
-						lastY++;
+						//itemsData[y-lastY][x] = NONE;
+						if (itemsData[y-lastY][x] == NONE){
+							lastY++;
+						}
 					}
 				}
 				// Re adding actor to fill the new item
 				if (changed) {
+					if (y - lastY >= 0){
+						itemsData[y- lastY][x] = NONE;
+						removeItemActor(x, (y-lastY));
+					}
 					items[y].add(createItem(x, y, itemsData[y][x]));
 				}
 				y--;
 			}
 		}
+
+		FlxG.log.add("Creating " + newItems + " new items.");
 
 		resolvingMatches = false;
 	}
@@ -187,6 +199,7 @@ class MatchThreeController implements ActorComponent {
 		compareMatches(vMatches, hMatches);
 
 		if (matches.length > 0) {
+			resolveMatches();
 			return true;
 		}
 
@@ -404,7 +417,7 @@ class MatchThreeController implements ActorComponent {
 	}
 
 	private function removeItemActor(x:Int, y:Int):Void {
-		if (y >= height || x >= width) {
+		if (y >= height || x >= width || y < 0 || x < 0) {
 			FlxG.log.error("Can't remove item at " + x + ":" + y + " because it's out of bounds.");
 			return;
 		}
@@ -414,7 +427,7 @@ class MatchThreeController implements ActorComponent {
 			var aComponent = cast (actor.getComponent(ActorComponentTypes.MATCHTHREEITEM), MatchThreeItemComponent);
 			if (aComponent.gridX == x) {
 				var tempItem = row.remove(item);
-				tempItem.visible = false;
+				//tempItem.visible = false;
 				tempItem.destroy();
 				return;
 			}
@@ -429,6 +442,7 @@ class MatchThreeController implements ActorComponent {
 			FlxG.log.error("Corrdinates of item " + firstItemCords + " and " + secondItemCords + " are out of bounds.");
 			return;
 		}
+
 		var firstActor = getItemActor(Math.floor(firstItemCords.x), Math.floor(firstItemCords.y));
 		var secondActor = getItemActor(Math.floor(secondItemCords.x), Math.floor(secondItemCords.y));
 		var firstComponent = cast(firstActor.getComponent(ActorComponentTypes.MATCHTHREEITEM), MatchThreeItemComponent);
@@ -440,7 +454,7 @@ class MatchThreeController implements ActorComponent {
 		secondComponent.gridY = Math.floor(firstItemCords.y);
 
 		var firstItem = itemsData[Math.floor(firstItemCords.y)][Math.floor(firstItemCords.x)];
-		var secondItem = itemsData[Math.floor(secondItemCords.x)][Math.floor(secondItemCords.y)];
+		var secondItem = itemsData[Math.floor(secondItemCords.y)][Math.floor(secondItemCords.x)];
 
 		itemsData[Math.floor(firstItemCords.y)][Math.floor(firstItemCords.x)] = secondItem;
 		itemsData[Math.floor(secondItemCords.y)][Math.floor(secondItemCords.x)] = firstItem;
