@@ -368,12 +368,9 @@ class MatchThreeController implements ActorComponent {
 		for (vItem in vMatch) {
 			for (hItem in hMatch) {
 				if (vItem.x == hItem.x && vItem.y == hItem.y) {
+					vMatch.remove(vItem);
 					combine = true;
-					break;
 				}
-			}
-			if (combine) {
-				break;
 			}
 		}
 
@@ -415,7 +412,7 @@ class MatchThreeController implements ActorComponent {
 	}
 
 	public function isResovling():Bool {
-		return resolvingMatches;	
+		return resolvingMatches || shouldSwitchCheck || shouldReslove;	
 	}
 
 	public function getStartingPoint():FlxPoint {
@@ -486,7 +483,7 @@ class MatchThreeController implements ActorComponent {
 			}
 		}
 
-		FlxG.log.error("Can't remove item at " + x + ":" + y + " because it can't be found.");
+		//FlxG.log.warn("Can't remove item at " + x + ":" + y + " because it can't be found (Probablly already removed).");
 	}
 
 	public function switchItems(firstItemCords:FlxPoint, secondItemCords:FlxPoint, shouldCheck:Bool=true):Void {

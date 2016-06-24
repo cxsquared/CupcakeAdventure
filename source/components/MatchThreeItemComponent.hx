@@ -138,8 +138,12 @@ class MatchThreeItemComponent implements ActorComponent {
 		owner.x = startX;
 		owner.y = startY;
 		var newY = controller.getStartingPoint().y + gridY * owner.height;
+		var tweenEase = FlxEase.elasticOut;
+		if (newY < controller.getStartingPoint().y) {
+			tweenEase = FlxEase.expoOut;
+		}
 		FlxTween.tween(owner, {y:newY}, dropSpeed + (dropSpeed * FlxG.random.float(-dropSpeedOffset, dropSpeedOffset)),
-		 { onComplete:doneDropping, ease:FlxEase.elasticOut });
+		 { onComplete:doneDropping, ease:tweenEase });
 		dropping = true;
 	}
 
