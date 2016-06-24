@@ -23,6 +23,10 @@ class MatchThreeItemComponent implements ActorComponent {
 	private var dropSpeed = 0.55;
 	private var dropSpeedOffset = 0.15; 
 
+	private var switchSpeed = 0.25;
+
+	private var clickPointOffset:FlxPoint;
+
 	public function init(Data:Dynamic):Bool {
 		gridX = Reflect.field(Data, "x");
 		gridY = Reflect.field(Data, "y");
@@ -37,6 +41,7 @@ class MatchThreeItemComponent implements ActorComponent {
 	public function update(DeltaTime:Float):Void {
 		if (FlxG.mouse.justPressed && !selected && !controller.isResovling() && FlxCollision.pixelPerfectPointCheck(FlxG.mouse.x, FlxG.mouse.y, owner)) {
 			selected = true;
+			clickPointOffset = FlxPoint.weak(FlxG.mouse.x - owner.x, FlxG.mouse.y - owner.y);
 			FlxG.log.add(itemType + " has been clicked at " + gridX + ":" + gridY);
 		} else if (FlxG.mouse.justReleased) {
 			selected = false;
@@ -47,9 +52,9 @@ class MatchThreeItemComponent implements ActorComponent {
 			owner.x = startingPoint.x + gridX * owner.width;
 			owner.y = startingPoint.y + gridY * owner.height;
 		} else if (selected && !dropping) {
-			FlxG.watch.addQuick("X distance", Math.abs(FlxG.mouse.x - owner.getMidpoint().x));
-			if (Math.abs(FlxG.mouse.x - owner.getMidpoint().x) > owner.width * .75 || 
-				Math.abs(FlxG.mouse.y - owner.getMidpoint().y) > owner.height * .75){
+			FlxG.watch.addQuick("X distance", Math.abs(FlxG.mouse.x - getGridMidPoint().x));
+			if (Math.abs(FlxG.mouse.x - getGridMidPoint().x) > owner.width * .75 || 
+				Math.abs(FlxG.mouse.y - getGridMidPoint().y) > owner.height * .75){
 				var side = getSelectSide();
 
 				if (side == FlxObject.LEFT){
@@ -63,7 +68,15 @@ class MatchThreeItemComponent implements ActorComponent {
 				}
 
 				selected = false;
-			}
+			} /*else {
+				var side = getSelectSide();
+
+				if (side == FlxObject.LEFT || side == FlxObject.RIGHT){
+					owner.x = FlxG.mouse.x - clickPointOffset.x;
+				} else {
+					owner.y = FlxG.mouse.y - clickPointOffset.y;
+				}
+			}*/
 		}
 	}
 
@@ -133,5 +146,25 @@ class MatchThreeItemComponent implements ActorComponent {
 	private function doneDropping(t:FlxTween):Void {
 		dropping = false;
 		controller.numberOfItemsWaiting--;
+	}
+
+	public function goToHome():Void {
+		dropping = true;
+		var startingPoint = controller.getStartingPoint();
+		var newX = startingPoint.x + gridX * owner.width;
+		var newY = startingPoint.y + gridY * owner.height;
+		FlxTween.tween(owner, {x:newX, y:newY}, switchSpeed, { onComplete:homeTween, ease:FlxEase.elasticOut });
+	}
+
+	private function homeTween(t:FlxTween):Void {
+		dropping = false;
+		controller.numberOfItemsSwitching--;
+	}
+
+	private function getGridMidPoint():FlxPoint {
+		var startingPoint = controller.getStartingPoint();
+		var xMid = ((startingPoint.x + gridX * owner.width) + owner.width/2);
+		var yMid = ((startingPoint.y + gridY * owner.height) + owner.height/2);
+		return FlxPoint.weak(xMid, yMid);
 	}
 }

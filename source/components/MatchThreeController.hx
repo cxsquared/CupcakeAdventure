@@ -45,12 +45,18 @@ class MatchThreeController implements ActorComponent {
 	private var rand:FlxRandom;
 
 	public var numberOfItemsWaiting = 0;
+	public var numberOfItemsSwitching = 0;
+
+	private var shouldSwitchCheck = false;
+
+	private var lastSwitch:Array<FlxPoint>;
 	
 	public function init(Data:Dynamic):Bool {
 		itemsData = new Array<Array<MatchThreeItems>>();
 		matches = new Array<MatchData>();
 		rand = new FlxRandom();
 		items = new Array<FlxTypedGroup<FlxSprite>>();
+		lastSwitch = new Array<FlxPoint>();
 
 		possibleItems = new Array<MatchThreeItems>();
 		possibleItems.push(FLOUR);
@@ -82,8 +88,15 @@ class MatchThreeController implements ActorComponent {
 
 		FlxG.watch.addQuick("Score", score);
 		//FlxG.watch.addQuick("Number of matches", matches.length);
+
+
 		if (shouldReslove && numberOfItemsWaiting <= 0) {
 			resolveMatches();
+		} else if (shouldSwitchCheck && numberOfItemsSwitching <= 0) {
+			if (!checkItems()) {
+				//FlxG.log.add("Switching back.");
+				switchItems(lastSwitch[0], lastSwitch[1], false);
+			}
 		}
 	}
 
@@ -510,11 +523,13 @@ class MatchThreeController implements ActorComponent {
 		itemsData[Math.floor(firstItemCords.y)][Math.floor(firstItemCords.x)] = secondItem;
 		itemsData[Math.floor(secondItemCords.y)][Math.floor(secondItemCords.x)] = firstItem;
 
-		if (shouldCheck) {
-			if (!checkItems()) {
-				//FlxG.log.add("Switching back.");
-				switchItems(firstItemCords, secondItemCords, false);
-			}
-		}
+		lastSwitch = new Array<FlxPoint>();
+		lastSwitch.push(firstItemCords);
+		lastSwitch.push(secondItemCords);
+
+		firstComponent.goToHome();
+		secondComponent.goToHome();
+
+		shouldSwitchCheck = shouldCheck;
 	}
 }
