@@ -132,15 +132,15 @@ class MatchThreeController implements ActorComponent {
 				updateScore(itemsData[Math.floor(match[0].y)][Math.floor(match[0].x)], match.length);
 				for (item in match) {
 					// Have to remove data and actual actors
+					removeItemActor(Math.floor(item.x), Math.floor(item.y), itemsData[Math.floor(item.y)][Math.floor(item.x)] );
 					itemsData[Math.floor(item.y)][Math.floor(item.x)] = NONE;
-					removeItemActor(Math.floor(item.x), Math.floor(item.y));
 					numberRemoved++;
 					//FlxG.log.add("Removing item " + Math.floor(item.x) + ":" + Math.floor(item.y));
 				}
 				matches.remove(match);
 			}
-			FlxG.log.add("Removing " + numberRemoved + " items.");
-			numberOfMatches = 0;
+			//FlxG.log.add("Removing " + numberRemoved + " items.");
+			numberOfMatches = matches.length;
 			fillBoardHoles();
 			checkItems();
 		}
@@ -183,7 +183,7 @@ class MatchThreeController implements ActorComponent {
 					if (y - lastY >= 0){
 						itemsData[y- lastY][x] = NONE;
 						removeItemActor(x, (y-lastY));
-						itComp.drop(startingX + x * actor.width, (startingY + (y-lastY) * actor.height) - FlxG.height);
+						itComp.drop(startingX + x * actor.width, (startingY + (y-lastY) * actor.height));
 					} else {
 						itComp.drop(startingX + itComp.gridX * actor.width, (startingY + itComp.gridY * actor.height) - FlxG.height);
 					}
@@ -193,8 +193,7 @@ class MatchThreeController implements ActorComponent {
 			}
 		}
 
-		FlxG.log.add("Creating " + newItems + " new items.");
-
+		//FlxG.log.add("Creating " + newItems + " new items.");
 		resolvingMatches = false;
 	}
 
@@ -283,6 +282,11 @@ class MatchThreeController implements ActorComponent {
 					} else if (tempMatch.length >= 3) {
 						// this one doesn't match but it has 3 in it
 						vMatches.push(tempMatch);
+						/*FlxG.log.add("Found a veritcal match of ");
+						for (match in tempMatch) {
+							//FlxG.log.add(itemsData[Math.floor(match.y)][Math.floor(match.x)] + "_" + match.x + ":" + match.y);
+						}
+						*/
 						tempMatch = new Array<FlxPoint>();
 						tempMatch.push(new FlxPoint(x, y));
 					} else {
@@ -297,6 +301,10 @@ class MatchThreeController implements ActorComponent {
 			}
 			if (tempMatch != null && tempMatch.length >= 3) {
 				vMatches.push(tempMatch);
+				/*FlxG.log.add("Found a veritcal match of ");
+				for (match in tempMatch) {
+					//FlxG.log.add(itemsData[Math.floor(match.y)][Math.floor(match.x)] + "_" + match.x + ":" + match.y);
+				}*/
 			}
 
 			tempMatch = null;
@@ -414,16 +422,23 @@ class MatchThreeController implements ActorComponent {
 		return NONE;
 	}
 
-	private function getItemActor(x:Int, y:Int):Actor {
-		if (y >= height || x >= width) {
+	private function getItemActor(x:Int, y:Int, itemType:MatchThreeItems=null):Actor {
+		if (y >= height || x >= width || y < 0 || x < 0) {
 			FlxG.log.error("Can't get item at " + x + ":" + y + " because it's out of bounds.");
 			return null;
 		}
 		var row = items[y];
+		//FlxG.log.add("Looking for an item in a row of " + row.length);
 		for (item in row) {
 			var actor = cast(item, Actor);
 			var aComponent = cast (actor.getComponent(ActorComponentTypes.MATCHTHREEITEM), MatchThreeItemComponent);
-			if (aComponent.gridX == x) {
+			if (itemType != null){
+				if (aComponent.gridX == x && itemType == aComponent.itemType) {
+					//FlxG.log.add("Getting " + aComponent.itemType + " at " + x + ":" + y);
+					return actor;
+				}
+			} else if (aComponent.gridX == x) {
+				//FlxG.log.add("Getting " + aComponent.itemType + " at " + x + ":" + y);
 				return actor;
 			}
 		}
@@ -432,19 +447,25 @@ class MatchThreeController implements ActorComponent {
 		return null;
 	}
 
-	private function removeItemActor(x:Int, y:Int):Void {
+	private function removeItemActor(x:Int, y:Int, itemType:MatchThreeItems=null):Void {
 		if (y >= height || x >= width || y < 0 || x < 0) {
 			FlxG.log.error("Can't remove item at " + x + ":" + y + " because it's out of bounds.");
 			return;
 		}
 		var row = items[y];
+		//FlxG.log.add("Removing an item in a row of " + row.length);
 		for (item in row) {
 			var actor = cast(item, Actor);
 			var aComponent = cast (actor.getComponent(ActorComponentTypes.MATCHTHREEITEM), MatchThreeItemComponent);
-			if (aComponent.gridX == x) {
-				var tempItem = row.remove(item);
-				//tempItem.visible = false;
-				tempItem.destroy();
+			if (itemType != null){
+				if (aComponent.gridX == x && itemType == aComponent.itemType) {
+					//FlxG.log.add("Removing " + aComponent.itemType + " at " + x + ":" + y);
+					row.remove(item).destroy();
+					return;
+				}
+			} else if (aComponent.gridX == x) {
+				//FlxG.log.add("Removing " + aComponent.itemType + " at " + x + ":" + y);
+				row.remove(item).destroy();
 				return;
 			}
 		}
@@ -472,12 +493,24 @@ class MatchThreeController implements ActorComponent {
 		var firstItem = itemsData[Math.floor(firstItemCords.y)][Math.floor(firstItemCords.x)];
 		var secondItem = itemsData[Math.floor(secondItemCords.y)][Math.floor(secondItemCords.x)];
 
+		if (firstItemCords.x == secondItemCords.x) {
+			//FlxG.log.add("Swaping items " + firstItem + "_" + firstItemCords.x + ":" + firstItemCords.y + " and ");
+			//FlxG.log.add(secondItem + "_" + secondItemCords.x + ":" + secondItemCords.y);
+			//FlxG.log.add(firstComponent.itemType + " is now at " + firstComponent.gridX + ":" + firstComponent.gridY);
+			//FlxG.log.add(secondComponent.itemType + " is now at " + secondComponent.gridX + ":" + secondComponent.gridY);
+			items[Math.floor(firstItemCords.y)].remove(firstActor);
+			items[Math.floor(secondItemCords.y)].remove(secondActor);
+			items[Math.floor(firstItemCords.y)].add(secondActor);
+			items[Math.floor(secondItemCords.y)].add(firstActor);
+		}
+
 		itemsData[Math.floor(firstItemCords.y)][Math.floor(firstItemCords.x)] = secondItem;
 		itemsData[Math.floor(secondItemCords.y)][Math.floor(secondItemCords.x)] = firstItem;
 
 		if (shouldCheck) {
 			if (!checkItems()) {
-				switchItems(secondItemCords, firstItemCords, false);
+				//FlxG.log.add("Switching back.");
+				switchItems(firstItemCords, secondItemCords, false);
 			}
 		}
 	}
