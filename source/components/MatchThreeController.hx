@@ -39,6 +39,7 @@ class MatchThreeController implements ActorComponent {
 
 	private var matches:Array<MatchData>;
 	private var possibleItems:Array<MatchThreeItems>;
+	private var randomItemPercentageChange:Array<Float>;
 	private var numberOfMatches = 0;
 
 	private var rand:FlxRandom;
@@ -57,6 +58,8 @@ class MatchThreeController implements ActorComponent {
 		possibleItems.push(SALT);
 		possibleItems.push(MILK);
 		possibleItems.push(BUTTER);
+
+		randomItemPercentageChange = [22, 22, 22, 22, 12];
 
 		generateBoard();
 
@@ -198,7 +201,7 @@ class MatchThreeController implements ActorComponent {
 	}
 
 	private function getRandomItem():MatchThreeItems {
-		return possibleItems[rand.int(0, possibleItems.length - 1)];
+		return possibleItems[rand.weightedPick(randomItemPercentageChange)];
 	}
 
 	private function checkItems():Bool {

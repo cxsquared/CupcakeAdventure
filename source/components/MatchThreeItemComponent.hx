@@ -6,6 +6,7 @@ import flixel.util.FlxCollision;
 import flixel.FlxObject;
 import flixel.math.FlxPoint;
 import flixel.tweens.FlxTween;
+import flixel.tweens.FlxEase;
 
 class MatchThreeItemComponent implements ActorComponent {
 
@@ -19,7 +20,8 @@ class MatchThreeItemComponent implements ActorComponent {
 
 	private var dropping = false;
 
-	private var dropSpeed = 0.5;
+	private var dropSpeed = 0.55;
+	private var dropSpeedOffset = 0.15; 
 
 	public function init(Data:Dynamic):Bool {
 		gridX = Reflect.field(Data, "x");
@@ -123,7 +125,8 @@ class MatchThreeItemComponent implements ActorComponent {
 		owner.x = startX;
 		owner.y = startY;
 		var newY = controller.getStartingPoint().y + gridY * owner.height;
-		FlxTween.tween(owner, {y:newY}, dropSpeed, { onComplete:doneDropping });
+		FlxTween.tween(owner, {y:newY}, dropSpeed + (dropSpeed * FlxG.random.float(-dropSpeedOffset, dropSpeedOffset)),
+		 { onComplete:doneDropping, ease:FlxEase.elasticOut });
 		dropping = true;
 	}
 
