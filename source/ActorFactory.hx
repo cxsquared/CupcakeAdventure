@@ -42,6 +42,7 @@ class ActorFactory {
 		actorComponentCreators.set("MixerComponent", MixerComponent);
 		actorComponentCreators.set("MatchThreeController", MatchThreeController);
 		actorComponentCreators.set("MatchThreeItemComponent", MatchThreeItemComponent);
+		actorComponentCreators.set("MatchThreeMeterComponent", MatchThreeMeterComponent);
 	}
 
 	public function createActor(Data:Dynamic):Actor {

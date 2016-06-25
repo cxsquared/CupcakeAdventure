@@ -12,4 +12,5 @@ enum ActorComponentTypes {
 	MIXER;
 	MATCHTHREE;
 	MATCHTHREEITEM;
+	MATCHMETER;
 }

@@ -50,6 +50,10 @@ class MatchThreeController implements ActorComponent {
 	private var shouldSwitchCheck = false;
 
 	private var lastSwitch:Array<FlxPoint>;
+
+	private var meter:MatchThreeMeterComponent;
+	private var meterX = 14;
+	private var meterY = 7;
 	
 	public function init(Data:Dynamic):Bool {
 		itemsData = new Array<Array<MatchThreeItems>>();
@@ -58,6 +62,42 @@ class MatchThreeController implements ActorComponent {
 		items = new Array<FlxTypedGroup<FlxSprite>>();
 		lastSwitch = new Array<FlxPoint>();
 
+		setUpMeter();
+
+		setUpItems();
+
+		//FlxG.log.add(itemsData[0][0]);
+		//FlxG.log.add(itemsData[width-1][height-1]);
+
+		return true;
+	}
+
+	private function setUpMeter():Void {
+		var meterActor = ActorFactory.GetInstance().createActor({
+			"name": "meter",
+			"x": 14,
+			"y": 7,
+			"width": -1,
+			"height": -1,
+			"spriteSheet": "",
+			"components": [
+				{
+					"name": "MatchThreeMeterComponent",
+					"data": {
+						"width": 38,
+						"height": 225,
+						"maxScore": 2000,
+						"background": "assets/images/match/match_meterBackground.png",
+						"fill": "assets/images/match/match_meterFill.png"
+					}
+				}
+			]
+		});
+
+		meter = cast(meterActor.getComponent(ActorComponentTypes.MATCHMETER), components.MatchThreeMeterComponent);
+	}
+
+	private function setUpItems():Void {
 		possibleItems = new Array<MatchThreeItems>();
 		possibleItems.push(FLOUR);
 		possibleItems.push(SUGAR);
@@ -68,11 +108,6 @@ class MatchThreeController implements ActorComponent {
 		randomItemPercentageChange = [22, 22, 22, 22, 12];
 
 		generateBoard();
-
-		//FlxG.log.add(itemsData[0][0]);
-		//FlxG.log.add(itemsData[width-1][height-1]);
-
-		return true;
 	}
 
 	public function postInit():Void {
@@ -98,6 +133,8 @@ class MatchThreeController implements ActorComponent {
 				switchItems(lastSwitch[0], lastSwitch[1], false);
 			}
 		}
+
+		meter.score = this.score;
 	}
 
 	public function getComponentID():ActorComponentTypes {
@@ -108,6 +145,8 @@ class MatchThreeController implements ActorComponent {
 		for (row in items) {
 			Owner.add(row);
 		}
+
+		meter.owner.addToState(Owner);
 	}
 
 	public function destroy():Void {
