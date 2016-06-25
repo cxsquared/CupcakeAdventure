@@ -2,6 +2,7 @@ package components;
 
 import Inventory.InventoryItem;
 import flixel.FlxG;
+import flixel.util.FlxCollision;
 
 class MixerComponent extends DropItemComponent {
 
@@ -22,6 +23,12 @@ class MixerComponent extends DropItemComponent {
 		super.update(DeltaTime);
 
 		FlxG.watch.addQuick("Mixer items", items.length);
+
+		if (FlxG.mouse.justPressed && 
+			FlxCollision.pixelPerfectPointCheck(FlxG.mouse.x, FlxG.mouse.y, owner) &&
+			items.length > 0) {
+			FlxG.switchState(new MatchThreeState());
+		}
 	}
 
 	override public function getComponentID():ActorComponentTypes {

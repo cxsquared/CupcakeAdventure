@@ -137,6 +137,7 @@ class MatchThreeItemComponent implements ActorComponent {
 	public function drop(startX:Float, startY:Float):Void {
 		owner.x = startX;
 		owner.y = startY;
+		controller.numberOfItemsWaiting++;
 		var newY = controller.getStartingPoint().y + gridY * owner.height;
 		var tweenEase = FlxEase.elasticOut;
 		if (newY < controller.getStartingPoint().y) {
@@ -154,6 +155,8 @@ class MatchThreeItemComponent implements ActorComponent {
 
 	public function goToHome():Void {
 		dropping = true;
+		controller.numberOfItemsWaiting++;
+		controller.numberOfItemsSwitching++;
 		var startingPoint = controller.getStartingPoint();
 		var newX = startingPoint.x + gridX * owner.width;
 		var newY = startingPoint.y + gridY * owner.height;
@@ -163,6 +166,7 @@ class MatchThreeItemComponent implements ActorComponent {
 	private function homeTween(t:FlxTween):Void {
 		dropping = false;
 		controller.numberOfItemsSwitching--;
+		controller.numberOfItemsWaiting--;
 	}
 
 	private function getGridMidPoint():FlxPoint {

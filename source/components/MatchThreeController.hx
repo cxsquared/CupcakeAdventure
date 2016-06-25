@@ -8,6 +8,7 @@ import flixel.group.FlxGroup.FlxTypedGroup;
 import Actor;
 import ActorFactory;
 import flixel.FlxSprite;
+import flixel.util.FlxTimer;
 
 typedef MatchData = Array<FlxPoint>;
 
@@ -54,6 +55,8 @@ class MatchThreeController implements ActorComponent {
 	private var meter:MatchThreeMeterComponent;
 	private var meterX = 14;
 	private var meterY = 7;
+
+	private var timer:FlxTimer;
 	
 	public function init(Data:Dynamic):Bool {
 		itemsData = new Array<Array<MatchThreeItems>>();
@@ -66,10 +69,17 @@ class MatchThreeController implements ActorComponent {
 
 		setUpItems();
 
+		timer = new FlxTimer();
+		timer.start(90, endLevel, 1);
+
 		//FlxG.log.add(itemsData[0][0]);
 		//FlxG.log.add(itemsData[width-1][height-1]);
 
 		return true;
+	}
+
+	private function endLevel(t:FlxTimer):Void {
+		FlxG.switchState(new PlayState());
 	}
 
 	private function setUpMeter():Void {
@@ -111,10 +121,11 @@ class MatchThreeController implements ActorComponent {
 	}
 
 	public function postInit():Void {
-		checkItems();
+		//checkItems();
 	}
 
 	public function update(DeltaTime:Float):Void {
+		#if !NO_FLX_DEBUG
 		var rowCount = 0;
 		for (row in itemsData) {
 			FlxG.watch.addQuick("Item row " + rowCount, row);
@@ -122,16 +133,25 @@ class MatchThreeController implements ActorComponent {
 		}
 
 		FlxG.watch.addQuick("Score", score);
+		FlxG.watch.addQuick("Items Waiting", numberOfItemsWaiting);
+		FlxG.watch.addQuick("Items Switching", numberOfItemsSwitching);
+		FlxG.watch.addQuick("Should Resolve", shouldReslove);
+		FlxG.watch.addQuick("Switch Check", shouldSwitchCheck);
 		//FlxG.watch.addQuick("Number of matches", matches.length);
+		#end
 
 
-		if (shouldReslove && numberOfItemsWaiting <= 0) {
-			resolveMatches();
-		} else if (shouldSwitchCheck && numberOfItemsSwitching <= 0) {
+		if (shouldSwitchCheck && numberOfItemsSwitching <= 0 && numberOfItemsWaiting <= 0) {
 			if (!checkItems()) {
 				//FlxG.log.add("Switching back.");
 				switchItems(lastSwitch[0], lastSwitch[1], false);
 			}
+
+			shouldSwitchCheck = false;
+		} else if (shouldReslove && numberOfItemsWaiting <= 0 && numberOfItemsSwitching <= 0) {
+			resolveMatches();
+		} else if (numberOfItemsWaiting <= 0 && numberOfItemsSwitching <= 0 && !shouldSwitchCheck && !shouldReslove) {
+			checkItems();
 		}
 
 		meter.score = this.score;
@@ -197,7 +217,7 @@ class MatchThreeController implements ActorComponent {
 			//FlxG.log.add("Removing " + numberRemoved + " items.");
 			numberOfMatches = matches.length;
 			fillBoardHoles();
-			checkItems();
+			//checkItems();
 		}
 	}
 
@@ -445,7 +465,7 @@ class MatchThreeController implements ActorComponent {
 		var itComp = cast(actor.getComponent(ActorComponentTypes.MATCHTHREEITEM), components.MatchThreeItemComponent);
 		itComp.controller = this;
 
-		numberOfItemsWaiting++;
+		//numberOfItemsWaiting++;
 
 		return actor;
 	}
