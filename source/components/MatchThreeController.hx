@@ -138,6 +138,11 @@ class MatchThreeController implements ActorComponent {
 		FlxG.watch.addQuick("Should Resolve", shouldReslove);
 		FlxG.watch.addQuick("Switch Check", shouldSwitchCheck);
 		//FlxG.watch.addQuick("Number of matches", matches.length);
+
+		if (FlxG.keys.justPressed.R) {
+			shuffleBoard();
+		}
+
 		#end
 
 
@@ -587,5 +592,47 @@ class MatchThreeController implements ActorComponent {
 		secondComponent.goToHome();
 
 		shouldSwitchCheck = shouldCheck;
+	}
+
+	private function shuffleBoard():Void {
+		FlxG.log.add("Starting shuffle");
+		var allItems:Array<FlxSprite> = new Array<FlxSprite>();
+
+		var tempCount = 0;
+		for (row in items) {
+			for (item in row.members) {
+				row.remove(item);
+				allItems.push(item);
+				tempCount++;
+			}
+		}
+		FlxG.log.add("Shuffling " + tempCount + " items.");
+
+		rand.shuffleArray(allItems, allItems.length*2);
+
+		var row = 0;
+		var x = 0;
+		tempCount = 0;
+		for (item in allItems) {
+			tempCount++;
+			var itemActor = cast(item, Actor);
+			var itemComponent = cast(itemActor.getComponent(ActorComponentTypes.MATCHTHREEITEM), MatchThreeItemComponent);
+			itemComponent.gridY = row;
+			itemComponent.gridX = x;
+			itemComponent.drop(startingX + x * item.width, (startingY + row * height) - FlxG.height);
+
+			items[row].add(item);
+
+			itemsData[row][x] = itemComponent.itemType;
+
+			x++;
+			if (x >= 5) {
+				x = 0;
+				row++;
+			}
+
+			FlxG.log.add("Item " + itemComponent.itemType + " is now at " + x + ":" + row);
+		}
+		FlxG.log.add("Done shuffling " + tempCount + " itmes");
 	}
 }
