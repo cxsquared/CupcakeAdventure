@@ -61,8 +61,9 @@ class MatchThreeController implements ActorComponent {
 	private var timer:FlxTimer;
 	private var noMatchTimer:FlxTimer;
 
-	private var noMatchTime = .25;
+	private var noMatchTime = 1;
 	private var matchTime = 910;
+	private var noMatchImage:FlxSprite;
 	
 	public function init(Data:Dynamic):Bool {
 		itemsData = new Array<Array<MatchThreeItems>>();
@@ -79,6 +80,11 @@ class MatchThreeController implements ActorComponent {
 		timer.start(matchTime, endLevel, 1);
 
 		noMatchTimer = new FlxTimer();
+		noMatchImage = new FlxSprite();
+		noMatchImage.loadGraphic(AssetPaths.nomatch__png);
+		noMatchImage.x = FlxG.width/2 - noMatchImage.width/2;
+		noMatchImage.y = FlxG.height/2 - noMatchImage.height/2;
+		noMatchImage.visible = false;
 
 		//FlxG.log.add(itemsData[0][0]);
 		//FlxG.log.add(itemsData[width-1][height-1]);
@@ -166,8 +172,9 @@ class MatchThreeController implements ActorComponent {
 		} else if (numberOfItemsWaiting <= 0 && numberOfItemsSwitching <= 0 && !shouldSwitchCheck && !shouldReslove&& !noMatch) {
 			if (!checkItems()) {
 				if (!canMatch()) {
-					FlxG.log.error("Can find a match");
+					//FlxG.log.error("Can find a match");
 					noMatch = true;
+					noMatchImage.visible = true;
 					noMatchTimer.start(noMatchTime, shuffleTimer, 1);
 				}
 			}
@@ -186,6 +193,7 @@ class MatchThreeController implements ActorComponent {
 		}
 
 		meter.owner.addToState(Owner);
+		Owner.add(noMatchImage);
 	}
 
 	public function destroy():Void {
@@ -726,6 +734,7 @@ class MatchThreeController implements ActorComponent {
 
 	private function shuffleTimer(t:FlxTimer):Void {
 		shuffleBoard();
+		noMatchImage.visible = false;
 		noMatch = false;
 	}
 }
