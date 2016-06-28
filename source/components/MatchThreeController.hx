@@ -58,13 +58,16 @@ class MatchThreeController implements ActorComponent {
 	private var meterX = 14;
 	private var meterY = 7;
 
-	private var timer:FlxTimer;
 	private var noMatchTimer:FlxTimer;
-
 	private var noMatchTime = 1;
-	private var matchTime = 910;
 	private var noMatchImage:FlxSprite;
-	
+
+	private var timerStartX = 0;
+	private var timerSTartY = 178;
+	private var matchTime = 120;
+	private var timer:FlxTimer;	
+	private var timerComponent:MatchThreeTimerComponent;
+
 	public function init(Data:Dynamic):Bool {
 		itemsData = new Array<Array<MatchThreeItems>>();
 		matches = new Array<MatchData>();
@@ -76,15 +79,7 @@ class MatchThreeController implements ActorComponent {
 
 		setUpItems();
 
-		timer = new FlxTimer();
-		timer.start(matchTime, endLevel, 1);
-
-		noMatchTimer = new FlxTimer();
-		noMatchImage = new FlxSprite();
-		noMatchImage.loadGraphic(AssetPaths.nomatch__png);
-		noMatchImage.x = FlxG.width/2 - noMatchImage.width/2;
-		noMatchImage.y = FlxG.height/2 - noMatchImage.height/2;
-		noMatchImage.visible = false;
+		setUpTimers();
 
 		//FlxG.log.add(itemsData[0][0]);
 		//FlxG.log.add(itemsData[width-1][height-1]);
@@ -110,7 +105,7 @@ class MatchThreeController implements ActorComponent {
 					"data": {
 						"width": 38,
 						"height": 225,
-						"maxScore": 2000,
+						"maxScore": 1000,
 						"background": "assets/images/match/match_meterBackground.png",
 						"fill": "assets/images/match/match_meterFill.png"
 					}
@@ -132,6 +127,37 @@ class MatchThreeController implements ActorComponent {
 		randomItemPercentageChange = [22, 22, 22, 22, 12];
 
 		generateBoard();
+	}
+
+	private function setUpTimers():Void {
+		timer = new FlxTimer();
+		timer.start(matchTime, endLevel, 1);
+
+		var timerActor = ActorFactory.GetInstance().createActor({
+			"name": "matchTimer",
+			"x": timerStartX,
+			"y": timerSTartY,
+			"width": -1,
+			"height": -1,
+			"spriteSheet": "assets/images/match/match_TimerBackground.png",
+			"components": [
+				{
+					"name": "MatchThreeTimerComponent",
+					"data": {
+						"time": matchTime
+					}
+				}
+			]
+		});
+
+		timerComponent = cast(timerActor.getComponent(ActorComponentTypes.MATCHTIMER), MatchThreeTimerComponent);
+
+		noMatchTimer = new FlxTimer();
+		noMatchImage = new FlxSprite();
+		noMatchImage.loadGraphic(AssetPaths.nomatch__png);
+		noMatchImage.x = FlxG.width/2 - noMatchImage.width/2;
+		noMatchImage.y = FlxG.height/2 - noMatchImage.height/2;
+		noMatchImage.visible = false;
 	}
 
 	public function postInit():Void {
@@ -181,6 +207,7 @@ class MatchThreeController implements ActorComponent {
 		}
 
 		meter.score = this.score;
+		timerComponent.time = timer.elapsedTime;
 	}
 
 	public function getComponentID():ActorComponentTypes {
@@ -193,6 +220,7 @@ class MatchThreeController implements ActorComponent {
 		}
 
 		meter.owner.addToState(Owner);
+		timerComponent.owner.addToState(Owner);
 		Owner.add(noMatchImage);
 	}
 
