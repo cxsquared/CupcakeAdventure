@@ -9,6 +9,7 @@ import Actor;
 import ActorFactory;
 import flixel.FlxSprite;
 import flixel.util.FlxTimer;
+import util.MultiIterator;
 
 typedef MatchData = Array<FlxPoint>;
 
@@ -27,6 +28,7 @@ class MatchThreeController implements ActorComponent {
 
 	private var resolvingMatches = false;
 	private var shouldReslove = false;
+	private var noMatch = false;
 	private var score = 0;
 
 	private var width = 5;
@@ -57,6 +59,10 @@ class MatchThreeController implements ActorComponent {
 	private var meterY = 7;
 
 	private var timer:FlxTimer;
+	private var noMatchTimer:FlxTimer;
+
+	private var noMatchTime = .25;
+	private var matchTime = 910;
 	
 	public function init(Data:Dynamic):Bool {
 		itemsData = new Array<Array<MatchThreeItems>>();
@@ -70,7 +76,9 @@ class MatchThreeController implements ActorComponent {
 		setUpItems();
 
 		timer = new FlxTimer();
-		timer.start(90, endLevel, 1);
+		timer.start(matchTime, endLevel, 1);
+
+		noMatchTimer = new FlxTimer();
 
 		//FlxG.log.add(itemsData[0][0]);
 		//FlxG.log.add(itemsData[width-1][height-1]);
@@ -146,17 +154,23 @@ class MatchThreeController implements ActorComponent {
 		#end
 
 
-		if (shouldSwitchCheck && numberOfItemsSwitching <= 0 && numberOfItemsWaiting <= 0) {
+		if (shouldSwitchCheck && numberOfItemsSwitching <= 0 && numberOfItemsWaiting <= 0 && !noMatch) {
 			if (!checkItems()) {
 				//FlxG.log.add("Switching back.");
 				switchItems(lastSwitch[0], lastSwitch[1], false);
 			}
 
 			shouldSwitchCheck = false;
-		} else if (shouldReslove && numberOfItemsWaiting <= 0 && numberOfItemsSwitching <= 0) {
+		} else if (shouldReslove && numberOfItemsWaiting <= 0 && numberOfItemsSwitching <= 0&& !noMatch) {
 			resolveMatches();
-		} else if (numberOfItemsWaiting <= 0 && numberOfItemsSwitching <= 0 && !shouldSwitchCheck && !shouldReslove) {
-			checkItems();
+		} else if (numberOfItemsWaiting <= 0 && numberOfItemsSwitching <= 0 && !shouldSwitchCheck && !shouldReslove&& !noMatch) {
+			if (!checkItems()) {
+				if (!canMatch()) {
+					FlxG.log.error("Can find a match");
+					noMatch = true;
+					noMatchTimer.start(noMatchTime, shuffleTimer, 1);
+				}
+			}
 		}
 
 		meter.score = this.score;
@@ -294,6 +308,79 @@ class MatchThreeController implements ActorComponent {
 		if (matches.length > 0) {
 			shouldReslove = true;
 			return true;
+		}
+
+		return false;
+	}
+
+	private function canMatch():Bool {
+		//var yIterator:MultiIterator = new MultiIterator(1, height-1, 2);
+		for (y in 0...height) {
+			//var xIterator:MultiIterator = new MultiIterator(1, width-1, 2);
+			for (x in 0...width) {
+				var mainItem = itemsData[y][x];
+
+				// Swap all corners with mainItem and check to see if a match in vertical or horizontal
+
+				// Top Middle
+				if (y-1 >= 0) {
+					itemsData[y][x] = itemsData[y-1][x];
+					itemsData[y-1][x] = mainItem;
+
+					if (checkHorizontal().length>0 || checkVertical().length>0){
+						itemsData[y-1][x] = itemsData[y][x];
+						itemsData[y][x] = mainItem;
+						return true;
+					}
+
+
+					itemsData[y-1][x] = itemsData[y][x];
+				}
+
+				if (x-1 >= 0) {
+					// Left
+					itemsData[y][x] = itemsData[y][x-1];
+					itemsData[y][x-1] = mainItem;
+
+					if (checkHorizontal().length>0 || checkVertical().length>0){
+						itemsData[y][x-1] = itemsData[y][x];
+						itemsData[y][x] = mainItem;
+						return true;
+					}
+
+					itemsData[y][x-1] = itemsData[y][x];
+				}
+
+				// Right
+				if (x+1 < width) {
+					itemsData[y][x] = itemsData[y][x+1];
+					itemsData[y][x+1] = mainItem;
+
+					if (checkHorizontal().length > 0 || checkVertical().length>0){
+						itemsData[y][x+1] = itemsData[y][x];
+						itemsData[y][x] = mainItem;
+						return true;
+					}
+
+					itemsData[y][x+1] = itemsData[y][x];
+				}
+
+				if (y+1 < height) {
+					// Top Middle
+					itemsData[y][x] = itemsData[y+1][x];
+					itemsData[y+1][x] = mainItem;
+
+					if (checkHorizontal().length>0 || checkVertical().length>0){
+						itemsData[y+1][x] = itemsData[y][x];
+						itemsData[y][x] = mainItem;
+						return true;
+					}
+
+					itemsData[y+1][x] = itemsData[y][x];
+				}
+
+				itemsData[y][x] = mainItem;
+			}
 		}
 
 		return false;
@@ -476,7 +563,8 @@ class MatchThreeController implements ActorComponent {
 	}
 
 	public function isResovling():Bool {
-		return resolvingMatches || shouldSwitchCheck || shouldReslove;	
+		return resolvingMatches || shouldSwitchCheck || shouldReslove ||
+		 noMatch || (numberOfItemsWaiting > 0) || (numberOfItemsSwitching > 0);	
 	}
 
 	public function getStartingPoint():FlxPoint {
@@ -595,7 +683,7 @@ class MatchThreeController implements ActorComponent {
 	}
 
 	private function shuffleBoard():Void {
-		FlxG.log.add("Starting shuffle");
+		//FlxG.log.add("Starting shuffle");
 		var allItems:Array<FlxSprite> = new Array<FlxSprite>();
 
 		var tempCount = 0;
@@ -606,7 +694,7 @@ class MatchThreeController implements ActorComponent {
 				tempCount++;
 			}
 		}
-		FlxG.log.add("Shuffling " + tempCount + " items.");
+		//FlxG.log.add("Shuffling " + tempCount + " items.");
 
 		rand.shuffleArray(allItems, allItems.length*2);
 
@@ -631,8 +719,13 @@ class MatchThreeController implements ActorComponent {
 				row++;
 			}
 
-			FlxG.log.add("Item " + itemComponent.itemType + " is now at " + x + ":" + row);
+			//FlxG.log.add("Item " + itemComponent.itemType + " is now at " + x + ":" + row);
 		}
-		FlxG.log.add("Done shuffling " + tempCount + " itmes");
+		//FlxG.log.add("Done shuffling " + tempCount + " itmes");
+	}
+
+	private function shuffleTimer(t:FlxTimer):Void {
+		shuffleBoard();
+		noMatch = false;
 	}
 }
