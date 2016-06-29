@@ -66,6 +66,8 @@ class DescriptionComponent extends InteractableComponent {
 
 	override private function onInteract() {
 		text.alpha = 1;
+		FlxG.state.members.remove(text);
+		FlxG.state.add(text);
 		viewTimer.start(viewLength, textTimerComplete, 1);
 	}
 

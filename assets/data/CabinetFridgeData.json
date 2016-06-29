@@ -2,6 +2,40 @@
 	"background": "assets/images/cabinetFridge/FridgeCabinet.png",
 	"actors": [
 		{
+			"name": "flour",
+			"x": 85,
+			"y": 116,
+			"width": -1,
+			"height": -1,
+			"spriteSheet": "assets/images/cabinetFridge/flour.png",
+			"components": [
+				{
+					"name": "PickUpComponent",
+					"data": {
+						"description": "The base of all baking.",
+						"iconPath": "assets/images/inventory/flourInv.png"
+					}
+				},
+				{
+					"name": "HighlightComponent",
+					"data": {
+						"sprite": "assets/images/cabinetFridge/flourHighlight.png"
+					}
+				},
+				{
+					"name": "DescriptionComponent",
+					"data": {
+						"description": "Big bag of flour.",
+						"color": {
+							"r": 0,
+							"g": 150,
+							"b": 150
+						}
+					}
+				}
+			]
+		},
+		{
 			"name": "cabinet",
 			"x": 0,
 			"y": 36,
