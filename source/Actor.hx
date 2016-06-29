@@ -77,6 +77,10 @@ class Actor extends FlxSprite {
 		return null;
 	}
 
+	public function hasComponent(ComponentID:ActorComponentTypes):Bool {
+		return actorComponents.exists(ComponentID);
+	}
+
 	public function addToState(Owner:Dynamic) {
 		Owner.add(this);
 
