@@ -1,6 +1,7 @@
 package components;
 
 import flixel.FlxG;
+import Actor.MOUSEEVENT;
 
 typedef AnimData = { 
 	var frames:Array<Int>; 
@@ -62,6 +63,9 @@ class AnimationComponent implements ActorComponent {
 	}
 
 	public function destroy():Void {
+	}
+
+	public function onMouseEvent(e:MOUSEEVENT):Void{
 	}
 	
 }

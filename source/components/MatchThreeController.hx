@@ -765,4 +765,6 @@ class MatchThreeController implements ActorComponent {
 		noMatchImage.visible = false;
 		noMatch = false;
 	}
+
+	public function onMouseEvent(e:MOUSEEVENT):Void{}
 }

@@ -5,6 +5,14 @@ import flixel.FlxG;
 import components.*;
 import flixel.system.FlxAssets.FlxGraphicAsset;
 import flixel.FlxState;
+import flixel.input.mouse.FlxMouseEventManager;
+
+enum MOUSEEVENT {
+	DOWN;
+	UP;
+	OVER;
+	OUT;
+}
 
 class Actor extends FlxSprite {
 	
@@ -22,6 +30,8 @@ class Actor extends FlxSprite {
 
 	public function init(ID:Int):Bool {
 		actorID = ID;
+
+		FlxMouseEventManager.add(this, onMouseDown, onMouseUp, onMouseOver, onMouseOut);
 
 		return true;
 	}
@@ -75,12 +85,36 @@ class Actor extends FlxSprite {
 		}
 	}
 
+	private function onMouseDown(s:FlxSprite):Void {
+		sendMouseEvent(MOUSEEVENT.DOWN);
+	}
+
+	private function onMouseUp(s:FlxSprite):Void {
+		sendMouseEvent(MOUSEEVENT.UP);
+	}
+
+	private function onMouseOver(s:FlxSprite):Void {
+		sendMouseEvent(MOUSEEVENT.OVER);
+	}
+
+	private function onMouseOut(s:FlxSprite):Void {
+		sendMouseEvent(MOUSEEVENT.OUT);
+	}
+
+	private function sendMouseEvent(e:Actor.MOUSEEVENT) {
+		for (component in actorComponents) {
+			component.onMouseEvent(e);
+		}
+	}
+
 	override public function destroy():Void {
 		for (component in actorComponents) {
 			component.destroy();
 		}
 
 		ActorFactory.GetInstance().removeActor(this.getID());
+
+		FlxMouseEventManager.remove(this);
 
 		super.destroy();
 	}

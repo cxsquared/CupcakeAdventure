@@ -29,7 +29,7 @@ class PickUpComponent extends InteractableComponent {
 		return ActorComponentTypes.PICKUP;
 	}
 
-	override private function onInteract(s:FlxSprite):Void {
+	override private function onInteract():Void {
 		GameData.getInstance().inventory.addNewItem(owner.name, description, owner.getID(), iconPath);
 		owner.kill();
 	}

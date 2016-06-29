@@ -7,6 +7,7 @@ import flixel.FlxObject;
 import flixel.math.FlxPoint;
 import flixel.tweens.FlxTween;
 import flixel.tweens.FlxEase;
+import Actor.MOUSEEVENT;
 
 class MatchThreeItemComponent implements ActorComponent {
 
@@ -175,4 +176,6 @@ class MatchThreeItemComponent implements ActorComponent {
 		var yMid = ((startingPoint.y + gridY * owner.height) + owner.height/2);
 		return FlxPoint.weak(xMid, yMid);
 	}
+
+	public function onMouseEvent(e:MOUSEEVENT):Void{}
 }

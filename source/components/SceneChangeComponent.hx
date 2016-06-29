@@ -26,7 +26,7 @@ class SceneChangeComponent extends InteractableComponent {
 		return ActorComponentTypes.SCENECHANGE;
 	}
 
-	override private function onInteract(s:FlxSprite):Void {
+	override private function onInteract():Void {
 		SceneManager.GetInstance().changeScene(targetScene);
 	}
 	

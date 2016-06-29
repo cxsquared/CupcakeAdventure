@@ -4,6 +4,7 @@ import flixel.util.FlxCollision;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.input.mouse.FlxMouseEventManager;
+import Actor.MOUSEEVENT;
 
 class InteractableComponent implements ActorComponent {
 
@@ -14,7 +15,6 @@ class InteractableComponent implements ActorComponent {
 	}
 
 	public function postInit(){
-		FlxMouseEventManager.add(owner, onInteract);
 	}
 
 	public function update(DeltaTime:Float) {
@@ -32,10 +32,16 @@ class InteractableComponent implements ActorComponent {
 
 	public function onAdd(Owner:Dynamic):Void {
 	}
+
+	public function onMouseEvent(e:MOUSEEVENT):Void {
+		if (e == MOUSEEVENT.DOWN) {
+			onInteract();
+		}
+	}
 	
 	public function destroy():Void {
 	}
 
-	private function onInteract(s:FlxSprite):Void {
+	private function onInteract():Void {
 	}
 }

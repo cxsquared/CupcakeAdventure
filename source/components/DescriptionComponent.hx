@@ -65,7 +65,7 @@ class DescriptionComponent extends InteractableComponent {
 		return ActorComponentTypes.DESCRIPTION;
 	}
 
-	override private function onInteract(s:FlxSprite):Void {
+	override private function onInteract():Void {
 		text.alpha = 1;
 		FlxG.state.members.remove(text);
 		FlxG.state.add(text);

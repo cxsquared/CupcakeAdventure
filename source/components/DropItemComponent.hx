@@ -3,10 +3,12 @@ package components;
 import Inventory.InventoryItem;
 import flixel.util.FlxCollision;
 import flixel.FlxG;
+import Actor.MOUSEEVENT;
 
 class DropItemComponent implements ActorComponent {
 	
 	public var owner:Actor;
+	private var hovering = false;
 	
 	public function init(Data:Dynamic):Bool {
 		return true;
@@ -16,10 +18,6 @@ class DropItemComponent implements ActorComponent {
 	}
 
 	public function update(DeltaTime:Float) {
-		if (FlxCollision.pixelPerfectPointCheck(FlxG.mouse.x, FlxG.mouse.y, owner) && FlxG.mouse.justReleased && GameData.getInstance().heldItem != null) {
-			var item = GameData.getInstance().heldItem;
-			onDrop(item);
-		}
 	}
 
 	public function getComponentID():ActorComponentTypes {
@@ -34,5 +32,18 @@ class DropItemComponent implements ActorComponent {
 	}
 
 	private function onDrop(Item:InventorySprite) {
+	}
+
+	public function onMouseEvent(e:MOUSEEVENT):Void{
+		if (e == MOUSEEVENT.OVER) {
+			hovering = true;
+		} else if (e == MOUSEEVENT.OUT) {
+			hovering = false;
+		}
+
+		if (e == MOUSEEVENT.UP && hovering && GameData.getInstance().heldItem != null) {
+			var item = GameData.getInstance().heldItem;
+			onDrop(item);
+		}
 	}
 }

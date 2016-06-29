@@ -30,7 +30,7 @@ class CabinetComponent extends InteractableComponent {
 		return ActorComponentTypes.CABINET; // This number should never be refferenced
 	}
 
-	override private function onInteract(s:FlxSprite):Void {
+	override private function onInteract():Void {
 		if (FlxG.mouse.x < owner.x + owner.width/2) {
 			leftClicked();
 		} else {

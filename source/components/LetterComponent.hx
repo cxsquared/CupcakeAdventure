@@ -48,7 +48,7 @@ class LetterComponent extends InteractableComponent {
 		return ActorComponentTypes.LETTER;
 	}
 
-	override private function onInteract(s:FlxSprite):Void {
+	override private function onInteract():Void {
 		if (!letterVisible) {
 			FlxTween.tween(letter, {alpha:1}, .5, { onComplete:onFadeout });
 		}

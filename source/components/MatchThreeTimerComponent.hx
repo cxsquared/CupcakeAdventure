@@ -3,6 +3,7 @@ package components;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.math.FlxMath;
+import Actor.MOUSEEVENT;
 
 class MatchThreeTimerComponent implements ActorComponent {
 
@@ -44,5 +45,7 @@ class MatchThreeTimerComponent implements ActorComponent {
 	public function destroy():Void{
 		arrow.destroy();
 	}
+
+	public function onMouseEvent(e:MOUSEEVENT):Void{}
 	
 }
