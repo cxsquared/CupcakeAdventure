@@ -4,6 +4,7 @@ import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
 import flixel.FlxG;
+import flixel.FlxSprite;
 
 class DescriptionComponent extends InteractableComponent {
 
@@ -64,7 +65,7 @@ class DescriptionComponent extends InteractableComponent {
 		return ActorComponentTypes.DESCRIPTION;
 	}
 
-	override private function onInteract() {
+	override private function onInteract(s:FlxSprite):Void {
 		text.alpha = 1;
 		FlxG.state.members.remove(text);
 		FlxG.state.add(text);

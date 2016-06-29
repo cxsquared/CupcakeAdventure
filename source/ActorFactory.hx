@@ -133,6 +133,16 @@ class ActorFactory {
 		return null;
 	}
 
+	public function getActorByName(name:String):Actor {
+		for (actorKey in actors.keys()) {
+			if (actors[actorKey].name == name) {
+				return actors[actorKey];
+			}
+		}
+
+		return null;
+	}
+
 	public function destroy():Void {
 		for (actor in actors) {
 			actor.destroy();

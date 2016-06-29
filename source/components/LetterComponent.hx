@@ -4,6 +4,7 @@ import flixel.tweens.FlxTween;
 import flixel.FlxSprite;
 import flixel.FlxG;
 import flixel.util.FlxCollision;
+import flixel.FlxSprite;
 
 class LetterComponent extends InteractableComponent {
 
@@ -47,7 +48,7 @@ class LetterComponent extends InteractableComponent {
 		return ActorComponentTypes.LETTER;
 	}
 
-	override private function onInteract() {
+	override private function onInteract(s:FlxSprite):Void {
 		if (!letterVisible) {
 			FlxTween.tween(letter, {alpha:1}, .5, { onComplete:onFadeout });
 		}

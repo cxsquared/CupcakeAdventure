@@ -57,7 +57,7 @@ class SceneManager extends FlxTypedGroup<FlxSpriteGroup> {
 
 	public function changeScene(Name:String):Void {
 		if (nextScene == null && !changingScenes) {
-			FlxG.log.add("Changing Scenes");
+			//FlxG.log.add("Changing Scenes");
 			nextScene = getScene(Name);
 			if (nextScene != null) {
 				changingScenes = true;

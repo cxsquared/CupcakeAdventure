@@ -20,24 +20,24 @@ class InventoryUI extends FlxSpriteGroup {
 	}
 
 	override public function update(elapsed:Float) {
-		var newCount = GameData.getInstance().inventory.getAllItems().length;
-		//FlxG.watch.addQuick("inventory count", newCount);
-		if (newCount != inventoryCount) {
+		var inv = GameData.getInstance().inventory.getAllItems();
+		if (inv.length != inventoryCount) {
+			FlxG.log.add("Refreshing inventory");
 			// TODO: Erasing this is really bad. I should think about passing around invneotry data beter.
 			for (sprite in members) {
-				if (sprite != background) {
-					members.remove(sprite);
-				}
+				this.clear();
+				this.add(background);
 			}
+
 			// Update inventory
-			for (itemIndex in 0...newCount) {
+			for (item in inv) {
 				var newItem = new InventorySprite();
-				var item = GameData.getInstance().inventory.getAllItems()[itemIndex];
 				newItem.inventoryData = item;
 				newItem.loadGraphic(item.IconPath);
 				add(newItem);
 			}
-			inventoryCount = newCount;
+
+			inventoryCount = inv.length;
 		}
 
 		if (FlxCollision.pixelPerfectPointCheck(FlxG.mouse.x, FlxG.mouse.y, background)){
@@ -46,10 +46,9 @@ class InventoryUI extends FlxSpriteGroup {
 		} else {
 			background.y = backgroundHeight;
 		}
+		FlxG.watch.addQuick("Ui Inventory", this.length);
 
 		updateIconPlacement();
-
-		//FlxG.watch.addQuick("backgroundY", background.y);
 
 		super.update(elapsed);
 	}
@@ -60,17 +59,22 @@ class InventoryUI extends FlxSpriteGroup {
 		var row = 0;
 		var padding = 3;
 		for (item in members) {
-			if (item != background) {
+			if (item != background && item != null) {
+				//FlxG.log.add("Setting locaiton for item " + x + ":" + row);
 				var x = itemNumber*iconSize+padding;
 				if (x > background.width) {
 					row++;
 					itemNumber = 0;
 					x = itemNumber*iconSize+padding;
+				} else {
+					itemNumber++;
 				}
 
 				var y = row * iconSize + padding + (background.y + 147);
 				item.x = x;
 				item.y = y;
+
+				//FlxG.log.add("Which is now at " + item.x + ":" + item.y);
 			}
 		}
 

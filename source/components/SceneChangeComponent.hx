@@ -1,5 +1,7 @@
 package components;
 
+import flixel.FlxSprite;
+
 class SceneChangeComponent extends InteractableComponent {
 
 	var targetScene:String;
@@ -24,7 +26,7 @@ class SceneChangeComponent extends InteractableComponent {
 		return ActorComponentTypes.SCENECHANGE;
 	}
 
-	override private function onInteract() {
+	override private function onInteract(s:FlxSprite):Void {
 		SceneManager.GetInstance().changeScene(targetScene);
 	}
 	

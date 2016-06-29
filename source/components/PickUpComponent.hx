@@ -1,6 +1,7 @@
 package components;
 
 import flixel.FlxG;
+import flixel.FlxSprite;
 
 class PickUpComponent extends InteractableComponent {
 
@@ -28,7 +29,7 @@ class PickUpComponent extends InteractableComponent {
 		return ActorComponentTypes.PICKUP;
 	}
 
-	override private function onInteract() {
+	override private function onInteract(s:FlxSprite):Void {
 		GameData.getInstance().inventory.addNewItem(owner.name, description, owner.getID(), iconPath);
 		owner.kill();
 	}

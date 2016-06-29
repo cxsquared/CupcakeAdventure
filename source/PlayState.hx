@@ -35,5 +35,7 @@ class PlayState extends FlxState
 	override public function update(elapsed:Float):Void
 	{
 		super.update(elapsed);
+
+		FlxG.watch.addQuick("Inventory", GameData.getInstance().inventory.getAllItems().length);
 	}
 }

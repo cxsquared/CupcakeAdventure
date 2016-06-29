@@ -3,6 +3,7 @@ package components;
 import flixel.FlxG;
 import SoundManager;
 import AssetPaths;
+import flixel.FlxSprite;
 
 class CabinetComponent extends InteractableComponent {
 
@@ -29,7 +30,7 @@ class CabinetComponent extends InteractableComponent {
 		return ActorComponentTypes.CABINET; // This number should never be refferenced
 	}
 
-	override private function onInteract() {
+	override private function onInteract(s:FlxSprite):Void {
 		if (FlxG.mouse.x < owner.x + owner.width/2) {
 			leftClicked();
 		} else {
