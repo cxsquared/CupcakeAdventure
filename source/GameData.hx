@@ -8,7 +8,7 @@ class GameData {
 	public var heldItem:InventorySprite;
 	public var inventory:Inventory;
 
-	public static var MatchThree = new MatchThreeState();
+	//public static var MatchThree = new MatchThreeState();
 	public static var PlayScreen = new PlayState();
 
 	public static function getInstance():GameData {

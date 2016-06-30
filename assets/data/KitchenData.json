@@ -27,7 +27,21 @@
 			"components": [
 				{
 					"name": "MixerComponent",
-					"data": {}
+					"data": {
+						"recipes": [
+							{
+								"name": "Normal Cupcake",
+								"ingredients": [
+									"flour",
+									"sugar",
+									"butter",
+									"milk"
+								],
+								"time": 60,
+								"score": 750
+							}
+						]
+					}
 				},
 				{
 					"name": "DescriptionComponent",

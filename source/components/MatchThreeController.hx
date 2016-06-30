@@ -26,6 +26,8 @@ class MatchThreeController implements ActorComponent {
 
 	public var owner:Actor;
 
+	private static var itemChances = [20, 20, 20, 20, 20];
+
 	private var resolvingMatches = false;
 	private var shouldReslove = false;
 	private var noMatch = false;
@@ -57,6 +59,7 @@ class MatchThreeController implements ActorComponent {
 	private var meter:MatchThreeMeterComponent;
 	private var meterX = 14;
 	private var meterY = 7;
+	private var maxScore = 1000;
 
 	private var noMatchTimer:FlxTimer;
 	private var noMatchTime = 1;
@@ -75,9 +78,12 @@ class MatchThreeController implements ActorComponent {
 		items = new Array<FlxTypedGroup<FlxSprite>>();
 		lastSwitch = new Array<FlxPoint>();
 
+		maxScore = Reflect.field(Data, "score");
+		matchTime = Reflect.field(Data, "time");
+
 		setUpMeter();
 
-		setUpItems();
+		setUpItems(Reflect.field(Data, "items"));
 
 		setUpTimers();
 
@@ -88,7 +94,7 @@ class MatchThreeController implements ActorComponent {
 	}
 
 	private function endLevel(t:FlxTimer):Void {
-		FlxG.switchState(GameData.MatchThree);
+		FlxG.switchState(GameData.PlayScreen);
 	}
 
 	private function setUpMeter():Void {
@@ -105,7 +111,7 @@ class MatchThreeController implements ActorComponent {
 					"data": {
 						"width": 38,
 						"height": 225,
-						"maxScore": 500,
+						"maxScore": maxScore,
 						"background": "assets/images/match/match_meterBackground.png",
 						"fill": "assets/images/match/match_meterFill.png"
 					}
@@ -116,17 +122,31 @@ class MatchThreeController implements ActorComponent {
 		meter = cast(meterActor.getComponent(ActorComponentTypes.MATCHMETER), components.MatchThreeMeterComponent);
 	}
 
-	private function setUpItems():Void {
+	private function setUpItems(?items:Array<String>=null):Void {
 		possibleItems = new Array<MatchThreeItems>();
-		possibleItems.push(FLOUR);
-		possibleItems.push(SUGAR);
-		possibleItems.push(SALT);
-		possibleItems.push(MILK);
-		possibleItems.push(BUTTER);
-
-		randomItemPercentageChange = [22, 22, 22, 22, 12];
-
+		if (items == null) {
+			possibleItems.push(FLOUR);
+			possibleItems.push(SUGAR);
+			possibleItems.push(SALT);
+			possibleItems.push(MILK);
+			possibleItems.push(BUTTER);
+		} else {
+			for (item in items) {
+				possibleItems.push(MatchThreeController.itemTypeFromString(item.toUpperCase()));
+			}
+		}
+		
+		generateItemChance();
 		generateBoard();
+	}
+
+
+	private function generateItemChance():Void {
+		randomItemPercentageChange = new Array<Float>();
+
+		for (i in 0...possibleItems.length) {
+			randomItemPercentageChange[i] = itemChances[possibleItems[i].getIndex()];
+		}
 	}
 
 	private function setUpTimers():Void {
