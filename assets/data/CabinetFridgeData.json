@@ -78,6 +78,40 @@
 			]
 		},
 		{
+			"name": "milk",
+			"x": 273,
+			"y": 117,
+			"width": -1,
+			"height": -1,
+			"spriteSheet": "assets/images/match/match_milk.png",
+			"components": [
+				{
+					"name": "PickUpComponent",
+					"data": {
+						"description": "Makes your bones strong.",
+						"iconPath": "assets/images/inventory/milkInv.png"
+					}
+				},
+				{
+					"name": "HighlightComponent",
+					"data": {
+						"sprite": "assets/images/cabinetFridge/milkHighlight.png"
+					}
+				},
+				{
+					"name": "DescriptionComponent",
+					"data": {
+						"description": "A gallon of milk",
+						"color": {
+							"r": 50,
+							"g": 150,
+							"b": 100
+						}
+					}
+				}
+			]
+		},
+		{
 			"name": "fridge",
 			"x": 181,
 			"y": 6,
