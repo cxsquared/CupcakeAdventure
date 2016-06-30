@@ -105,7 +105,7 @@ class MatchThreeController implements ActorComponent {
 					"data": {
 						"width": 38,
 						"height": 225,
-						"maxScore": 1000,
+						"maxScore": 500,
 						"background": "assets/images/match/match_meterBackground.png",
 						"fill": "assets/images/match/match_meterFill.png"
 					}

@@ -109,4 +109,21 @@ class SceneManager extends FlxTypedGroup<FlxSpriteGroup> {
 
 		return newScene;
 	}
+
+	public function getActorsInScene(?sceneName:String=null):Array<Actor> {
+		var actors = new Array<Actor>();
+		var scene = currentScene;
+		if (sceneName != null && scenes.exists(sceneName)) {
+			scene = scenes.get(sceneName);
+		}
+
+		for (actor in scene) {
+			if (Std.is(actor, Actor)) {
+				actors.push(cast(actor, Actor));
+			}
+		}
+
+		return actors;
+
+	}
 }
