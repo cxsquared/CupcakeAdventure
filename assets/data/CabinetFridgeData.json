@@ -112,6 +112,40 @@
 			]
 		},
 		{
+			"name": "butter",
+			"x": 250,
+			"y": 95,
+			"width": -1,
+			"height": -1,
+			"spriteSheet": "assets/images/inventory/butterInv.png",
+			"components": [
+				{
+					"name": "PickUpComponent",
+					"data": {
+						"description": "Freshly churned.",
+						"iconPath": "assets/images/inventory/butterInv.png"
+					}
+				},
+				{
+					"name": "HighlightComponent",
+					"data": {
+						"sprite": "assets/images/cabinetFridge/butterHighlight.png"
+					}
+				},
+				{
+					"name": "DescriptionComponent",
+					"data": {
+						"description": "Salted stick of butter.",
+						"color": {
+							"r": 200,
+							"g": 50,
+							"b": 100
+						}
+					}
+				}
+			]
+		},
+		{
 			"name": "fridge",
 			"x": 181,
 			"y": 6,
