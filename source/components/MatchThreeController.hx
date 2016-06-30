@@ -132,7 +132,7 @@ class MatchThreeController implements ActorComponent {
 			possibleItems.push(BUTTER);
 		} else {
 			for (item in items) {
-				possibleItems.push(MatchThreeController.itemTypeFromString(item.toUpperCase()));
+				possibleItems.push(MatchThreeController.itemTypeFromString(item));
 			}
 		}
 		
@@ -145,7 +145,7 @@ class MatchThreeController implements ActorComponent {
 		randomItemPercentageChange = new Array<Float>();
 
 		for (i in 0...possibleItems.length) {
-			randomItemPercentageChange[i] = itemChances[possibleItems[i].getIndex()];
+			randomItemPercentageChange[i] = itemChances[possibleItems[i].getIndex()-1];
 		}
 	}
 
@@ -193,12 +193,14 @@ class MatchThreeController implements ActorComponent {
 		}
 
 		FlxG.watch.addQuick("Score", score);
-		FlxG.watch.addQuick("Items Waiting", numberOfItemsWaiting);
-		FlxG.watch.addQuick("Items Switching", numberOfItemsSwitching);
-		FlxG.watch.addQuick("Should Resolve", shouldReslove);
-		FlxG.watch.addQuick("Switch Check", shouldSwitchCheck);
+		//FlxG.watch.addQuick("Items Waiting", numberOfItemsWaiting);
+		//FlxG.watch.addQuick("Items Switching", numberOfItemsSwitching);
+		//FlxG.watch.addQuick("Should Resolve", shouldReslove);
+		//FlxG.watch.addQuick("Switch Check", shouldSwitchCheck);
 		//FlxG.watch.addQuick("Number of matches", matches.length);
 
+		FlxG.watch.addQuick("possible items", possibleItems);
+		FlxG.watch.addQuick("item chances", randomItemPercentageChange);
 		if (FlxG.keys.justPressed.R) {
 			shuffleBoard();
 		}
