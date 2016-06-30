@@ -27,7 +27,7 @@ class MixerComponent extends DropItemComponent {
 		if (FlxG.mouse.justPressed && 
 			FlxCollision.pixelPerfectPointCheck(FlxG.mouse.x, FlxG.mouse.y, owner) &&
 			items.length > 0) {
-			FlxG.switchState(new MatchThreeState());
+			FlxG.switchState(GameData.MatchThree);
 		}
 	}
 

@@ -16,7 +16,7 @@ class MenuState extends FlxState
 	{
 		super.create();
 
-		FlxG.switchState(new PlayState());
+		FlxG.switchState(GameData.PlayScreen);
 	}
 
 	override public function update(elapsed:Float):Void

@@ -88,7 +88,7 @@ class MatchThreeController implements ActorComponent {
 	}
 
 	private function endLevel(t:FlxTimer):Void {
-		FlxG.switchState(new PlayState());
+		FlxG.switchState(GameData.MatchThree);
 	}
 
 	private function setUpMeter():Void {

@@ -36,6 +36,40 @@
 			]
 		},
 		{
+			"name": "sugar",
+			"x": 38,
+			"y": 162,
+			"width": -1,
+			"height": -1,
+			"spriteSheet": "assets/images/match/match_sugar.png",
+			"components": [
+				{
+					"name": "PickUpComponent",
+					"data": {
+						"description": "Sweet sugary goodness.",
+						"iconPath": "assets/images/inventory/sugarInv.png"
+					}
+				},
+				{
+					"name": "HighlightComponent",
+					"data": {
+						"sprite": "assets/images/cabinetFridge/sugarHighlight.png"
+					}
+				},
+				{
+					"name": "DescriptionComponent",
+					"data": {
+						"description": "Sugar in a bag.",
+						"color": {
+							"r": 100,
+							"g": 200,
+							"b": 150
+						}
+					}
+				}
+			]
+		},
+		{
 			"name": "cabinet",
 			"x": 0,
 			"y": 36,
