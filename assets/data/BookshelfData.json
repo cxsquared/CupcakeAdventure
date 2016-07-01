@@ -12,7 +12,8 @@
 				{
 					"name": "SceneChangeComponent",
 					"data": {
-						"target": "Shelf"
+						"target": "Shelf",
+						"direction": "left"
 					}
 				}
 			]
@@ -28,7 +29,8 @@
 				{
 					"name": "SceneChangeComponent",
 					"data": {
-						"target": "Kitchen"
+						"target": "Kitchen",
+						"direction": "right"
 					}
 				}
 			]

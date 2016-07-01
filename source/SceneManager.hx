@@ -8,6 +8,14 @@ import haxe.Json;
 import flixel.FlxSprite;
 import flixel.tweens.FlxTween;
 import flixel.math.FlxRandom;
+import flixel.math.FlxPoint;
+
+enum SceneDirection {
+	FORWARD;
+	BACKWARD;
+	LEFT;
+	RIGHT;
+}
 
 class SceneManager extends FlxTypedGroup<FlxSpriteGroup> {
 	
@@ -55,17 +63,24 @@ class SceneManager extends FlxTypedGroup<FlxSpriteGroup> {
 		return null;
 	}
 
-	public function changeScene(Name:String):Void {
+	public function changeScene(Name:String, ?Direction:SceneDirection=null):Void {
+		if (Direction == null) {
+			Direction = RIGHT;
+		}
 		if (nextScene == null && !changingScenes) {
 			//FlxG.log.add("Changing Scenes");
 			nextScene = getScene(Name);
 			if (nextScene != null) {
 				changingScenes = true;
 				if (currentScene != null) {
-					FlxTween.tween(currentScene, { x: FlxG.width * FlxG.random.int(-1, 1, [0]), y: FlxG.height * FlxG.random.int(-1, 1, [0])}, .25);
+					var coords = getDirectionCoords(getOpositeDirection(Direction));
+					FlxTween.tween(currentScene, { x: coords.x , y: coords.y}, .25);
 				}
 
-				FlxTween.tween(nextScene, { x: 0, y:0 }, .35, { onComplete: sceneChanged }).start;
+				var coords = getDirectionCoords(Direction);
+				nextScene.x = coords.x;
+				nextScene.y = coords.y;
+				FlxTween.tween(nextScene, { x: 0 , y: 0 }, .35, { onComplete: sceneChanged }).start;
 			} else {
 				FlxG.log.error("Unable to set " + Name + " as current scene.");
 			}
@@ -133,5 +148,56 @@ class SceneManager extends FlxTypedGroup<FlxSpriteGroup> {
 		}
 
 		instance = null;
+	}
+
+	public function getOpositeDirection(direction:SceneDirection):SceneDirection {
+		switch (direction) {
+			case FORWARD:
+				return BACKWARD;
+			case BACKWARD:
+				return FORWARD;
+			case RIGHT:
+				return LEFT;
+			case LEFT:
+				return RIGHT;
+		}
+
+		return null;
+	}
+
+	public function directionStringToType(directionName:String):SceneDirection {
+		directionName = directionName.toUpperCase();
+		if (directionName == "FORWARD") {
+			return FORWARD;
+		} else if (directionName == "BACKWARD") {
+			return BACKWARD;
+		} else if (directionName == "RIGHT") {
+			return RIGHT;
+		} else if (directionName == "LEFT") {
+			return LEFT;
+		}
+
+		return null;
+	}
+
+	private function getDirectionCoords(direction:SceneDirection):FlxPoint {
+		var coords = new FlxPoint();
+
+		switch (direction) {
+			case FORWARD:
+				coords.x = 0;
+				coords.y = -FlxG.height;
+			case BACKWARD:
+				coords.x = 0;
+				coords.y = FlxG.height;
+			case RIGHT:
+				coords.x = FlxG.width;
+				coords.y = 0;
+			case LEFT:
+				coords.x = -FlxG.width;
+				coords.y = 0;
+		}
+
+		return coords;
 	}
 }

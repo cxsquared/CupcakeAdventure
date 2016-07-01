@@ -249,7 +249,8 @@
 				{
 					"name": "SceneChangeComponent",
 					"data": {
-						"target": "Shelf"
+						"target": "Shelf",
+						"direction": "backward"
 					}
 				}
 			]

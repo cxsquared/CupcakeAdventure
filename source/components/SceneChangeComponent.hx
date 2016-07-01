@@ -1,15 +1,18 @@
 package components;
 
 import flixel.FlxSprite;
+import SceneManager.SceneDirection;
 
 class SceneChangeComponent extends InteractableComponent {
 
 	var targetScene:String;
+	var direction:SceneDirection;
 
 	override public function init(Data:Dynamic):Bool {
 		super.init(Data);
 
 		targetScene = Reflect.field(Data, "target");
+		direction = SceneManager.GetInstance().directionStringToType(Reflect.field(Data, "direction"));
 
 		return true;
 	}
@@ -27,7 +30,7 @@ class SceneChangeComponent extends InteractableComponent {
 	}
 
 	override private function onInteract():Void {
-		SceneManager.GetInstance().changeScene(targetScene);
+		SceneManager.GetInstance().changeScene(targetScene, direction);
 	}
 	
 }

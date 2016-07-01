@@ -12,7 +12,8 @@
 				{
 					"name": "SceneChangeComponent",
 					"data": {
-						"target": "Bookshelf"
+						"target": "Bookshelf",
+						"direction": "left"
 					}
 				}
 			]
