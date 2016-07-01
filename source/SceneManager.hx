@@ -80,12 +80,12 @@ class SceneManager extends FlxTypedGroup<FlxSpriteGroup> {
 		nextScene = null;
 	}
 
-	public function loadScenes(JSONDataPath:String, ActorFactory:ActorFactory):Void {
+	public function loadScenes(JSONDataPath:String):Void {
 		haxe.Log.trace("Scene file path " + JSONDataPath);
 		var jsData = Json.parse(Assets.getText(JSONDataPath));
 		var scenesData:Array<Dynamic> = Reflect.field(jsData, "scenes");
 		for (scene in scenesData) {
-			var newScene = parseScene(Reflect.field(scene, "data"), ActorFactory);
+			var newScene = parseScene(Reflect.field(scene, "data"));
 			scenes.set(Reflect.field(scene, "name"), newScene);
 			add(newScene);
 			if (currentScene != null) {
@@ -96,7 +96,7 @@ class SceneManager extends FlxTypedGroup<FlxSpriteGroup> {
 		}
 	}
 
-	private function parseScene(JSONDataPath:String, ActorFactory:ActorFactory):FlxSpriteGroup {
+	private function parseScene(JSONDataPath:String):FlxSpriteGroup {
 		var jsData = Json.parse(Assets.getText(JSONDataPath));
 		var backgroundPath = Reflect.field(jsData, "background");
 		var newScene = new FlxSpriteGroup();
@@ -104,7 +104,7 @@ class SceneManager extends FlxTypedGroup<FlxSpriteGroup> {
 
 		var actorsData:Array<Dynamic> = Reflect.field(jsData, "actors");
 		for (actorData in actorsData) {
-			ActorFactory.createActor(actorData).addToState(newScene);
+			ActorFactory.GetInstance().createActor(actorData).addToState(newScene);
 		}
 
 		return newScene;
@@ -124,6 +124,14 @@ class SceneManager extends FlxTypedGroup<FlxSpriteGroup> {
 		}
 
 		return actors;
+	}
 
+	public function clearScenes():Void {
+		for (sceneKey in scenes.keys()) {
+			scenes.get(sceneKey).destroy();
+			scenes.remove(sceneKey);
+		}
+
+		instance = null;
 	}
 }
