@@ -26,7 +26,7 @@ class MatchThreeController implements ActorComponent {
 
 	public var owner:Actor;
 
-	private static var itemChances = [20, 20, 20, 20, 20];
+	private static var itemChances = [20, 20, 15, 20, 20];
 
 	private var resolvingMatches = false;
 	private var shouldReslove = false;
@@ -281,20 +281,7 @@ class MatchThreeController implements ActorComponent {
 			numberOfMatches = matches.length;
 			var numberRemoved = 0;
 			for (match in matches) {
-				updateScore(itemsData[Math.floor(match.items[0].y)][Math.floor(match.items[0].x)], match.items.length);
-				FlxG.log.add("Removing item of type " + itemsData[Math.floor(match.items[0].y)][Math.floor(match.items[0].x)]);
-				for (item in match.items) {
-					// Have to remove data and actual actors
-					if (itemsData[Math.floor(item.y)][Math.floor(item.x)] == match.type) {
-						removeItemActor(Math.floor(item.x), Math.floor(item.y), itemsData[Math.floor(item.y)][Math.floor(item.x)] );
-						itemsData[Math.floor(item.y)][Math.floor(item.x)] = NONE;
-						numberRemoved++;
-					} else if (itemsData[Math.floor(item.y)][Math.floor(item.x)] != NONE) {
-						FlxG.log.warn("Item " + itemsData[Math.floor(item.y)][Math.floor(item.x)] + " at " + item.x + ":" + item.y + " isn't a " + match.type);
-					}
-					//FlxG.log.add("Removing item " + Math.floor(item.x) + ":" + Math.floor(item.y));
-				}
-				match.items.splice(0, match.items.length);
+				resloveMatch(match);
 			}
 
 			matches.splice(0, matches.length);
@@ -304,6 +291,81 @@ class MatchThreeController implements ActorComponent {
 			fillBoardHoles();
 			//checkItems();
 		}
+	}
+
+	private function resloveMatch(match:MatchData):Void {
+		updateScore(itemsData[Math.floor(match.items[0].y)][Math.floor(match.items[0].x)], match.items.length);
+		// FlxG.log.add("Removing item of type " + itemsData[Math.floor(match.items[0].y)][Math.floor(match.items[0].x)]);
+		switch (match.type) {
+			case SALT:
+				explosionResolve(match);
+			default:
+				defaultReslove(match);
+		}
+	}
+
+	private function defaultReslove(match:MatchData, ?checkType:Bool=true):Void {
+		for (item in match.items) {
+			// Have to remove data and actual actors
+			if (checkType) {
+				if (itemsData[Math.floor(item.y)][Math.floor(item.x)] == match.type) {
+					removeItemActor(Math.floor(item.x), Math.floor(item.y), itemsData[Math.floor(item.y)][Math.floor(item.x)] );
+					itemsData[Math.floor(item.y)][Math.floor(item.x)] = NONE;
+				} else if (itemsData[Math.floor(item.y)][Math.floor(item.x)] != NONE) {
+					FlxG.log.error("Item " + itemsData[Math.floor(item.y)][Math.floor(item.x)] + " at " + item.x + ":" + item.y + " isn't a " + match.type);
+				}
+			} else {
+				removeItemActor(Math.floor(item.x), Math.floor(item.y), itemsData[Math.floor(item.y)][Math.floor(item.x)] );
+				itemsData[Math.floor(item.y)][Math.floor(item.x)] = NONE;
+			}
+			//FlxG.log.add("Removing item " + Math.floor(item.x) + ":" + Math.floor(item.y));
+		}
+		match.items.splice(0, match.items.length);
+	}
+
+	private function explosionResolve(match:MatchData):Void {
+		// Set mins and maxes to opposite extreams to allow simple comparison to find them
+		var minX = width+1;
+		var maxX = -1;
+		var minY = height+1;
+		var maxY = -1;
+
+		for (item in match.items) {
+			if (item.x > maxX) {
+				maxX = Math.floor(item.x);
+			} 
+
+			if (item.x < minX) {
+				minX = Math.floor(item.x);
+			}
+
+			if (item.y > maxY) {
+				maxY = Math.floor(item.y);
+			} 
+
+			if (item.y < minY) {
+				minY = Math.floor(item.y);
+			}
+		}
+
+		minX = Math.floor(Math.max(0, minX-1));
+		maxX = Math.floor(Math.min(width-1, maxX+1));
+		minY = Math.floor(Math.max(0, minY-1));
+		maxY =Math.floor(Math.min(height-1, maxY+1));
+
+		var newItems = new Array<FlxPoint>();
+
+		for (y in minY...maxY+1) {
+			for (x in minX...maxX+1) {
+				newItems.push(FlxPoint.weak(x, y));
+			}
+		}
+
+		match.items = newItems;
+
+		defaultReslove(match, false);
+
+		match.items.splice(0, match.items.length);
 	}
 
 	private function updateScore(itemType:MatchThreeItems, amount:Int):Void {
