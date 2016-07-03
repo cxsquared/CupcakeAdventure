@@ -369,8 +369,8 @@ class MatchThreeController implements ActorComponent {
 	}
 
 	private function updateScore(itemType:MatchThreeItems, amount:Int):Void {
-		switch (itemTtype) {
-			case Salt:
+		switch (itemType) {
+			case SALT:
 				score += (6 + amount * 3) * amount;
 			default:
 				score += 5 * amount;

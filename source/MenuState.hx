@@ -16,7 +16,8 @@ class MenuState extends FlxState
 	{
 		super.create();
 
-		FlxG.switchState(new MatchThreeState(["flour", "sugar", "butter", "milk", "salt"], 120, 5000));
+		//FlxG.switchState(new MatchThreeState(["flour", "sugar", "butter", "milk", "salt"], 120, 5000));
+		FlxG.switchState(new PlayState());
 	}
 
 	override public function update(elapsed:Float):Void

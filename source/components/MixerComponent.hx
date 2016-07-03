@@ -3,6 +3,8 @@ package components;
 import Inventory.InventoryItem;
 import flixel.FlxG;
 import flixel.util.FlxCollision;
+import openfl.Assets;
+import haxe.Json;
 
 typedef Recipe = { name:String, ingredients:Array<String>, time:Float, score:Int };
 
@@ -17,7 +19,8 @@ class MixerComponent extends DropItemComponent {
 		items = new Array<InventoryItem>();
 		recipes = new Array<Recipe>();
 
-		var recipeData:Array<Dynamic> = Reflect.field(Data, "recipes");
+		var fileData =  Json.parse(Assets.getText(Reflect.field(Data, "recipes")));
+		var recipeData:Array<Dynamic> = Reflect.field(fileData, "recipes");
 		FlxG.log.add(recipeData);
 		for(recipe in recipeData) {
 			parseRecipe(recipe);

@@ -1,0 +1,16 @@
+{
+	"recipes": [
+		{
+			"name": "Normal Cupcake",
+			"ingredients": [
+				"flour",
+				"sugar",
+				"butter",
+				"milk",
+				"salt"
+			],
+			"time": 60,
+			"score": 750
+		}
+	]
+}
