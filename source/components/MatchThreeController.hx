@@ -11,7 +11,7 @@ import flixel.FlxSprite;
 import flixel.util.FlxTimer;
 import util.MultiIterator;
 
-typedef MatchData = Array<FlxPoint>;
+typedef MatchData = { type:MatchThreeItems, items:Array<FlxPoint> };
 
 enum MatchThreeItems {
 	NONE;
@@ -94,7 +94,7 @@ class MatchThreeController implements ActorComponent {
 	}
 
 	private function endLevel(t:FlxTimer):Void {
-		FlxG.switchState(GameData.PlayScreen);
+		FlxG.switchState(new PlayState());
 	}
 
 	private function setUpMeter():Void {
@@ -248,9 +248,9 @@ class MatchThreeController implements ActorComponent {
 
 	public function destroy():Void {
 		for (match in matches) {
-			for (item in match) {
+			for (item in match.items) {
 				var tempItem = item;
-				match.remove(item);
+				match.items.remove(item);
 				tempItem.destroy();
 			}
 		}
@@ -281,16 +281,24 @@ class MatchThreeController implements ActorComponent {
 			numberOfMatches = matches.length;
 			var numberRemoved = 0;
 			for (match in matches) {
-				updateScore(itemsData[Math.floor(match[0].y)][Math.floor(match[0].x)], match.length);
-				for (item in match) {
+				updateScore(itemsData[Math.floor(match.items[0].y)][Math.floor(match.items[0].x)], match.items.length);
+				FlxG.log.add("Removing item of type " + itemsData[Math.floor(match.items[0].y)][Math.floor(match.items[0].x)]);
+				for (item in match.items) {
 					// Have to remove data and actual actors
-					removeItemActor(Math.floor(item.x), Math.floor(item.y), itemsData[Math.floor(item.y)][Math.floor(item.x)] );
-					itemsData[Math.floor(item.y)][Math.floor(item.x)] = NONE;
-					numberRemoved++;
+					if (itemsData[Math.floor(item.y)][Math.floor(item.x)] == match.type) {
+						removeItemActor(Math.floor(item.x), Math.floor(item.y), itemsData[Math.floor(item.y)][Math.floor(item.x)] );
+						itemsData[Math.floor(item.y)][Math.floor(item.x)] = NONE;
+						numberRemoved++;
+					} else if (itemsData[Math.floor(item.y)][Math.floor(item.x)] != NONE) {
+						FlxG.log.warn("Item " + itemsData[Math.floor(item.y)][Math.floor(item.x)] + " at " + item.x + ":" + item.y + " isn't a " + match.type);
+					}
 					//FlxG.log.add("Removing item " + Math.floor(item.x) + ":" + Math.floor(item.y));
 				}
-				matches.remove(match);
+				match.items.splice(0, match.items.length);
 			}
+
+			matches.splice(0, matches.length);
+
 			//FlxG.log.add("Removing " + numberRemoved + " items.");
 			numberOfMatches = matches.length;
 			fillBoardHoles();
@@ -476,7 +484,7 @@ class MatchThreeController implements ActorComponent {
 					tempMatch.push(new FlxPoint(x, y));
 				}
 			}
-			if (tempMatch != null && tempMatch.length >= 3) {
+			if (tempMatch != null && tempMatch.length >= 3 && itemsData[Math.floor(tempMatch[0].y)][Math.floor(tempMatch[0].x)] != NONE) {
 				hMatches.push(tempMatch);
 			}
 
@@ -524,7 +532,7 @@ class MatchThreeController implements ActorComponent {
 					tempMatch.push(new FlxPoint(x, y));
 				}
 			}
-			if (tempMatch != null && tempMatch.length >= 3) {
+			if (tempMatch != null && tempMatch.length >= 3 && itemsData[Math.floor(tempMatch[0].y)][Math.floor(tempMatch[0].x)] != NONE) {
 				vMatches.push(tempMatch);
 				/*FlxG.log.add("Found a veritcal match of ");
 				for (match in tempMatch) {
@@ -546,6 +554,8 @@ class MatchThreeController implements ActorComponent {
 
 	private function compareMatches(vMatches:Array<Array<FlxPoint>>, hMatches:Array<Array<FlxPoint>>):Void {
 		// this feels like a really bad idea
+		var vMatchesToRemove = new Array<Array<FlxPoint>>();
+		var hMatchesToRemove = new Array<Array<FlxPoint>>();
 		if (vMatches.length > 0 && hMatches.length > 0) {
 			for (vMatch in vMatches) {
 				for (hMatch in hMatches) {
@@ -555,20 +565,33 @@ class MatchThreeController implements ActorComponent {
 					var newMatch = compareMatch(vMatch, hMatch);
 
 					if (newMatch != null) {
-						vMatches.remove(vMatch);
-						hMatches.remove(hMatch);
-						matches.push(newMatch);
+						var match = { type:itemsData[Math.floor(newMatch[0].y)][Math.floor(newMatch[0].x)], items:newMatch };
+						//vMatches.remove(vMatch);
+						//hMatches.remove(hMatch);
+						vMatchesToRemove.push(vMatch);
+						hMatchesToRemove.push(hMatch);
+						matches.push(match);
 					}
 				}
 			}
 		}
+
+		for(match in vMatchesToRemove) {
+			vMatches.remove(match);
+		}
+
+		for (match in hMatchesToRemove) {
+			hMatches.remove(match);
+		}
 			
 		for (vMatch in vMatches) {
-			matches.push(vMatch);
+			var match = { type:itemsData[Math.floor(vMatch[0].y)][Math.floor(vMatch[0].x)], items:vMatch };
+			matches.push(match);
 		}
 
 		for (hMatch in hMatches) {
-			matches.push(hMatch);
+			var match = { type:itemsData[Math.floor(hMatch[0].y)][Math.floor(hMatch[0].x)], items:hMatch };
+			matches.push(match);
 		}
 	}
 

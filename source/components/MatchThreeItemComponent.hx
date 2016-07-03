@@ -21,7 +21,7 @@ class MatchThreeItemComponent implements ActorComponent {
 
 	private var dropping = false;
 
-	private var dropSpeed = 0.55;
+	private var dropSpeed = 2.55;
 	private var dropSpeedOffset = 0.15; 
 
 	private var switchSpeed = 0.25;
