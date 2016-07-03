@@ -369,7 +369,12 @@ class MatchThreeController implements ActorComponent {
 	}
 
 	private function updateScore(itemType:MatchThreeItems, amount:Int):Void {
-		score += itemType.getIndex() * amount;
+		switch (itemTtype) {
+			case Salt:
+				score += (6 + amount * 3) * amount;
+			default:
+				score += 5 * amount;
+		}
 	}
 
 	private function fillBoardHoles():Void {
