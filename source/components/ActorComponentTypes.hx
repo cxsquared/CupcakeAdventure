@@ -15,4 +15,5 @@ enum ActorComponentTypes {
 	MATCHTHREEITEM;
 	MATCHMETER;
 	MATCHTIMER;
+	RECIPEBOOK;
 }
