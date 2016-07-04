@@ -56,10 +56,38 @@ class MixerComponent extends DropItemComponent {
 	}
 
 	override private function onDrop(Item:InventorySprite) {
-		owner.animation.play("mix");
-		items.push(GameData.getInstance().inventory.getItem(Item.inventoryData.Name));
-		GameData.getInstance().heldItem = null;
-		checkRecipes();
+		var hasItem = false;
+		for (item in items) {
+			if (item.Name == Item.inventoryData.Name) {
+				hasItem = true;
+				break;
+			}
+		}
+
+		if (hasItem) {
+				var textComp = cast(owner.getComponent(ActorComponentTypes.DESCRIPTION), DescriptionComponent);
+				if (textComp == null) {
+					var tempComp:DescriptionComponent = Type.createInstance(DescriptionComponent, []);
+					tempComp.init({
+						"description": "I already put that in the mixer",
+						"color": {
+							"r": FlxG.random.color().red,
+							"g": FlxG.random.color().green,
+							"b": FlxG.random.color().blue
+						}
+					});
+					textComp = cast(owner.addComponent(tempComp), DescriptionComponent);
+					textComp.postInit();
+				}
+
+				textComp = cast(textComp, DescriptionComponent);
+				textComp.say("I already put that in the mixer.");
+		} else {
+			owner.animation.play("mix");
+			items.push(GameData.getInstance().inventory.getItem(Item.inventoryData.Name));
+			GameData.getInstance().heldItem = null;
+			checkRecipes();
+		}
 	}
 
 	private function checkRecipes():Void {
