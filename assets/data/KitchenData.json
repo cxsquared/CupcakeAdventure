@@ -59,6 +59,23 @@
 			]
 		},
 		{
+			"name": "book",
+			"x": 102,
+			"y": 172,
+			"width": -1,
+			"height": -1,
+			"spriteSheet": "assets/images/kitchen/kitch_book.png",
+			"components": [
+				{
+					"name": "SceneChangeComponent",
+					"data": {
+						"target": "RecipieBook",
+						"direction": "forward"
+					}
+				}
+			]
+		},
+		{
 			"name": "letter",
 			"x": 1000,
 			"y": 1000,

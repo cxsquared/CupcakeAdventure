@@ -1,0 +1,50 @@
+{
+	"background": "assets/images/bookBackground.png",
+	"actors": [
+		{
+			"name": "book",
+			"x": 0,
+			"y": 0,
+			"width": 320,
+			"height": 240,
+			"spriteSheet": "assets/images/bookAnim.png",
+			"components": [
+				{
+					"name": "AnimationComponent",
+					"data": {
+						"frameRate": 10,
+						"animations": [
+							{
+								"name": "open",
+								"frames": [0, 1, 2],
+								"looped": false
+							},
+							{
+								"name": "page",
+								"frames": [3, 4, 5, 6, 7, 8, 3],
+								"looped": false
+							}
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "arrow",
+			"x": 10,
+			"y": 220,
+			"width": -1,
+			"height": -1,
+			"spriteSheet": "assets/images/arrows/down.png",
+			"components": [
+				{
+					"name": "SceneChangeComponent",
+					"data": {
+						"target": "Kitchen",
+						"direction": "backward"
+					}
+				}
+			]
+		}
+	]
+}

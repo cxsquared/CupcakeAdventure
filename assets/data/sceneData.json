@@ -9,12 +9,16 @@
 			"data": "assets/data/BookshelfData.json"
 		},
 		{
-			"name": "Kitchen",
-			"data": "assets/data/KitchenData.json"
-		},
-		{
 			"name": "Shelf",
 			"data": "assets/data/ShelfData.json"
+		},
+		{
+			"name": "RecipieBook",
+			"data": "assets/data/recipeBook.json"
+		},
+		{
+			"name": "Kitchen",
+			"data": "assets/data/KitchenData.json"
 		}
 	]	
 }
