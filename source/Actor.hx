@@ -6,6 +6,7 @@ import components.*;
 import flixel.system.FlxAssets.FlxGraphicAsset;
 import flixel.FlxState;
 import flixel.input.mouse.FlxMouseEventManager;
+import flixel.group.FlxGroup;
 
 enum MOUSEEVENT {
 	DOWN;
@@ -21,6 +22,8 @@ class Actor extends FlxSprite {
 	private var actorID:Int;
 
 	public var name:String;
+
+	private var container:FlxGroup;
 
 	override public function new(?X:Float = 0, ?Y:Float = 0, ?SimpleGraphic:FlxGraphicAsset) {
 		super(X, Y, SimpleGraphic);
@@ -53,7 +56,7 @@ class Actor extends FlxSprite {
 		}
 	}
 
-	public function addComponent(ActorComponent:ActorComponent) {
+	public function addComponent(ActorComponent:ActorComponent):ActorComponent {
 		//FlxG.log.add("Adding component " + ActorComponent.getComponentID() + " on actor " + actorID);
 		if (!actorComponents.exists(ActorComponent.getComponentID())){
 			actorComponents.set(ActorComponent.getComponentID(), ActorComponent);
@@ -61,6 +64,12 @@ class Actor extends FlxSprite {
 		} else {
 			FlxG.log.warn("Component " + ActorComponent.getComponentID() + " already exists on actor " + actorID);
 		}
+
+		if (container != null) {
+			ActorComponent.onAdd(container);
+		}
+
+		return actorComponents.get(ActorComponent.getComponentID());
 	}
 
 	public function getID():Int {

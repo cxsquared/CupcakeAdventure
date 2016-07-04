@@ -66,18 +66,32 @@ class DescriptionComponent extends InteractableComponent {
 	}
 
 	override private function onInteract():Void {
-		text.alpha = 1;
-		FlxG.state.members.remove(text);
-		FlxG.state.add(text);
+		showText();
 		viewTimer.start(viewLength, textTimerComplete, 1);
 	}
 
 	private function textTimerComplete(t:FlxTimer):Void {
 		text.alpha = 0;
+		text.text = description;
 	}
 
 	override public function onAdd(Owner:Dynamic) {
 		Owner.add(text);
 	}
-	
+
+	public function say(textToSay:String, ?time:Float=2.5) {
+		text.text = textToSay;
+		if (text.alpha == 0) {
+			showText();
+			viewTimer.start(time, textTimerComplete, 1);
+		} else {
+			viewTimer.reset(time);
+		}
+	}
+
+	private function showText():Void {
+		text.alpha = 1;
+		FlxG.state.members.remove(text);
+		FlxG.state.add(text);
+	}
 }

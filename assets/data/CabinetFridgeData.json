@@ -13,7 +13,8 @@
 					"name": "PickUpComponent",
 					"data": {
 						"description": "The base of all baking.",
-						"iconPath": "assets/images/inventory/flourInv.png"
+						"iconPath": "assets/images/inventory/flourInv.png",
+						"perminant": true
 					}
 				},
 				{
@@ -47,7 +48,8 @@
 					"name": "PickUpComponent",
 					"data": {
 						"description": "Sweet sugary goodness.",
-						"iconPath": "assets/images/inventory/sugarInv.png"
+						"iconPath": "assets/images/inventory/sugarInv.png",
+						"perminant": true
 					}
 				},
 				{
@@ -123,7 +125,8 @@
 					"name": "PickUpComponent",
 					"data": {
 						"description": "Makes your bones strong.",
-						"iconPath": "assets/images/inventory/milkInv.png"
+						"iconPath": "assets/images/inventory/milkInv.png",
+						"perminant": true
 					}
 				},
 				{
@@ -157,7 +160,8 @@
 					"name": "PickUpComponent",
 					"data": {
 						"description": "Freshly churned.",
-						"iconPath": "assets/images/inventory/butterInv.png"
+						"iconPath": "assets/images/inventory/butterInv.png",
+						"perminant": true
 					}
 				},
 				{
