@@ -130,9 +130,9 @@
 			"name": "milk",
 			"x": 273,
 			"y": 117,
-			"width": -1,
-			"height": -1,
-			"spriteSheet": "assets/images/match/match_milk.png",
+			"width": 44,
+			"height": 44,
+			"spriteSheet": "assets/images/cabinetFridge/milk.png",
 			"components": [
 				{
 					"name": "PickUpComponent",
@@ -157,6 +157,19 @@
 							"g": 150,
 							"b": 100
 						}
+					}
+				},
+				{
+					"name": "AnimationComponent",
+					"data": {
+						"frameRate": 10,
+						"animations": [
+							{
+								"name": "used",
+								"frames": [0, 1],
+								"looped": false
+							}
+						]
 					}
 				}
 			]
