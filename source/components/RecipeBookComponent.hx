@@ -28,7 +28,9 @@ class RecipeBookComponent extends InteractableComponent {
 		var recipes:Array<Dynamic> = Reflect.field(recipesJson, "recipes");
 
 		for (recipe in recipes) {
-			parseRecipe(recipe);
+			if (Reflect.field(recipe, "log")) {
+				parseRecipe(recipe);
+			}
 		}
 
 		pages = Math.ceil(recipePages.length/2);
