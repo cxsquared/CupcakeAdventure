@@ -20,13 +20,21 @@ enum MatchThreeItems {
 	SALT;
 	MILK;
 	BUTTER;
+	COCONUT;
+	ALMOND;
+	VANILLA;
+	CHOCOLATE;
+	BROWN;
+	PUMPKIN;
+	SPICE;
+	CARROT;
 }
 
 class MatchThreeController implements ActorComponent {
 
 	public var owner:Actor;
 
-	private static var itemChances = [20, 20, 15, 20, 20];
+	private static var itemChances = [20, 20, 15, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20];
 
 	private var resolvingMatches = false;
 	private var shouldReslove = false;
@@ -730,7 +738,23 @@ class MatchThreeController implements ActorComponent {
 			return BUTTER;
 		} else if (itemName.toUpperCase() == "SALT") {
 			return SALT;
-		}
+		} else if (itemName.toUpperCase() == "VANILLA") {
+			return VANILLA;
+		} else if (itemName.toUpperCase() == "COCONUT") {
+			return COCONUT;
+		} else if (itemName.toUpperCase() == "ALMOND") {
+			return ALMOND;
+		} else if (itemName.toUpperCase() == "CHOCOLATE") {
+			return CHOCOLATE;
+		} else if (itemName.toUpperCase() == "BROWN") {
+			return BROWN;
+		} else if (itemName.toUpperCase() == "PUMPKIN") {
+			return BROWN;
+		} else if (itemName.toUpperCase() == "SPCIE") {
+			return BROWN;
+		} else if (itemName.toUpperCase() == "CARROT") {
+			return BROWN;
+		} 
 
 		return NONE;
 	}

@@ -105,6 +105,14 @@ class MatchThreeItemComponent implements ActorComponent {
 				owner.loadGraphic("assets/images/match/match_milk.png");
 			case BUTTER:
 				owner.loadGraphic("assets/images/match/match_butter.png");
+			case COCONUT:
+			case ALMOND:
+			case VANILLA:
+			case CHOCOLATE:
+			case BROWN:
+			case PUMPKIN:
+			case SPICE:
+			case CARROT:
 			case NONE:
 				FlxG.log.error("Match Three Component on actor " + owner.getID() + " doesn't have a type.");
 		}

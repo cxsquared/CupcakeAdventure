@@ -29,7 +29,9 @@
 				},
 				{
 					"name": "RecipeBookComponent",
-					"data": {}
+					"data": {
+						"recipes": "assets/data/recipes.json"
+					}
 				}
 			]
 		},

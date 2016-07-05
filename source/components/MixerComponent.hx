@@ -21,7 +21,7 @@ class MixerComponent extends DropItemComponent {
 
 		var fileData =  Json.parse(Assets.getText(Reflect.field(Data, "recipes")));
 		var recipeData:Array<Dynamic> = Reflect.field(fileData, "recipes");
-		FlxG.log.add(recipeData);
+		//FlxG.log.add(recipeData);
 		for(recipe in recipeData) {
 			parseRecipe(recipe);
 		}
@@ -32,7 +32,7 @@ class MixerComponent extends DropItemComponent {
 	private function parseRecipe(recipe:Dynamic):Void {
 		var newRecipe:Recipe = { name:Reflect.field(recipe, "name"), ingredients:Reflect.field(recipe, "ingredients"),
 								time:Reflect.field(recipe, "time"), score:Reflect.field(recipe, "score")};
-		FlxG.log.add(newRecipe);
+		//FlxG.log.add(newRecipe);
 		recipes.push(newRecipe);
 	}
 
