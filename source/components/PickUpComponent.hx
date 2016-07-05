@@ -56,6 +56,9 @@ class PickUpComponent extends InteractableComponent {
 				textComp.say("I don't need two of them.");
 			}
 			GameData.getInstance().inventory.addNewItem(owner.name, description, owner.getID(), iconPath);
+			if(owner.animation.getByName("used") != null) {
+				owner.animation.play("used");
+			}
 		} else {
 			GameData.getInstance().inventory.addNewItem(owner.name, description, owner.getID(), iconPath);
 			owner.kill();

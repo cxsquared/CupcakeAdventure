@@ -5,8 +5,8 @@
 			"name": "flour",
 			"x": 85,
 			"y": 116,
-			"width": -1,
-			"height": -1,
+			"width": 55,
+			"height": 55,
 			"spriteSheet": "assets/images/cabinetFridge/flour.png",
 			"components": [
 				{
@@ -32,6 +32,19 @@
 							"g": 150,
 							"b": 150
 						}
+					}
+				},
+				{
+					"name": "AnimationComponent",
+					"data": {
+						"frameRate": 10,
+						"animations": [
+							{
+								"name": "used",
+								"frames": [0, 1],
+								"looped": false
+							}
+						]
 					}
 				}
 			]
