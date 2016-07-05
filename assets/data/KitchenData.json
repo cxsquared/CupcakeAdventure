@@ -70,7 +70,8 @@
 					"name": "SceneChangeComponent",
 					"data": {
 						"target": "RecipieBook",
-						"direction": "forward"
+						"direction": "forward",
+						"hideInventory": true
 					}
 				}
 			]

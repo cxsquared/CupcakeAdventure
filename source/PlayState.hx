@@ -14,7 +14,7 @@ class PlayState extends FlxState
 {
 	var actorFactory:ActorFactory;
 	var sceneManager:SceneManager;
-	var inventoryUI:InventoryUI;
+	public var inventoryUI:InventoryUI;
 
 	override public function create():Void
 	{
