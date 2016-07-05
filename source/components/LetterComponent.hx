@@ -51,12 +51,16 @@ class LetterComponent extends InteractableComponent {
 	override private function onInteract():Void {
 		if (!letterVisible) {
 			FlxTween.tween(letter, {alpha:1}, .5, { onComplete:onFadeout });
+			cast(FlxG.state, PlayState).inventoryUI.visible = false;
 		}
 	}
 
 	private function onFadeout(t:FlxTween):Void
 	{
 		letterVisible = !letterVisible;
+		if (!letterVisible){
+			cast(FlxG.state, PlayState).inventoryUI.visible = true;
+		}
 	}
 
 	override public function onAdd(Owner:Dynamic):Void {
