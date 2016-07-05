@@ -33,7 +33,7 @@ class InventoryUI extends FlxSpriteGroup {
 			for (item in inv) {
 				var newItem = new InventorySprite();
 				newItem.inventoryData = item;
-				newItem.loadGraphic(item.IconPath);
+				newItem.loadGraphic(item.IconPath, false, 32, 32);
 				add(newItem);
 			}
 

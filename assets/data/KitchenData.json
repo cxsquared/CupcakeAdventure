@@ -2,23 +2,6 @@
 	"background": "assets/images/kitchen/Kitchen.png",
 	"actors": [
 		{
-			"name": "arrow",
-			"x": 300,
-			"y": 220,
-			"width": -1,
-			"height": -1,
-			"spriteSheet": "assets/images/arrows/down.png",
-			"components": [
-				{
-					"name": "SceneChangeComponent",
-					"data": {
-						"target": "Bookshelf",
-						"direction": "left"
-					}
-				}
-			]
-		},
-		{
 			"name": "mixer",
 			"x": 229,
 			"y": 125,
@@ -72,6 +55,67 @@
 						"target": "RecipieBook",
 						"direction": "forward",
 						"hideInventory": true
+					}
+				}
+			]
+		},
+		{
+			"name": "shelf",
+			"x": 0,
+			"y": 0,
+			"width": 151,
+			"height": 128,
+			"spriteSheet": "assets/images/kitchen/topShelfKitchen.png",
+			"components": [
+				{
+					"name": "AnimationComponent",
+					"data": {
+						"frameRate": 10,
+						"animations": [
+							{
+								"name": "justRightDoor",
+								"frames": [0, 1, 2],
+								"looped": false
+							},
+							{
+								"name": "justLeftDoor",
+								"frames": [3, 4, 5],
+								"looped": false
+							},
+							{
+								"name": "rightAfterLeft",
+								"frames": [6, 7, 8],
+								"looped": false
+							},
+							{
+								"name": "leftAfterRight",
+								"frames": [9, 10, 11],
+								"looped": false
+							}
+						]
+					}
+				},
+				{
+					"name": "CabinetComponent",
+					"data": {
+						"offset": -25
+					}
+				}
+			]
+		},
+		{
+			"name": "arrow",
+			"x": 300,
+			"y": 220,
+			"width": -1,
+			"height": -1,
+			"spriteSheet": "assets/images/arrows/down.png",
+			"components": [
+				{
+					"name": "SceneChangeComponent",
+					"data": {
+						"target": "Bookshelf",
+						"direction": "left"
 					}
 				}
 			]

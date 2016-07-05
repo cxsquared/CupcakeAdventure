@@ -9,10 +9,16 @@ class CabinetComponent extends InteractableComponent {
 
 	var leftOpen:Bool = false;
 	var rightOpen:Bool = false;
+	var offset:Int = 0;
 
 	override public function init(Data:Dynamic):Bool {
 		super.init(Data);
 		//SoundManager.GetInstance().loadSounds(AssetPaths.CabinetSounds__json);
+
+		if (Reflect.hasField(Data, "offset")) {
+			offset = Reflect.field(Data, "offset");
+		}
+
 		return true;
 	}
 
@@ -31,7 +37,7 @@ class CabinetComponent extends InteractableComponent {
 	}
 
 	override private function onInteract():Void {
-		if (FlxG.mouse.x < owner.x + owner.width/2) {
+		if (FlxG.mouse.x < owner.x + owner.width/2 + offset) {
 			leftClicked();
 		} else {
 			rightClicked();
