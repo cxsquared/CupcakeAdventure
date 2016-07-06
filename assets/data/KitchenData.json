@@ -104,6 +104,72 @@
 			]
 		},
 		{
+			"name": "sauce pan",
+			"x": 40,
+			"y": 185,
+			"width": 34,
+			"height": 27,
+			"spriteSheet": "assets/images/kitchen/saucepan.png",
+			"components": [
+				{
+					"name": "DescriptionComponent",
+					"data": {
+						"description": "I could cook things in that",
+						"color": {
+							"r": 55,
+							"g": 55,
+							"b": 200
+						}
+					}
+				},
+				{
+					"name": "AnimationComponent",
+					"data": {
+						"frameRate": 10,
+						"animations": [
+							{
+								"name": "cook",
+								"frames": [0, 1, 2, 3, 2, 1, 3, 2, 1, 0],
+								"looped": false
+							}
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "sink",
+			"x": 254,
+			"y": 149,
+			"width": 47,
+			"height": 33,
+			"spriteSheet": "assets/images/kitchen/sink.png",
+			"components": [
+				{
+					"name": "PickUpComponent",
+					"data": {
+						"description": "A cup of normal water.",
+						"iconPath": "assets/images/inventory/waterInv.png",
+						"perminant": true,
+						"name": "water"
+					}
+				},
+				{
+					"name": "AnimationComponent",
+					"data": {
+						"frameRate": 10,
+						"animations": [
+							{
+								"name": "used",
+								"frames": [0, 1, 2, 3, 4, 3, 4, 3, 2, 1, 0],
+								"looped": false
+							}
+						]
+					}
+				}
+			]
+		},
+		{
 			"name": "arrow",
 			"x": 300,
 			"y": 220,

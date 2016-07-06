@@ -1,0 +1,13 @@
+{
+	"recipes": [
+		{
+			"name": "carmel",
+			"ingredients": [
+				"water",
+				"sugar"
+			],
+			"description": "Sticky and tasty.",
+			"icon": ""
+		},
+	]
+}

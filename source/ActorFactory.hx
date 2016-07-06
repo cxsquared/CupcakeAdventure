@@ -70,6 +70,7 @@ class ActorFactory {
 				var width = Std.parseInt(Reflect.field(Data, "width"));
 				var height = Std.parseInt(Reflect.field(Data, "height"));
 				if (width > 0 && height > 0) {
+					FlxG.log.add("Adding actor " + graphicFile);
 					actor.loadGraphic(graphicFile, true, width, height);
 				} else {
 					actor.loadGraphic(graphicFile);
