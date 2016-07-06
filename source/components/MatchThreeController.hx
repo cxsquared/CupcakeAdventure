@@ -750,8 +750,8 @@ class MatchThreeController implements ActorComponent {
 			return CARMEL;
 		} else if (itemName.toUpperCase() == "PUMPKIN") {
 			return PUMPKIN;
-		} else if (itemName.toUpperCase() == "SPCIE") {
-			return SPCIE;
+		} else if (itemName.toUpperCase() == "SPICE") {
+			return SPICE;
 		} else if (itemName.toUpperCase() == "CARROT") {
 			return CARROT;
 		} 

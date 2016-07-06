@@ -21,8 +21,8 @@ class MatchThreeItemComponent implements ActorComponent {
 
 	private var dropping = false;
 
-	private var dropSpeed = 2.55;
-	private var dropSpeedOffset = 0.15; 
+	private var dropSpeed = 0.55;
+	private var dropSpeedOffset = 0.25; 
 
 	private var switchSpeed = 0.25;
 
@@ -149,9 +149,9 @@ class MatchThreeItemComponent implements ActorComponent {
 		owner.y = startY;
 		controller.numberOfItemsWaiting++;
 		var newY = controller.getStartingPoint().y + gridY * owner.height;
-		var tweenEase = FlxEase.elasticOut;
-		if (newY < controller.getStartingPoint().y) {
-			tweenEase = FlxEase.expoOut;
+		var tweenEase = FlxEase.bounceOut;
+		if (startY < controller.getStartingPoint().y) {
+			tweenEase = FlxEase.circOut;
 		}
 		FlxTween.tween(owner, {y:newY}, dropSpeed + (dropSpeed * FlxG.random.float(-dropSpeedOffset, dropSpeedOffset)),
 		 { onComplete:doneDropping, ease:tweenEase });
