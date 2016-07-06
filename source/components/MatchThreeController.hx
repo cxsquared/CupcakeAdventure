@@ -24,7 +24,7 @@ enum MatchThreeItems {
 	ALMOND;
 	VANILLA;
 	CHOCOLATE;
-	BROWN;
+	CARMEL;
 	PUMPKIN;
 	SPICE;
 	CARROT;
@@ -746,14 +746,14 @@ class MatchThreeController implements ActorComponent {
 			return ALMOND;
 		} else if (itemName.toUpperCase() == "CHOCOLATE") {
 			return CHOCOLATE;
-		} else if (itemName.toUpperCase() == "BROWN") {
-			return BROWN;
+		} else if (itemName.toUpperCase() == "CARMEL") {
+			return CARMEL;
 		} else if (itemName.toUpperCase() == "PUMPKIN") {
-			return BROWN;
+			return PUMPKIN;
 		} else if (itemName.toUpperCase() == "SPCIE") {
-			return BROWN;
+			return SPCIE;
 		} else if (itemName.toUpperCase() == "CARROT") {
-			return BROWN;
+			return CARROT;
 		} 
 
 		return NONE;
