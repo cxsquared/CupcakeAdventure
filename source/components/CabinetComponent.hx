@@ -65,7 +65,7 @@ class CabinetComponent extends InteractableComponent {
 	}
 
 	private function leftClicked():Void {
-		FlxG.log.add("Right Clicked");
+		//FlxG.log.add("Right Clicked");
 		if (leftOpen) {
 			leftOpen = false;
 			FlxG.sound.play(AssetPaths.closeCabinet__wav);

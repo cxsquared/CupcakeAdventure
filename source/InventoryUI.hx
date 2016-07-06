@@ -13,6 +13,8 @@ class InventoryUI extends FlxSpriteGroup {
 	var inventoryCount:Int = 0;
 	var rows = 1;
 
+	public static var updateInventory = false;
+
 	public function new():Void {
 		super();
 		background = new FlxSprite(0, backgroundHeight, AssetPaths.backgroundInv__png);
@@ -20,9 +22,10 @@ class InventoryUI extends FlxSpriteGroup {
 	}
 
 	override public function update(elapsed:Float) {
+		FlxG.watch.addQuick("Inventory", GameData.getInstance().inventory.getAllItems());
 		var inv = GameData.getInstance().inventory.getAllItems();
-		if (inv.length != inventoryCount) {
-			FlxG.log.add("Refreshing inventory");
+		if (inv.length != inventoryCount || updateInventory) {
+			//FlxG.log.add("Refreshing inventory");
 			// TODO: Erasing this is really bad. I should think about passing around invneotry data beter.
 			for (sprite in members) {
 				this.clear();
@@ -38,6 +41,7 @@ class InventoryUI extends FlxSpriteGroup {
 			}
 
 			inventoryCount = inv.length;
+			updateInventory = false;
 		}
 
 		if (FlxCollision.pixelPerfectPointCheck(FlxG.mouse.x, FlxG.mouse.y, background)){

@@ -65,7 +65,7 @@ class FridgeComponent extends InteractableComponent {
 	}
 
 	private function bottomClicked():Void {
-		FlxG.log.add("Right Clicked");
+		//FlxG.log.add("Right Clicked");
 		if (bottomOpen) {
 			bottomOpen = false;
 			FlxG.sound.play(AssetPaths.closeCabinet__wav);

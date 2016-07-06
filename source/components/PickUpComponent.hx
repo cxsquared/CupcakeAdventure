@@ -19,6 +19,7 @@ class PickUpComponent extends InteractableComponent {
 		if (perm) {
 			perminant = Reflect.field(Data, "perminant");
 		}
+
 		if (Reflect.hasField(Data, "name")) {
 			name = Reflect.field(Data, "name");
 		}
@@ -30,6 +31,7 @@ class PickUpComponent extends InteractableComponent {
 		super.postInit();
 
 		if (name == "") {
+			//FlxG.log.add("Setting name to " + owner.name);
 			name = owner.name;
 		}
 	}
@@ -44,28 +46,15 @@ class PickUpComponent extends InteractableComponent {
 
 	override private function onInteract():Void {
 		if (perminant) {
-			if (GameData.getInstance().inventory.getItem(name) != null) {
-				var textComp = cast(owner.getComponent(ActorComponentTypes.DESCRIPTION), DescriptionComponent);
-				if (textComp == null) {
-					var tempComp:DescriptionComponent = Type.createInstance(DescriptionComponent, []);
-					tempComp.init({
-						"description": "",
-						"color": {
-							"r": FlxG.random.color().red,
-							"g": FlxG.random.color().green,
-							"b": FlxG.random.color().blue
-						}
-					});
-					textComp = cast(owner.addComponent(tempComp), DescriptionComponent);
-					textComp.postInit();
+			var itemCheck = GameData.getInstance().inventory.getItem(name);
+			if (itemCheck != null) {
+				owner.getTextComponent().say("I don't need two of them.");
+				GameData.getInstance().inventory.addItem(itemCheck);
+			} else {
+				GameData.getInstance().inventory.addNewItem(name, description, owner.getID(), iconPath);
+				if(owner.animation.getByName("used") != null) {
+					owner.animation.play("used");
 				}
-
-				textComp = cast(textComp, DescriptionComponent);
-				textComp.say("I don't need two of them.");
-			}
-			GameData.getInstance().inventory.addNewItem(name, description, owner.getID(), iconPath);
-			if(owner.animation.getByName("used") != null) {
-				owner.animation.play("used");
 			}
 		} else {
 			GameData.getInstance().inventory.addNewItem(name, description, owner.getID(), iconPath);

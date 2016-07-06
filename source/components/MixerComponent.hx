@@ -36,21 +36,6 @@ class MixerComponent extends DropItemComponent {
 		recipes.push(newRecipe);
 	}
 
-	override public function postInit(){
-	}
-
-	override public function update(DeltaTime:Float) {
-		super.update(DeltaTime);
-
-		FlxG.watch.addQuick("Mixer items", items.length);
-
-		if (FlxG.mouse.justPressed && 
-			FlxCollision.pixelPerfectPointCheck(FlxG.mouse.x, FlxG.mouse.y, owner) &&
-			items.length > 0) {
-			//FlxG.switchState(GameData.MatchThree);
-		}
-	}
-
 	override public function getComponentID():ActorComponentTypes {
 		return ActorComponentTypes.MIXER; // This number should never be refferenced
 	}

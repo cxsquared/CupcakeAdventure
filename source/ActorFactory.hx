@@ -46,6 +46,7 @@ class ActorFactory {
 		actorComponentCreators.set("MatchThreeMeterComponent", MatchThreeMeterComponent);
 		actorComponentCreators.set("MatchThreeTimerComponent", MatchThreeTimerComponent);
 		actorComponentCreators.set("RecipeBookComponent", RecipeBookComponent);
+		actorComponentCreators.set("SaucePanComponent", SaucePanComponent);
 	}
 
 	public function createActor(Data:Dynamic):Actor {
@@ -70,7 +71,7 @@ class ActorFactory {
 				var width = Std.parseInt(Reflect.field(Data, "width"));
 				var height = Std.parseInt(Reflect.field(Data, "height"));
 				if (width > 0 && height > 0) {
-					FlxG.log.add("Adding actor " + graphicFile);
+					//FlxG.log.add("Adding actor " + graphicFile);
 					actor.loadGraphic(graphicFile, true, width, height);
 				} else {
 					actor.loadGraphic(graphicFile);
@@ -89,8 +90,8 @@ class ActorFactory {
 				}
 			}
 
-			actor.postInit();
 			actor.name = Reflect.field(Data, "name");
+			actor.postInit();
 
 			actors.set(actor.getID(), actor);
 

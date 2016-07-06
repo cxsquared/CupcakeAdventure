@@ -134,6 +134,12 @@
 							}
 						]
 					}
+				},
+				{
+					"name": "SaucePanComponent",
+					"data": {
+						"recipes": "assets/data/saucepanRecipes.json"
+					}
 				}
 			]
 		},
@@ -152,6 +158,17 @@
 						"iconPath": "assets/images/inventory/waterInv.png",
 						"perminant": true,
 						"name": "water"
+					}
+				},
+				{
+					"name": "DescriptionComponent",
+					"data": {
+						"description": "",
+						"color": {
+							"r": 200,
+							"g": 55,
+							"b": 200
+						}
 					}
 				},
 				{

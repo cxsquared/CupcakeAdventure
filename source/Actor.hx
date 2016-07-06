@@ -7,6 +7,7 @@ import flixel.system.FlxAssets.FlxGraphicAsset;
 import flixel.FlxState;
 import flixel.input.mouse.FlxMouseEventManager;
 import flixel.group.FlxGroup;
+import components.*;
 
 enum MOUSEEVENT {
 	DOWN;
@@ -130,5 +131,25 @@ class Actor extends FlxSprite {
 		FlxMouseEventManager.remove(this);
 
 		super.destroy();
+	}
+
+	public function getTextComponent():DescriptionComponent {
+		var textComp = cast(this.getComponent(ActorComponentTypes.DESCRIPTION), DescriptionComponent);
+		if (textComp == null) {
+			var tempComp:DescriptionComponent = Type.createInstance(DescriptionComponent, []);
+			tempComp.init({
+				"description": "",
+				"color": {
+					"r": FlxG.random.color().red,
+					"g": FlxG.random.color().green,
+					"b": FlxG.random.color().blue
+				}
+			});
+			textComp = cast(this.addComponent(tempComp), DescriptionComponent);
+			textComp.postInit();
+		}
+
+		textComp = cast(textComp, DescriptionComponent);
+		return textComp;
 	}
 }

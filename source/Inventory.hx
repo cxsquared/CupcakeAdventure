@@ -1,5 +1,7 @@
 package;
 
+import flixel.FlxG;
+
 typedef InventoryItem = { Name:String, Description:String, ActorID:Int, IconPath:String };
 
 class Inventory {
@@ -21,6 +23,7 @@ class Inventory {
 
 	public function addItem(Item:Inventory.InventoryItem):Void {
 		inventoryItems.set(Item.Name, Item);
+		FlxG.log.add("Adding item " + Item.Name);
 	}
 
 	// Can return null if item doesn't exist
@@ -28,6 +31,7 @@ class Inventory {
 		if (inventoryItems.exists(Name)) {
 			var item = inventoryItems.get(Name);
 			inventoryItems.remove(Name);
+			FlxG.log.add("Getting item " + item.Name);
 			return item;
 		}
 
