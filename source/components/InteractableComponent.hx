@@ -44,4 +44,10 @@ class InteractableComponent implements ActorComponent {
 
 	private function onInteract():Void {
 	}
+
+	public function onEnter():Void{
+	}
+
+	public function onExit():Void{
+	}
 }

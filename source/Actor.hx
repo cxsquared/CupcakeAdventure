@@ -152,4 +152,16 @@ class Actor extends FlxSprite {
 		textComp = cast(textComp, DescriptionComponent);
 		return textComp;
 	}
+
+	public function onEnter():Void {
+		for (component in actorComponents) {
+			component.onEnter();
+		}
+	}
+
+	public function onExit():Void {
+		for (component in actorComponents) {
+			component.onExit();
+		}
+	}
 }

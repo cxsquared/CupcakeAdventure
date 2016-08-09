@@ -49,4 +49,10 @@ class HighlightComponent implements ActorComponent {
 	public function destroy():Void {
 		highlightSprite.destroy();
 	}
+
+	public function onEnter():Void{
+	}
+
+	public function onExit():Void {
+	}
 }

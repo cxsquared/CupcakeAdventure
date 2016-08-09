@@ -46,4 +46,10 @@ class DropItemComponent implements ActorComponent {
 			onDrop(item);
 		}
 	}
+
+	public function onEnter():Void{
+	}
+
+	public function onExit():Void {
+	}
 }

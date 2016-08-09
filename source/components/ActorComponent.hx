@@ -11,5 +11,7 @@ interface ActorComponent {
 	public function getComponentID():ActorComponentTypes;
 	public function onAdd(Owner:Dynamic):Void; 
 	public function onMouseEvent(e:MOUSEEVENT):Void;
+	public function onEnter():Void;
+	public function onExit():Void;
 	public function destroy():Void;
 }

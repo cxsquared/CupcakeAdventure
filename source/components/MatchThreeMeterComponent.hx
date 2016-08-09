@@ -50,5 +50,11 @@ class MatchThreeMeterComponent implements ActorComponent {
 	}
 
 	public function onMouseEvent(e:MOUSEEVENT):Void{}
+
+	public function onEnter():Void{
+	}
+
+	public function onExit():Void {
+	}
 	
 }

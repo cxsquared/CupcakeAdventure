@@ -81,6 +81,9 @@ class SceneManager extends FlxTypedGroup<FlxSpriteGroup> {
 				nextScene.x = coords.x;
 				nextScene.y = coords.y;
 				FlxTween.tween(nextScene, { x: 0 , y: 0 }, .35, { onComplete: sceneChanged }).start;
+				for (actor in getActorsInScene(Name)) {
+					actor.onEnter();
+				}
 			} else {
 				FlxG.log.error("Unable to set " + Name + " as current scene.");
 			}
@@ -91,6 +94,9 @@ class SceneManager extends FlxTypedGroup<FlxSpriteGroup> {
 
 	private function sceneChanged(t:FlxTween):Void {
 		changingScenes = false;
+		for (actor in getActorsInScene()) {
+			actor.onExit();
+		}
 		currentScene = nextScene;
 		nextScene = null;
 	}
