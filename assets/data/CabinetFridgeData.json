@@ -253,10 +253,10 @@
 		},
 		{
 			"name": "sticky",
-			"x": 253,
-			"y": 99,
-			"width": -1,
-			"height": -1,
+			"x": 255,
+			"y": 101,
+			"width": 11,
+			"height": 9,
 			"spriteSheet": "assets/images/cabinetFridge/stickyHiFridge.png",
 			"components": [
 				{

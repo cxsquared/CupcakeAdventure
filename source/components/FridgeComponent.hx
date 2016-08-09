@@ -20,6 +20,7 @@ class FridgeComponent extends InteractableComponent {
 
 	override public function postInit(){
 		super.postInit();
+		owner.animation.callback = onAnim;
 	}
 
 	override public function update(DeltaTime:Float) {
@@ -46,10 +47,8 @@ class FridgeComponent extends InteractableComponent {
 			FlxG.sound.play(AssetPaths.closeCabinet__wav);
 			if (bottomOpen) {
 				owner.animation.play("topAfterBottom", false, true);
-				updateNotes(true, false);
 			} else {
 				owner.animation.play("topOnly", false,  true);
-				updateNotes(true, true);
 			}
 		} else {
 			FlxG.sound.play(AssetPaths.openCabinet__wav);
@@ -71,10 +70,8 @@ class FridgeComponent extends InteractableComponent {
 			FlxG.sound.play(AssetPaths.closeCabinet__wav);
 			if (topOpen) {
 				owner.animation.play("bottomAfterTop", false, true);
-				updateNotes(false, true);
 			} else {
 				owner.animation.play("bottomOnly", false, true);
-				updateNotes(true, true);
 			}
 		} else {
 			bottomOpen = true;
@@ -101,7 +98,7 @@ class FridgeComponent extends InteractableComponent {
 
 		for (note in bottomNotes) {
 			note.alpha = showBottom ? 1 : 0;
-			FlxG.log.add("Setting actor " + note.getID() + " to " + showBottom);
+			//FlxG.log.add("Setting actor " + note.getID() + " to " + showBottom);
 		}
 	}
 
@@ -120,6 +117,19 @@ class FridgeComponent extends InteractableComponent {
 					}
 				}
 			}
+		}
+	}
+
+	private function onAnim(name:String, num:Int, index:Int):Void {
+		//FlxG.log.add("Fridge anim " + name + " num:" + num + " i:" + index);
+		if(name == "topAfterBottom" && num == 0 && !topOpen) {
+			updateNotes(true, false);
+		} else if (name == "topOnly" && num == 0 && !topOpen) {
+			updateNotes(true, true);
+		} else if (name == "bottomAfterTop" && num == 0 && !bottomOpen) {
+			updateNotes(false, true);
+		} else if (name == "bottomOnly" && num == 0 && !bottomOpen) {
+			updateNotes(true, true);
 		}
 	}
 }
