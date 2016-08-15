@@ -4,7 +4,8 @@ import flixel.FlxSprite;
 import flixel.util.FlxCollision;
 import flixel.FlxG;
 import flixel.input.mouse.FlxMouseEventManager;
-import Actor.MOUSEEVENT;
+import actors.Actor;
+import actors.Actor.MOUSEEVENT;
 
 class HighlightComponent implements ActorComponent {
 
@@ -35,9 +36,9 @@ class HighlightComponent implements ActorComponent {
 	}
 
 	public function onMouseEvent(e:MOUSEEVENT):Void {
-		if (e == Actor.MOUSEEVENT.OVER) {
+		if (e == MOUSEEVENT.OVER) {
 			highlightSprite.alpha = 1;
-		} else if (e == Actor.MOUSEEVENT.OUT) {
+		} else if (e == MOUSEEVENT.OUT) {
 			highlightSprite.alpha = 0;
 		}
 	}

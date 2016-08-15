@@ -3,7 +3,7 @@ package components;
 import flixel.FlxG;
 import flixel.ui.FlxBar;
 import flixel.ui.FlxBar.FlxBarFillDirection;
-import Actor.MOUSEEVENT;
+import actors.Actor;
 
 class MatchThreeMeterComponent implements ActorComponent {
 

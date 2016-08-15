@@ -1,9 +1,10 @@
 package components;
 
-import Inventory.InventoryItem;
+import inventory.*;
 import flixel.util.FlxCollision;
 import flixel.FlxG;
-import Actor.MOUSEEVENT;
+import actors.Actor;
+import managers.GameData;
 
 class DropItemComponent implements ActorComponent {
 	

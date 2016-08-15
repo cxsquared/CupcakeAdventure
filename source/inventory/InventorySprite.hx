@@ -1,8 +1,9 @@
-package;
+package inventory;
 
 import flixel.FlxSprite;
 import flixel.util.FlxCollision;
 import flixel.FlxG;
+import managers.GameData;
 
 class InventorySprite extends FlxSprite {
 

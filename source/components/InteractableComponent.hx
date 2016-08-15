@@ -4,7 +4,7 @@ import flixel.util.FlxCollision;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.input.mouse.FlxMouseEventManager;
-import Actor.MOUSEEVENT;
+import actors.Actor;
 
 class InteractableComponent implements ActorComponent {
 

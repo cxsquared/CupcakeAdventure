@@ -1,4 +1,4 @@
-package;
+package states;
 
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -6,9 +6,12 @@ import flixel.FlxState;
 import flixel.text.FlxText;
 import flixel.ui.FlxButton;
 import flixel.math.FlxMath;
-import Actor;
+import actors.*;
 import openfl.Assets;
 import haxe.Json;
+import managers.SceneManager;
+import inventory.*;
+import managers.GameData;
 
 class PlayState extends FlxState
 {

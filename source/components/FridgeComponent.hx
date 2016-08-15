@@ -1,6 +1,8 @@
 package components;
 
 import flixel.FlxG;
+import actors.Actor;
+import managers.SceneManager;
 
 class FridgeComponent extends InteractableComponent {
 

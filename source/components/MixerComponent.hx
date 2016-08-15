@@ -1,10 +1,13 @@
 package components;
 
-import Inventory.InventoryItem;
+import inventory.*;
+import inventory.Inventory.InventoryItem;
 import flixel.FlxG;
 import flixel.util.FlxCollision;
 import openfl.Assets;
 import haxe.Json;
+import managers.GameData;
+import states.MatchThreeState;
 
 typedef Recipe = { name:String, ingredients:Array<String>, time:Float, score:Int };
 

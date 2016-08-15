@@ -1,10 +1,12 @@
-package;
+package inventory;
 
 import flixel.group.FlxSpriteGroup;
 import flixel.FlxSprite;
-import Inventory.InventoryItem;
+import inventory.*;
+import inventory.Inventory.InventoryItem;
 import flixel.util.FlxCollision;
 import flixel.FlxG;
+import managers.GameData;
 
 class InventoryUI extends FlxSpriteGroup {
 

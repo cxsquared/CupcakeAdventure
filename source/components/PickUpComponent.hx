@@ -2,6 +2,7 @@ package components;
 
 import flixel.FlxG;
 import flixel.FlxSprite;
+import managers.GameData;
 
 class PickUpComponent extends InteractableComponent {
 

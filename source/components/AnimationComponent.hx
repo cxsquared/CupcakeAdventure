@@ -1,7 +1,7 @@
 package components;
 
 import flixel.FlxG;
-import Actor.MOUSEEVENT;
+import actors.Actor;
 
 typedef AnimData = { 
 	var frames:Array<Int>; 

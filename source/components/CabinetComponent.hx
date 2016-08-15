@@ -1,7 +1,7 @@
 package components;
 
 import flixel.FlxG;
-import SoundManager;
+import managers.SoundManager;
 import AssetPaths;
 import flixel.FlxSprite;
 

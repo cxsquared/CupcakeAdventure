@@ -1,4 +1,4 @@
-package;
+package actors;
 
 import haxe.Json;
 import flixel.FlxG;

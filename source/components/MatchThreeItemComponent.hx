@@ -7,7 +7,7 @@ import flixel.FlxObject;
 import flixel.math.FlxPoint;
 import flixel.tweens.FlxTween;
 import flixel.tweens.FlxEase;
-import Actor.MOUSEEVENT;
+import actors.Actor;
 
 class MatchThreeItemComponent implements ActorComponent {
 

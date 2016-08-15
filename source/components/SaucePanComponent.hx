@@ -1,9 +1,11 @@
 package components;
 
-import Inventory.InventoryItem;
+import inventory.*;
+import inventory.Inventory.InventoryItem;
 import openfl.Assets;
 import haxe.Json;
 import flixel.FlxG;
+import managers.GameData;
 
 typedef InventoryRecipe = { name:String, description:String, iconPath:String, ingredients:Array<String> };
 

@@ -1,6 +1,9 @@
-package;
+package managers;
 
 import flixel.FlxG;
+import inventory.*;
+import actors.*;
+import states.PlayState;
 
 class GameData {
 	

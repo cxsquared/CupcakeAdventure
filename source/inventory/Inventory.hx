@@ -1,4 +1,4 @@
-package;
+package inventory;
 
 import flixel.FlxG;
 

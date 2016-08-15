@@ -1,4 +1,4 @@
-package;
+package managers;
 
 import flixel.group.FlxSpriteGroup;
 import flixel.group.FlxGroup.FlxTypedGroup;
@@ -9,6 +9,7 @@ import flixel.FlxSprite;
 import flixel.tweens.FlxTween;
 import flixel.math.FlxRandom;
 import flixel.math.FlxPoint;
+import actors.*;
 
 enum SceneDirection {
 	FORWARD;

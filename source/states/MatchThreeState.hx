@@ -1,8 +1,10 @@
-package;
+package states;
 
 import flixel.FlxState;
 import components.MatchThreeController;
 import components.MatchThreeController.MatchThreeItems;
+import actors.ActorFactory;
+import inventory.InventoryUI;
 
 class MatchThreeState extends FlxState {
 	var actorFactory:ActorFactory;

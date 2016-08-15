@@ -5,6 +5,7 @@ import flixel.FlxSprite;
 import flixel.FlxG;
 import flixel.util.FlxCollision;
 import flixel.FlxSprite;
+import states.PlayState;
 
 class LetterComponent extends InteractableComponent {
 

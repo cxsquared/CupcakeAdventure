@@ -1,8 +1,9 @@
 package components;
 
 import flixel.FlxSprite;
-import SceneManager.SceneDirection;
+import managers.SceneManager;
 import flixel.FlxG;
+import states.PlayState;
 
 class SceneChangeComponent extends InteractableComponent {
 

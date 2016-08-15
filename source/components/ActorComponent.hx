@@ -1,6 +1,6 @@
 package components;
 
-import Actor;
+import actors.Actor;
 
 interface ActorComponent {
 	public var owner:Actor;

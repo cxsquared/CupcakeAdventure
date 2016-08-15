@@ -3,7 +3,7 @@ package components;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.math.FlxMath;
-import Actor.MOUSEEVENT;
+import actors.Actor;
 
 class MatchThreeTimerComponent implements ActorComponent {
 

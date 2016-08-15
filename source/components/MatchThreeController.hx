@@ -5,11 +5,12 @@ import flixel.FlxG;
 import flixel.math.FlxPoint;
 import flixel.math.FlxRandom;
 import flixel.group.FlxGroup.FlxTypedGroup;
-import Actor;
-import ActorFactory;
+import actors.*;
 import flixel.FlxSprite;
 import flixel.util.FlxTimer;
 import util.MultiIterator;
+import actors.Actor.MOUSEEVENT;
+import states.PlayState;
 
 typedef MatchData = { type:MatchThreeItems, items:Array<FlxPoint> };
 

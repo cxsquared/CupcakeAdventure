@@ -1,4 +1,4 @@
-package;
+package managers;
 
 import flixel.system.FlxSound;
 import haxe.Json;
