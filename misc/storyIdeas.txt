@@ -1,0 +1,140 @@
+Phone: Have owner comment on performance give tips. Have customers compliment/complain about the order. Have new customers place orders.
+
+Day 1:
+Thanks for helping. Talk about making cupcakes (tutorial). Gathering items, recipe book, mixing, cooking. Make vanilla cupcake.
+
+Outcomes
+	A:
+		Any cupcake made
+	B:
+		No cupcake made
+
+Day 2:
+	D1 A:
+		I heard the customer was pleased. The next one wants a chocalte cupcake. I think I stored the chocolate in the (obscure place). Make sure to look around, remind of recipe book.
+
+		Outcomes:
+			A:
+				Any chocolate
+			B:
+				Any non chocolate
+			C:
+				No cupcake
+	D1 B:
+		I know it's hard but at least try to get a cupcake made today. Really anythink will work but chocolate is what is requested. I think I stored the chocolate in the (obscure place). Make sure to look around, remind of recipe book.
+
+		Outcomes:
+			D:
+				Any chocolate
+			E:
+				Any non chocolate
+			F:
+				No cupcake
+
+Day 3:
+	D2 A/D:
+		Customer liked it. (If D: much better than the first day). Pumkin spice cupcake. Using other things to make ingredients. Need (these spices)
+
+		Outcomes:
+			A:
+				Pumpkin Spice
+				Carmel Apple
+			B:
+				Any other cupcake
+			C:
+				No cupcake
+	D2 B/E:
+		Not really what the customer wanted. (If E: but better than the first day). Pumkin spice cupcake. Using other things to make ingredients. Need (these spices)
+
+		Outcomes:
+			D:
+				Pumpkin Spice
+				Carmel Apple
+			E:
+				Any other cupcake
+			F:
+				No cupcake
+	D2 C:
+		Did you forget how to make cupcakes? Just try and get the chocolate cupcake done today.
+
+		Outcomes:
+			G:
+				Any Chocolate
+			H:
+				Any non chocolate
+			I:
+				no cupcake
+
+	D2 F:
+		This is your last chance. Mess up again and I'll find someone else to help out. Just make any upcake please!
+
+		Outcome:
+			J:
+				Any cupcake
+			K:
+				No cupcake
+
+Day 4:
+	D3 A/D:
+		Another job well done. (If D: I'm gald you are finally getting the hang of this). We have a special order for a vegan cupcake. Check the recipe and make sure not to mess it up.
+
+		Outcomes:
+			A:
+				Vegan cupcake
+			B:
+				"Vegan" cupcake
+			C:
+				Non vegan cupcake
+			D:
+				No cupcake
+	D3 B/E:
+		That's not quite what the customer wanted but that will do. We have a special order for a vegan cupcake. Check the recipe and make sure not to mess it up.
+
+		Outcomes:
+			E:
+				Vegan cupcake
+			F:
+				"Vegan" cupcake
+			G:
+				Non vegan cupcake
+			H:
+				No cupcake
+	D3 C/F:
+		Why didn't you make the order? Well I guess you can try to get the order done today. Make another Pumpkine spice cupcake.
+
+		Outcomes:
+			I:
+				Pumpkin Spice
+				Carmel Apple
+			J:
+				Any other cupcake
+			K:
+				No cupcake
+	D3 G:
+		I'm glad you finally got that done. Pumkin spice cupcake. Using other things to make ingredients. Need (these spices)
+		
+		Outcomes:
+			L:
+				Pumpkin Spice
+				Carmel Apple
+			M:
+				Any other cupcake
+			N:
+				No cupcake
+	D3 H/J:
+		Well any cupcake is better than no cupcake I guess.  Pumkin spice cupcake. Using other things to make ingredients. Need (these spices)
+
+		Outcomes:
+			L:
+				Pumpkin Spice
+				Carmel Apple
+			M:
+				Any other cupcake
+			N:
+				No cupcake
+	D3 K/I:
+		FIRED!!! GAME OVER!
+
+Day 5:
+	
+End Game:
