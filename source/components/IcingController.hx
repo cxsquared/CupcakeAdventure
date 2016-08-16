@@ -1,9 +1,14 @@
 package components;
 
-class IcingController extends ActorComponent {
+import actors.*;
+
+class IcingController implements ActorComponent {
 	public var owner:Actor;
 
+	
+	
 	public function init(Data:Dynamic):Bool {
+
 		return true;
 	}
 

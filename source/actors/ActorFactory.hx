@@ -47,6 +47,7 @@ class ActorFactory {
 		actorComponentCreators.set("MatchThreeTimerComponent", MatchThreeTimerComponent);
 		actorComponentCreators.set("RecipeBookComponent", RecipeBookComponent);
 		actorComponentCreators.set("SaucePanComponent", SaucePanComponent);
+		actorComponentCreators.set("IcingBrushComponent", IcingBrushComponent);
 	}
 
 	public function createActor(Data:Dynamic):Actor {

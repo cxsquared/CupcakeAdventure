@@ -18,4 +18,5 @@ enum ActorComponentTypes {
 	RECIPEBOOK;
 	SAUCEPAN;
 	ICINGCONTROLLER;
+	ICINGBRUSH;
 }
