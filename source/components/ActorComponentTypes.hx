@@ -17,4 +17,5 @@ enum ActorComponentTypes {
 	MATCHTIMER;
 	RECIPEBOOK;
 	SAUCEPAN;
+	ICINGCONTROLLER;
 }
