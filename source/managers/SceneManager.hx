@@ -65,6 +65,7 @@ class SceneManager extends FlxTypedGroup<FlxSpriteGroup> {
 	}
 
 	public function changeScene(Name:String, ?Direction:SceneDirection=null):Void {
+		// TODO: Make transitions fancier possibly with FlxTransition
 		if (Direction == null) {
 			Direction = RIGHT;
 		}
