@@ -17,7 +17,42 @@
 					}
 				}
 			]
-		}, 
+		},
+		{
+			"name": "phone",
+			"x": 220,
+			"y": 40,
+			"width": 38,
+			"height": 49,
+			"spriteSheet": "assets/images/bookshelf/phone.png",
+			"components": [
+				{
+					"name": "AnimationComponent",
+					"data": {
+						"frameRate": 2,
+						"animations": [
+							{
+								"name": "phoneIdle",
+								"frames": [0],
+								"looped": false
+							},
+							{
+								"name": "phoneAlert",
+								"frames": [0, 1],
+								"looped": true
+							}
+						]
+					}
+				},
+				{
+					"name": "PhoneComponent",
+					"data": {
+						"target": "Phone",
+						"direction": "Forward"
+					}
+				}
+			]
+		},
 		{
 			"name": "oven",
 			"x": 255,

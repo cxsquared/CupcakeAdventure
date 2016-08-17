@@ -16,8 +16,11 @@ class IcingBrushComponent implements ActorComponent {
 	private var brushStrokes:FlxSpriteGroup;
 
 	var icingColor:FlxColor;
-	var minRadius = 5;
-	var maxRadius = 20;
+	var minRadius = .5;
+	var maxRadius = 1;
+	var minCheck = 1;
+
+	public var icingLevels = [25, 50, 75, 100];
 
 	public var icingOutOfBounds = 0;
 
@@ -35,11 +38,15 @@ class IcingBrushComponent implements ActorComponent {
 	public function update(DeltaTime:Float):Void {
 		if (FlxG.mouse.pressed) {
 			var size = FlxG.random.float(minRadius, maxRadius);
-			var rect = new FlxSprite(FlxG.mouse.x-(minRadius/4), FlxG.mouse.y - (minRadius/4));
-			rect.makeGraphic(Std.int(minRadius/2), Std.int(minRadius/2), FlxColor.PINK);
+			var rect = new FlxSprite(FlxG.mouse.x-(minCheck/2), FlxG.mouse.y - (minCheck/2));
+			rect.makeGraphic(Std.int(minCheck), Std.int(minCheck), FlxColor.PINK);
 			if (!FlxG.overlap(brushStrokes, rect)) {
-				var stroke = new FlxSprite(FlxG.mouse.x - (size/2), FlxG.mouse.y - (size/2));
-				stroke.makeGraphic(Std.int(size), Std.int(size), icingColor);
+				var stroke = new FlxSprite(0, 0, AssetPaths.icing__png);
+				stroke.scale.x = stroke.scale.y = size;
+				stroke.updateHitbox();
+				stroke.x = FlxG.mouse.x - (stroke.width/2);
+				stroke.y = FlxG.mouse.y - (stroke.height/2);
+				stroke.color = icingColor;
 				if (!FlxG.pixelPerfectOverlap(owner, rect)) {
 					icingOutOfBounds++;
 					FlxG.watch.addQuick("Icing out of bounds", icingOutOfBounds);

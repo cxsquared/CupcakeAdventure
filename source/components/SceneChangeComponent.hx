@@ -24,7 +24,7 @@ class SceneChangeComponent extends InteractableComponent {
 		return true;
 	}
 
-	override public function postInit(){
+	override public function postInit():Void {
 		super.postInit();
 	}
 

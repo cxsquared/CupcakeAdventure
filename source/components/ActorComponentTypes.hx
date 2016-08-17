@@ -19,4 +19,5 @@ enum ActorComponentTypes {
 	SAUCEPAN;
 	ICINGCONTROLLER;
 	ICINGBRUSH;
+	PHONE;
 }
