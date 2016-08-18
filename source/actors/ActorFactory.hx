@@ -49,6 +49,7 @@ class ActorFactory {
 		actorComponentCreators.set("SaucePanComponent", SaucePanComponent);
 		actorComponentCreators.set("IcingBrushComponent", IcingBrushComponent);
 		actorComponentCreators.set("PhoneComponent", PhoneComponent);
+		actorComponentCreators.set("MessageComponent", MessageComponent);
 	}
 
 	public function createActor(Data:Dynamic):Actor {

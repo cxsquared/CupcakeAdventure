@@ -19,6 +19,10 @@
 		{
 			"name": "Kitchen",
 			"data": "assets/data/KitchenData.json"
+		},
+		{
+			"name": "Phone",
+			"data": "assets/data/phoneData.json"
 		}
 	]	
 }

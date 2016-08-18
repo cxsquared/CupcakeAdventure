@@ -20,4 +20,5 @@ enum ActorComponentTypes {
 	ICINGCONTROLLER;
 	ICINGBRUSH;
 	PHONE;
+	MESSAGES;
 }

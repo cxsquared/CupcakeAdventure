@@ -1,0 +1,60 @@
+{
+	"background": "assets/images/phone/phoneScreenBackground.png",
+	"actors": [
+		{
+			"name": "messages",
+			"x": -1,
+			"y": -1,
+			"width": 1,
+			"height": 1,
+			"spriteSheet": "assets/images/blank.png",
+			"components": [
+				{
+					"name": "MessageComponent",
+					"data": {
+						"messageData": "assets/data/phone/phoneMessageData.json"
+					}
+				}
+			]
+		},
+		{
+			"name": "previous",
+			"x": 60,
+			"y": 185,
+			"width": -1,
+			"height": -1,
+			"spriteSheet": "assets/images/phone/phoneArrowBack.png",
+			"components": [
+
+			]
+		},
+		{
+			"name": "next",
+			"x": 155,
+			"y": 185,
+			"width": -1,
+			"height": -1,
+			"spriteSheet": "assets/images/phone/phoneArrowNext.png",
+			"components": [
+
+			]
+		},
+		{
+			"name": "exit",
+			"x": 2,
+			"y": 200,
+			"width": -1,
+			"height": -1,
+			"spriteSheet": "assets/images/arrows/exitArrow.png",
+			"components": [
+				{
+					"name": "SceneChangeComponent",
+					"data": {
+						"target": "Bookshelf",
+						"direction": "backward"
+					}
+				}
+			]
+		}
+	]
+}

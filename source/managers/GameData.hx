@@ -31,6 +31,14 @@ class GameData {
 
 	private function new():Void {
 		inventory = new Inventory();
+
+		if (!Reflect.hasField(FlxG.save.data, "day")) {
+			FlxG.save.data.day = 1;
+			FlxG.log.add("Initializing day");
+			FlxG.save.flush();
+		} else {
+
+		}
 	}
 
 	// This must be done after actors and scenes have been loaded
@@ -45,5 +53,10 @@ class GameData {
 
 	public function save():Void {
 		FlxG.save.data.inventory = inventory.getAllItems();
+		FlxG.save.data.flush();
+	}
+
+	public function getCurrentDayName():String {
+		return "default";
 	}
 }
