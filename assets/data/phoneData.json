@@ -25,7 +25,12 @@
 			"height": -1,
 			"spriteSheet": "assets/images/phone/phoneArrowBack.png",
 			"components": [
-
+				{
+					"name": "PhoneArrowComponent",
+					"data": {
+						"isNext": false
+					}
+				}
 			]
 		},
 		{
@@ -36,7 +41,12 @@
 			"height": -1,
 			"spriteSheet": "assets/images/phone/phoneArrowNext.png",
 			"components": [
-
+				{
+					"name": "PhoneArrowComponent",
+					"data": {
+						"isNext": true
+					}
+				}
 			]
 		},
 		{

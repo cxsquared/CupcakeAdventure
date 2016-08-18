@@ -62,7 +62,7 @@ class MessageComponent implements ActorComponent {
 		messageTextSprite = new FlxText((FlxG.width*2) + message_X, message_Y, message_width-20, messages[0].Message, message_size);
 		messageTextSprite.color = FlxColor.BLACK;
 		var messageRect = new FlxRect(messageTextSprite.x, messageTextSprite.y, messageTextSprite.width, messageTextSprite.height);
-		scrollArea = new FlxScrollableArea(areaRect, messageRect, ResizeMode.FIT_WIDTH);
+		scrollArea = new FlxScrollableArea(areaRect, messageRect, ResizeMode.FIT_WIDTH, -1, FlxColor.WHITE, FlxG.state, 1);
 		FlxG.cameras.add(scrollArea);
 		scrollArea.setPosition(FlxG.width*2, 0);
 
@@ -73,6 +73,13 @@ class MessageComponent implements ActorComponent {
 	public function updateText():Void {
 		nameTextSprite.text = messages[messageIndex].Name;
 		messageTextSprite.text = messages[messageIndex].Message;
+
+		if (messageTextSprite.height > messageBackground.height) {
+			messageBackground.makeGraphic(Std.int(messageTextSprite.width+20), Std.int(messageTextSprite.height+20), new FlxColor(0xffc5e0dc));
+		}
+
+		scrollArea.content.height = messageTextSprite.height;
+		scrollArea.onResize();
 	}
 
 	public function update(DeltaTime:Float):Void {

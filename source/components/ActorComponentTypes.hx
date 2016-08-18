@@ -21,4 +21,5 @@ enum ActorComponentTypes {
 	ICINGBRUSH;
 	PHONE;
 	MESSAGES;
+	PHONEARROW;
 }
