@@ -14,6 +14,7 @@ import ibwwg.FlxScrollableArea.ResizeMode;
 import flixel.FlxSprite;
 import flixel.tweens.FlxTween;
 import states.PlayState;
+import managers.SceneManager;
 
 typedef Message = {Name:String, Message:String};
 
@@ -26,7 +27,7 @@ class MessageComponent implements ActorComponent {
 	private var nameTextSprite:FlxText;
 	private var name_X = 60;
 	private var name_Y = 15;
-	private var name_width = 175;
+	private var name_width = 150;
 	private var name_size = 16;
 	private var messageTextSprite:FlxText;
 	private var message_X = 60;
@@ -64,12 +65,12 @@ class MessageComponent implements ActorComponent {
 		messageTextSprite = new FlxText((FlxG.width*2) + message_X, message_Y, message_width-20, messages[0].Message, message_size);
 		messageTextSprite.color = FlxColor.BLACK;
 		var messageRect = new FlxRect(messageTextSprite.x, messageTextSprite.y, messageTextSprite.width, messageTextSprite.height);
-		scrollArea = new FlxScrollableArea(areaRect, messageRect, ResizeMode.FIT_WIDTH, -1, FlxColor.WHITE, FlxG.state, 1);
+		scrollArea = new FlxScrollableArea(areaRect, messageRect, ResizeMode.FIT_WIDTH, 5, FlxColor.CYAN, FlxG.state, 1);
 		FlxG.cameras.add(scrollArea);
 		scrollArea.setPosition(message_X, -FlxG.height+message_Y);
 
 		messageBackground = new FlxSprite(messageTextSprite.x-10, messageTextSprite.y-10);
-		messageBackground.makeGraphic(Std.int(messageTextSprite.width+20), Std.int(messageTextSprite.height+20)*2, new FlxColor(0xffc5e0dc));
+		messageBackground.makeGraphic(Std.int(messageTextSprite.width*2), Std.int(messageTextSprite.height+20)*2, new FlxColor(0xffc5e0dc));
 	}
 
 	public function updateText():Void {
@@ -78,7 +79,7 @@ class MessageComponent implements ActorComponent {
 		messageTextSprite.text = messages[messageIndex].Message;
 
 		if (messageTextSprite.height > messageBackground.height/2) {
-			messageBackground.makeGraphic(Std.int(messageTextSprite.width+20), Std.int(messageTextSprite.height+20)*2, new FlxColor(0xffc5e0dc));
+			messageBackground.makeGraphic(Std.int(messageTextSprite.width*2), Std.int(messageTextSprite.height+20)*2, new FlxColor(0xffc5e0dc));
 		}
 
 		scrollArea.content.height = Math.max(messageTextSprite.height, message_height);
@@ -87,10 +88,6 @@ class MessageComponent implements ActorComponent {
 	}
 
 	public function update(DeltaTime:Float):Void {
-		var curState = cast(FlxG.state, PlayState);
-		if (curState.inventoryUI.visible) {
-			curState.inventoryUI.visible = false;
-		}
 	}
 
 	public function getComponentID():ActorComponentTypes {
@@ -130,13 +127,21 @@ class MessageComponent implements ActorComponent {
 	}
 
 	public function onEnter():Void {
-		FlxTween.tween(scrollArea, {x:message_X, y:message_Y}, .35);
+		FlxTween.tween(scrollArea.viewPort, {x:message_X, y:message_Y}, .35, {onUpdate:onTweenUpdate, onComplete:onTweenComplete});
 	}
 
 	public function onExit():Void {
-		FlxTween.tween(scrollArea, {y:-FlxG.height+message_Y}, .25);
+		FlxTween.tween(scrollArea.viewPort, {y:-FlxG.height+message_Y}, .25, {onUpdate:onTweenUpdate, onComplete:onTweenComplete});
 	}
 
 	public function destroy():Void {
+	}
+
+	public function onTweenUpdate(t:FlxTween):Void {
+		scrollArea.onResize();
+	}
+
+	public function onTweenComplete(t:FlxTween):Void {
+		scrollArea.onResize();
 	}
 }

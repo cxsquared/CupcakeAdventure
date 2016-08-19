@@ -48,7 +48,8 @@
 					"name": "PhoneComponent",
 					"data": {
 						"target": "Phone",
-						"direction": "Forward"
+						"direction": "Forward",
+						"hideInventory": true
 					}
 				}
 			]
