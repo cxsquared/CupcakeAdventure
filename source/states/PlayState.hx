@@ -29,7 +29,7 @@ class PlayState extends FlxState
 		sceneManager = SceneManager.GetInstance();
 
 		sceneManager.loadScenes(AssetPaths.sceneData__json);
-		sceneManager.changeScene("Phone");
+		sceneManager.changeScene("Bookshelf");
 
 		add(sceneManager);
 

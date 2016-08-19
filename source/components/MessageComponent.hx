@@ -12,6 +12,8 @@ import ibwwg.FlxScrollableArea;
 import flixel.util.FlxColor;
 import ibwwg.FlxScrollableArea.ResizeMode;
 import flixel.FlxSprite;
+import flixel.tweens.FlxTween;
+import states.PlayState;
 
 typedef Message = {Name:String, Message:String};
 
@@ -64,25 +66,31 @@ class MessageComponent implements ActorComponent {
 		var messageRect = new FlxRect(messageTextSprite.x, messageTextSprite.y, messageTextSprite.width, messageTextSprite.height);
 		scrollArea = new FlxScrollableArea(areaRect, messageRect, ResizeMode.FIT_WIDTH, -1, FlxColor.WHITE, FlxG.state, 1);
 		FlxG.cameras.add(scrollArea);
-		scrollArea.setPosition(FlxG.width*2, 0);
+		scrollArea.setPosition(message_X, -FlxG.height+message_Y);
 
 		messageBackground = new FlxSprite(messageTextSprite.x-10, messageTextSprite.y-10);
-		messageBackground.makeGraphic(Std.int(messageTextSprite.width+20), Std.int(messageTextSprite.height+20), new FlxColor(0xffc5e0dc));
+		messageBackground.makeGraphic(Std.int(messageTextSprite.width+20), Std.int(messageTextSprite.height+20)*2, new FlxColor(0xffc5e0dc));
 	}
 
 	public function updateText():Void {
+		//TODO:Fix how scrollbar works
 		nameTextSprite.text = messages[messageIndex].Name;
 		messageTextSprite.text = messages[messageIndex].Message;
 
-		if (messageTextSprite.height > messageBackground.height) {
-			messageBackground.makeGraphic(Std.int(messageTextSprite.width+20), Std.int(messageTextSprite.height+20), new FlxColor(0xffc5e0dc));
+		if (messageTextSprite.height > messageBackground.height/2) {
+			messageBackground.makeGraphic(Std.int(messageTextSprite.width+20), Std.int(messageTextSprite.height+20)*2, new FlxColor(0xffc5e0dc));
 		}
 
-		scrollArea.content.height = messageTextSprite.height;
+		scrollArea.content.height = Math.max(messageTextSprite.height, message_height);
 		scrollArea.onResize();
+		scrollArea.scroll.y = message_Y;
 	}
 
 	public function update(DeltaTime:Float):Void {
+		var curState = cast(FlxG.state, PlayState);
+		if (curState.inventoryUI.visible) {
+			curState.inventoryUI.visible = false;
+		}
 	}
 
 	public function getComponentID():ActorComponentTypes {
@@ -122,11 +130,11 @@ class MessageComponent implements ActorComponent {
 	}
 
 	public function onEnter():Void {
-		scrollArea.setPosition(message_X, message_Y);
+		FlxTween.tween(scrollArea, {x:message_X, y:message_Y}, .35);
 	}
 
 	public function onExit():Void {
-		scrollArea.setPosition(FlxG.width*2, 0);
+		FlxTween.tween(scrollArea, {y:-FlxG.height+message_Y}, .25);
 	}
 
 	public function destroy():Void {
