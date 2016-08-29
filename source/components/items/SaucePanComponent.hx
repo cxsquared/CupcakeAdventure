@@ -1,4 +1,4 @@
-package components;
+package components.items;
 
 import inventory.*;
 import inventory.Inventory.InventoryItem;

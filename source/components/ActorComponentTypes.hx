@@ -22,4 +22,6 @@ enum ActorComponentTypes {
 	PHONE;
 	MESSAGES;
 	PHONEARROW;
+	CLOUD;
+	CLOUDCONTROLLER;
 }

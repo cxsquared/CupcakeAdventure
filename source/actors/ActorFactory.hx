@@ -3,6 +3,10 @@ package actors;
 import haxe.Json;
 import flixel.FlxG;
 import components.*;
+import components.icing.*;
+import components.items.*;
+import components.mainmenu.*;
+import components.matchthree.*;
 import flash.utils.Object;
 
 class ActorFactory {
@@ -51,6 +55,8 @@ class ActorFactory {
 		actorComponentCreators.set("PhoneComponent", PhoneComponent);
 		actorComponentCreators.set("MessageComponent", MessageComponent);
 		actorComponentCreators.set("PhoneArrowComponent", PhoneArrowComponent);
+		actorComponentCreators.set("CloudController", CloudController);
+		actorComponentCreators.set("CloudComponent", CloudComponent);
 	}
 
 	public function createActor(Data:Dynamic):Actor {

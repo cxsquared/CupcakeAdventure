@@ -1,0 +1,60 @@
+{
+	"background": "assets/images/mainMenu/mainMenuBackground.png",
+	"actors": [
+		{
+			"name": "cloudController",
+			"x": -1,
+			"y": -1,
+			"width": 1,
+			"height": 1,
+			"spriteSheet": "assets/images/blank.png",
+			"components": [
+				{
+					"name": "CloudController",
+					"data": {
+						"clouds": [
+							{
+								"image": "assets/images/mainMenu/cloud1.png"
+							},
+							{
+								"image": "assets/images/mainMenu/cloud2.png"
+							},
+							{
+								"image": "assets/images/mainMenu/cloud3.png"
+							},
+							{
+								"image": "assets/images/mainMenu/cloud1.png"
+							},
+							{
+								"image": "assets/images/mainMenu/cloud2.png"
+							},
+							{
+								"image": "assets/images/mainMenu/cloud3.png"
+							}
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "tree",
+			"x": 15,
+			"y": 37,
+			"width": -1,
+			"height": -1,
+			"spriteSheet": "assets/images/mainMenu/mainTree.png",
+			"components": [
+			]
+		},
+		{
+			"name": "building",
+			"x": 121,
+			"y": 33,
+			"width": -1,
+			"height": -1,
+			"spriteSheet": "assets/images/mainMenu/mainBuilding.png",
+			"components": [
+			]
+		}
+	]
+}

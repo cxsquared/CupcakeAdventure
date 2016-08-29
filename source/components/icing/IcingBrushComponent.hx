@@ -1,4 +1,4 @@
-package components;
+package components.icing;
 
 import actors.Actor.MOUSEEVENT;
 import actors.Actor;

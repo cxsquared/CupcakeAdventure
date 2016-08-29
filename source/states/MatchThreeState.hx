@@ -1,8 +1,8 @@
 package states;
 
 import flixel.FlxState;
-import components.MatchThreeController;
-import components.MatchThreeController.MatchThreeItems;
+import components.matchthree.MatchThreeController;
+import components.matchthree.MatchThreeController.MatchThreeItems;
 import actors.ActorFactory;
 import inventory.InventoryUI;
 

@@ -1,4 +1,4 @@
-package components;
+package components.matchthree;
 
 import flixel.FlxG;
 import flixel.FlxSprite;

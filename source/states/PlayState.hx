@@ -43,4 +43,10 @@ class PlayState extends FlxState
 
 		FlxG.watch.addQuick("Inventory", GameData.getInstance().inventory.getAllItems().length);
 	}
+
+	override public function destroy():Void {
+		sceneManager.clearScenes();
+		//TODO: Destroy ui
+		super.destroy();
+	}
 }

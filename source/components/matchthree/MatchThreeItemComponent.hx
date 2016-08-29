@@ -1,6 +1,6 @@
-package components;
+package components.matchthree;
 
-import components.MatchThreeController.MatchThreeItems;
+import components.matchthree.MatchThreeController.MatchThreeItems;
 import flixel.FlxG;
 import flixel.util.FlxCollision;
 import flixel.FlxObject;

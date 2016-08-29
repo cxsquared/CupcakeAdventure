@@ -1,5 +1,5 @@
 // MatchThreeController.hx -- Controls the match three mini-game itemsData and flow
-package components;
+package components.matchthree;
 
 import flixel.FlxG;
 import flixel.math.FlxPoint;
@@ -128,7 +128,7 @@ class MatchThreeController implements ActorComponent {
 			]
 		});
 
-		meter = cast(meterActor.getComponent(ActorComponentTypes.MATCHMETER), components.MatchThreeMeterComponent);
+		meter = cast(meterActor.getComponent(ActorComponentTypes.MATCHMETER), components.matchthree.MatchThreeMeterComponent);
 	}
 
 	private function setUpItems(?items:Array<String>=null):Void {
@@ -711,7 +711,7 @@ class MatchThreeController implements ActorComponent {
 			]
 		});
 
-		var itComp = cast(actor.getComponent(ActorComponentTypes.MATCHTHREEITEM), components.MatchThreeItemComponent);
+		var itComp = cast(actor.getComponent(ActorComponentTypes.MATCHTHREEITEM), components.matchthree.MatchThreeItemComponent);
 		itComp.controller = this;
 
 		//numberOfItemsWaiting++;
