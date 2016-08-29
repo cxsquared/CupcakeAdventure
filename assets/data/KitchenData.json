@@ -202,23 +202,6 @@
 					}
 				}
 			]
-		},
-		{
-			"name": "letter",
-			"x": 1000,
-			"y": 1000,
-			"width": -1,
-			"height": -1,
-			"spriteSheet": "assets/images/cabinetFridge/stickyHiFridge.png",
-			"components": [
-				{
-					"name": "LetterComponent",
-					"data": {
-						"viewOnStart": true,
-						"letterSprite": "assets/images/letter.png"
-					}
-				}
-			]
 		}
 	]
 }

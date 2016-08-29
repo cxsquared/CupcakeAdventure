@@ -14,6 +14,8 @@ class GameData {
 	//public static var MatchThree = new MatchThreeState();
 	public static var PlayScreen = new PlayState();
 
+	public var day = 1;
+
 	public static function getInstance():GameData {
 		if (instance != null) {
 			return instance;
