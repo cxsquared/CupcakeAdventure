@@ -94,4 +94,8 @@ class DescriptionComponent extends InteractableComponent {
 		FlxG.state.members.remove(text);
 		FlxG.state.add(text);
 	}
+
+	override public function onExit():Void {
+		text.alpha = 0;
+	}
 }
