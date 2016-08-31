@@ -45,7 +45,7 @@ class MessageComponent implements ActorComponent {
 		messages = new Array<Message>();
 		var dayDataLocation = Reflect.field(Data, "messageData");
 		var dayJson = Json.parse(Assets.getText(dayDataLocation));
-		var dayData = Reflect.field(dayJson, "Day" + FlxG.save.data.day);
+		var dayData = Reflect.field(dayJson, "Day" + GameData.day);
 		var messagesDataLocation = Reflect.field(dayData, GameData.getInstance().getCurrentDayName());
 		var messagesDataJson = Json.parse(Assets.getText(messagesDataLocation));
 

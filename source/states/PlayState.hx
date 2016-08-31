@@ -51,7 +51,7 @@ class PlayState extends FlxState
 		fade.makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
 		add(fade);
 
-		dayText = new FlxText(0, 0, FlxG.width/2, "Day " + GameData.getInstance().day, 24);
+		dayText = new FlxText(0, 0, FlxG.width/2, "Day " + GameData.day, 24);
 		dayText.x = FlxG.width/2 - dayText.width/2;
 		dayText.y = FlxG.height/2 - dayText.height/2;
 		add(dayText);

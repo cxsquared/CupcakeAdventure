@@ -12,9 +12,29 @@ class GameData {
 	public var inventory:Inventory;
 
 	//public static var MatchThree = new MatchThreeState();
-	public static var PlayScreen = new PlayState();
+	//public static var PlayScreen = new PlayState();
 
-	public var day = 1;
+	@:isVar
+	public static var day(get, set):Int = -1;
+	private static function get_day():Int {
+		if (day == -1) {
+			if (!Reflect.hasField(FlxG.save.data, "day")) {
+				FlxG.save.data.day = 1;
+				FlxG.log.add("Initializing day");
+				FlxG.save.flush();
+			} else {
+				day = FlxG.save.data.day;
+			}
+		}
+
+		return day;
+	}
+	private static function set_day(v:Int):Int {
+		FlxG.save.data.day = v;
+		day = v;
+		FlxG.save.flush();
+		return day;
+	}
 
 	public static function getInstance():GameData {
 		if (instance != null) {
@@ -33,14 +53,6 @@ class GameData {
 
 	private function new():Void {
 		inventory = new Inventory();
-
-		if (!Reflect.hasField(FlxG.save.data, "day")) {
-			FlxG.save.data.day = 1;
-			FlxG.log.add("Initializing day");
-			FlxG.save.flush();
-		} else {
-
-		}
 	}
 
 	// This must be done after actors and scenes have been loaded
