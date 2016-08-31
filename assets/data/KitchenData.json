@@ -104,6 +104,15 @@
 			]
 		},
 		{
+			"name": "oven",
+			"x": 0,
+			"y": 159,
+			"width": 76,
+			"height": 81,
+			"spriteSheet": "assets/images/kitchen/oven.png",
+			"components": []
+		},
+		{
 			"name": "sauce pan",
 			"x": 40,
 			"y": 185,
