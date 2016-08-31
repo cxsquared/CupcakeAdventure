@@ -14,6 +14,7 @@ import actors.*;
 import managers.SceneManager;
 import flixel.util.FlxColor;
 import flixel.tweens.FlxTween;
+import managers.GameData;
 
 class MenuState extends FlxState
 {
@@ -34,20 +35,35 @@ class MenuState extends FlxState
 
 		add(sceneManager);
 
+		var newButton = new FlxButton(FlxG.width/2, FlxG.height/2, "New Game", newGame);
+		newButton.x -= newButton.width/2;
+		newButton.y -= newButton.height;
+		add(newButton);
+
+		var continueButton = new FlxButton(FlxG.width/2, FlxG.height/2, "Continue", continueGame);
+		continueButton.x -= continueButton.width/2;
+		continueButton.y += continueButton.height;
+		add(continueButton);
+
 		fadeout = new FlxSprite();
 		fadeout.makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
 		fadeout.alpha = 0;
 	}
 
+	private function newGame():Void {
+		GameData.getInstance().clearData();
+		continueGame();
+	}
+
+	private function continueGame():Void {
+		add(fadeout);
+		FlxTween.tween(fadeout, {alpha:1}, .5, {onComplete:startGame});
+		fadingOut = true;
+	}
+
 	override public function update(elapsed:Float):Void
 	{
 		super.update(elapsed);
-
-		if (FlxG.mouse.justPressed && !fadingOut) {
-			add(fadeout);
-			FlxTween.tween(fadeout, {alpha:1}, .5, {onComplete:startGame});
-			fadingOut = true;
-		}
 	}
 
 	private function startGame(t:FlxTween):Void {

@@ -30,6 +30,15 @@ class PlayState extends FlxState
 	var dayText:FlxText;
 	var dayTextTimer:FlxTimer;
 
+	var startingRoom = "Bookshelf";
+	var newDay = true;
+
+	public function new (StartingRoom:String="Bookshelf", NewDay:Bool=true):Void {
+		super();
+		startingRoom = StartingRoom;
+		newDay = NewDay;
+	}
+
 	override public function create():Void
 	{
 		super.create();
@@ -40,7 +49,7 @@ class PlayState extends FlxState
 		sceneManager = SceneManager.GetInstance();
 
 		sceneManager.loadScenes(AssetPaths.sceneData__json);
-		sceneManager.changeScene("Bookshelf");
+		sceneManager.changeScene(startingRoom);
 
 		add(sceneManager);
 
@@ -51,13 +60,19 @@ class PlayState extends FlxState
 		fade.makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
 		add(fade);
 
-		dayText = new FlxText(0, 0, FlxG.width/2, "Day " + GameData.day, 24);
-		dayText.x = FlxG.width/2 - dayText.width/2;
-		dayText.y = FlxG.height/2 - dayText.height/2;
-		add(dayText);
+		if (newDay) {
+			dayText = new FlxText(0, 0, FlxG.width/2, "Day " + GameData.day, 24);
+			dayText.x = FlxG.width/2 - dayText.width/2;
+			dayText.y = FlxG.height/2 - dayText.height/2;
+			add(dayText);
 
-		dayTextTimer = new FlxTimer();
-		dayTextTimer.start(2, startDay, 1);
+			dayTextTimer = new FlxTimer();
+			dayTextTimer.start(2, startDay, 1);
+		} else {
+			startDay(null);
+		}
+
+		GameData.getInstance().load();
 	}
 
 	private function startDay(t:FlxTimer):Void {

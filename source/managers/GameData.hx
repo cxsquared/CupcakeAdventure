@@ -17,23 +17,22 @@ class GameData {
 	@:isVar
 	public static var day(get, set):Int = -1;
 	private static function get_day():Int {
-		if (day == -1) {
-			if (!Reflect.hasField(FlxG.save.data, "day")) {
-				FlxG.save.data.day = 1;
-				FlxG.log.add("Initializing day");
-				FlxG.save.flush();
-			} else {
-				day = FlxG.save.data.day;
-			}
+		if (!Reflect.hasField(FlxG.save.data, "day")) {
+			FlxG.save.data.day = 1;
+			FlxG.log.add("Initializing day");
+			FlxG.save.flush();
+			return 1;
+		} else if (day == -1) {
+			day = 1;
 		}
 
-		return day;
+		return FlxG.save.data.day;
 	}
 	private static function set_day(v:Int):Int {
 		FlxG.save.data.day = v;
 		day = v;
 		FlxG.save.flush();
-		return day;
+		return v;
 	}
 
 	public static function getInstance():GameData {
@@ -56,21 +55,38 @@ class GameData {
 	}
 
 	// This must be done after actors and scenes have been loaded
-	public function load(af:ActorFactory):Void {
-		var inventoryData:Array<Inventory.InventoryItem> = FlxG.save.data.inventory;
+	public function load():Void {
+		if (Reflect.hasField(FlxG.save.data, "inventories")) {
+			var inventoryData:Array<Inventory.InventoryItem> = Reflect.field(FlxG.save.data.inventories, "day"+day);
 
-		for (item in inventoryData) {
-			inventory.addItem(item);
-			af.getActor(item.ActorID).destroy();
+			for (item in inventoryData) {
+				inventory.addItem(item);
+				var actor = ActorFactory.GetInstance().getActor(item.ActorID);
+				if (actor != null) {
+					actor.destroy();
+				}
+			}
 		}
 	}
 
 	public function save():Void {
-		FlxG.save.data.inventory = inventory.getAllItems();
-		FlxG.save.data.flush();
+		if (!Reflect.hasField(FlxG.save.data, "inventories")){
+			FlxG.save.data.inventories = {};
+		}
+
+		Reflect.setField(Reflect.field(FlxG.save.data, "inventories"), "day"+day, inventory.getAllItems());
+
+		FlxG.save.flush();
 	}
 
 	public function getCurrentDayName():String {
 		return "default";
+	}
+
+	public function clearData():Void {
+		FlxG.save.erase();
+		FlxG.save.flush();
+		inventory.clear();
+		day = -1;
 	}
 }

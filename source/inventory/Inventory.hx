@@ -1,6 +1,7 @@
 package inventory;
 
 import flixel.FlxG;
+import managers.GameData;
 
 typedef InventoryItem = { Name:String, Description:String, ActorID:Int, IconPath:String };
 
@@ -24,6 +25,7 @@ class Inventory {
 	public function addItem(Item:Inventory.InventoryItem):Void {
 		inventoryItems.set(Item.Name, Item);
 		FlxG.log.add("Adding item " + Item.Name);
+		GameData.getInstance().save();
 	}
 
 	// Can return null if item doesn't exist
@@ -32,6 +34,7 @@ class Inventory {
 			var item = inventoryItems.get(Name);
 			inventoryItems.remove(Name);
 			FlxG.log.add("Getting item " + item.Name);
+			GameData.getInstance().save();
 			return item;
 		}
 
@@ -46,5 +49,11 @@ class Inventory {
 		}
 
 		return inventoryArray;
+	}
+
+	public function clear():Void {
+		for (item in inventoryItems.keys()) {
+			inventoryItems.remove(item);
+		}
 	}
 }

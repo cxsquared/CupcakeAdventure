@@ -15,6 +15,7 @@ import flixel.FlxSprite;
 import flixel.tweens.FlxTween;
 import states.PlayState;
 import managers.SceneManager;
+import haxe.Log;
 
 typedef Message = {Name:String, Message:String};
 
@@ -45,6 +46,7 @@ class MessageComponent implements ActorComponent {
 		messages = new Array<Message>();
 		var dayDataLocation = Reflect.field(Data, "messageData");
 		var dayJson = Json.parse(Assets.getText(dayDataLocation));
+		Log.trace("Day" + GameData.day);
 		var dayData = Reflect.field(dayJson, "Day" + GameData.day);
 		var messagesDataLocation = Reflect.field(dayData, GameData.getInstance().getCurrentDayName());
 		var messagesDataJson = Json.parse(Assets.getText(messagesDataLocation));
