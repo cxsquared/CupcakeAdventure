@@ -3,7 +3,7 @@ package inventory;
 import flixel.FlxG;
 import managers.GameData;
 
-typedef InventoryItem = { Name:String, Description:String, ActorID:Int, IconPath:String };
+typedef InventoryItem = { Name:String, Description:String, ActorID:Int, IconPath:String, DestroyParent:Bool };
 
 class Inventory {
 	
@@ -17,8 +17,8 @@ class Inventory {
 		inventoryItems = new Map<String,InventoryItem>();
 	}
 
-	public function addNewItem(Name:String, Description:String, ActorID:Int, IconPath:String):Void {
-		var item = { Name:Name, Description:Description, ActorID:ActorID, IconPath:IconPath };
+	public function addNewItem(Name:String, Description:String, ActorID:Int, IconPath:String, DestroyParent:Bool=false):Void {
+		var item = { Name:Name, Description:Description, ActorID:ActorID, IconPath:IconPath, DestroyParent:DestroyParent };
 		addItem(item);
 	}
 

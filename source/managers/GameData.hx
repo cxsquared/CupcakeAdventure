@@ -61,9 +61,11 @@ class GameData {
 
 			for (item in inventoryData) {
 				inventory.addItem(item);
-				var actor = ActorFactory.GetInstance().getActor(item.ActorID);
-				if (actor != null) {
-					actor.destroy();
+				if (item.DestroyParent) {
+					var actor = ActorFactory.GetInstance().getActor(item.ActorID);
+					if (actor != null) {
+						actor.destroy();
+					}
 				}
 			}
 		}

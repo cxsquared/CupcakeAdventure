@@ -70,6 +70,7 @@ class MessageComponent implements ActorComponent {
 		scrollArea = new FlxScrollableArea(areaRect, messageRect, ResizeMode.FIT_WIDTH, 5, FlxColor.CYAN, FlxG.state, 1);
 		FlxG.cameras.add(scrollArea);
 		scrollArea.setPosition(message_X, -FlxG.height+message_Y);
+		scrollArea.viewPort.y = -FlxG.height+message_Y;
 
 		messageBackground = new FlxSprite(messageTextSprite.x-10, messageTextSprite.y-10);
 		messageBackground.makeGraphic(Std.int(messageTextSprite.width*2), Std.int(messageTextSprite.height+20)*2, new FlxColor(0xffc5e0dc));

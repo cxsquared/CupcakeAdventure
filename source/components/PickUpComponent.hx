@@ -52,13 +52,13 @@ class PickUpComponent extends InteractableComponent {
 				owner.getTextComponent().say("I don't need two of them.");
 				GameData.getInstance().inventory.addItem(itemCheck);
 			} else {
-				GameData.getInstance().inventory.addNewItem(name, description, owner.getID(), iconPath);
+				GameData.getInstance().inventory.addNewItem(name, description, owner.getID(), iconPath, perminant);
 				if(owner.animation.getByName("used") != null) {
 					owner.animation.play("used");
 				}
 			}
 		} else {
-			GameData.getInstance().inventory.addNewItem(name, description, owner.getID(), iconPath);
+			GameData.getInstance().inventory.addNewItem(name, description, owner.getID(), iconPath, perminant);
 			owner.kill();
 		}
 	}
