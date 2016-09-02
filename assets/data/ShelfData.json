@@ -68,6 +68,40 @@
 					}
 				}
 			]
+		},
+		{
+			"name": "vanilla",
+			"x": 255,
+			"y": 146,
+			"width": -1,
+			"height": -1,
+			"spriteSheet": "assets/images/shelves/vanilla_shelf.png",
+			"components": [
+				{
+					"name": "PickUpComponent",
+					"data": {
+						"description": "Some sweet Vanilla",
+						"iconPath": "assets/images/inventory/vanillaInv.png"
+					}
+				},
+				{
+					"name": "HighlightComponent",
+					"data": {
+						"sprite": "assets/images/shelves/vanilla_highlight.png"
+					}
+				},
+				{
+					"name": "DescriptionComponent",
+					"data": {
+						"description": "Sweet sweet vanilla",
+						"color": {
+							"r": 0,
+							"g": 150,
+							"b": 225
+						}
+					}
+				}
+			]
 		}
 	]
 }

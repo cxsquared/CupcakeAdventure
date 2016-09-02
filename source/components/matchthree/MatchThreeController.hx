@@ -69,6 +69,7 @@ class MatchThreeController implements ActorComponent {
 	private var meterX = 14;
 	private var meterY = 7;
 	private var maxScore = 1000;
+	private var minScore = 0;
 
 	private var noMatchTimer:FlxTimer;
 	private var noMatchTime = 1;
@@ -76,8 +77,9 @@ class MatchThreeController implements ActorComponent {
 
 	private var timerStartX = 0;
 	private var timerSTartY = 178;
-	private var matchTime = 120;
-	private var timer:FlxTimer;	
+	private var matchMoves = 10;
+	private var currentMove = 0;
+	//private var timer:FlxTimer;	
 	private var timerComponent:MatchThreeTimerComponent;
 
 	public function init(Data:Dynamic):Bool {
@@ -87,8 +89,9 @@ class MatchThreeController implements ActorComponent {
 		items = new Array<FlxTypedGroup<FlxSprite>>();
 		lastSwitch = new Array<FlxPoint>();
 
-		maxScore = Reflect.field(Data, "score");
-		matchTime = Reflect.field(Data, "time");
+		minScore = Reflect.field(Data, "minscore");
+		maxScore = Reflect.field(Data, "maxscore");
+		matchMoves = Reflect.field(Data, "moves");
 
 		setUpMeter();
 
@@ -159,8 +162,8 @@ class MatchThreeController implements ActorComponent {
 	}
 
 	private function setUpTimers():Void {
-		timer = new FlxTimer();
-		timer.start(matchTime, endLevel, 1);
+		//timer = new FlxTimer();
+		//timer.start(matchTime, endLevel, 1);
 
 		var timerActor = ActorFactory.GetInstance().createActor({
 			"name": "matchTimer",
@@ -173,7 +176,7 @@ class MatchThreeController implements ActorComponent {
 				{
 					"name": "MatchThreeTimerComponent",
 					"data": {
-						"time": matchTime
+						"time": matchMoves
 					}
 				}
 			]
@@ -209,6 +212,7 @@ class MatchThreeController implements ActorComponent {
 		//FlxG.watch.addQuick("Number of matches", matches.length);
 
 		FlxG.watch.addQuick("possible items", possibleItems);
+		FlxG.watch.addQuick("Moves", currentMove);
 		FlxG.watch.addQuick("item chances", randomItemPercentageChange);
 		if (FlxG.keys.justPressed.R) {
 			shuffleBoard();
@@ -221,8 +225,10 @@ class MatchThreeController implements ActorComponent {
 			if (!checkItems()) {
 				//FlxG.log.add("Switching back.");
 				switchItems(lastSwitch[0], lastSwitch[1], false);
+			} else {
+				currentMove++;
 			}
-
+			
 			shouldSwitchCheck = false;
 		} else if (shouldReslove && numberOfItemsWaiting <= 0 && numberOfItemsSwitching <= 0&& !noMatch) {
 			resolveMatches();
@@ -238,7 +244,12 @@ class MatchThreeController implements ActorComponent {
 		}
 
 		meter.score = this.score;
-		timerComponent.time = timer.elapsedTime;
+		timerComponent.time = currentMove;
+
+		if (currentMove > matchMoves) {
+			//TODO: Update save data based on how well the cupcake went and what cupcake was made.
+			FlxG.switchState(new PlayState("Kitchen", false));
+		}
 	}
 
 	public function getComponentID():ActorComponentTypes {

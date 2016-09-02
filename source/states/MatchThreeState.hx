@@ -12,13 +12,15 @@ class MatchThreeState extends FlxState {
 
 	var items:Array<String>;
 	var maxScore:Int;
-	var matchTime:Float;
+	var minScore:Int;
+	var moves:Float;
 
-	public function new(ingredients:Array<String>, timeLimit:Float, scoreLimit:Int){
+	public function new(ingredients:Array<String>, moveLimit:Float, maxScore:Int, minScore:Int){
 		super();
-		items = ingredients;
-		matchTime = timeLimit;
-		maxScore = scoreLimit;
+		this.items = ingredients;
+		this.moves = moveLimit;
+		this.maxScore = maxScore;
+		this.minScore = minScore;
 	}
 
 	override public function create():Void
@@ -39,8 +41,9 @@ class MatchThreeState extends FlxState {
 					"name": "MatchThreeController",
 					"data": {
 						"items": items,
-						"score": maxScore,
-						"time": matchTime
+						"maxscore": maxScore,
+						"minscore": minScore,
+						"moves": moves
 					}
 				}
 			]

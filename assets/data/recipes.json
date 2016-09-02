@@ -10,8 +10,9 @@
 				"milk",
 				"vanilla"
 			],
-			"time": 60,
-			"score": 750,
+			"moves": 10,
+			"maxscore": 750,
+			"minscore": 250,
 			"cupcake": "assets/images/cupcakes/vanillaCupcake.png",
 			"log": true
 		},
@@ -25,8 +26,9 @@
 				"milk",
 				"chocolate"
 			],
-			"time": 60,
-			"score": 750,
+			"moves": 10,
+			"maxscore": 750,
+			"minscore": 250,
 			"cupcake": "assets/images/cupcakes/chocolateCupcake.png",
 			"log": true
 		},
@@ -41,8 +43,9 @@
 				"salt",
 				"carmel"
 			],
-			"time": 60,
-			"score": 750,
+			"moves": 10,
+			"maxscore": 750,
+			"minscore": 250,
 			"cupcake": "assets/images/cupcakes/saltedCarmelCupcake.png",
 			"log": true
 		},
@@ -56,8 +59,9 @@
 				"almond milk",
 				"vanilla"
 			],
-			"time": 60,
-			"score": 750,
+			"moves": 10,
+			"maxscore": 750,
+			"minscore": 250,
 			"cupcake": "assets/images/cupcakes/veganCupcake.png",
 			"log": true
 		},
@@ -73,8 +77,9 @@
 				"pumpkin",
 				"spice"
 			],
-			"time": 60,
-			"score": 750,
+			"moves": 10,
+			"maxscore": 750,
+			"minscore": 250,
 			"cupcake": "assets/images/cupcakes/pumpkinCupcake.png",
 			"log": true
 		}

@@ -85,6 +85,7 @@ class GameData {
 		if (Reflect.hasField(FlxG.save.data, "inventories")) {
 			var inventoryData:Array<Inventory.InventoryItem> = Reflect.field(FlxG.save.data.inventories, "day"+day);
 
+			//TODO: Check if this is working
 			for (item in inventoryData) {
 				inventory.addItem(item);
 				if (item.DestroyParent) {

@@ -9,7 +9,7 @@ import haxe.Json;
 import managers.GameData;
 import states.MatchThreeState;
 
-typedef Recipe = { name:String, ingredients:Array<String>, time:Float, score:Int };
+typedef Recipe = { name:String, ingredients:Array<String>, time:Float, maxscore:Int, minscore:Int };
 
 class MixerComponent extends DropItemComponent {
 
@@ -34,7 +34,7 @@ class MixerComponent extends DropItemComponent {
 
 	private function parseRecipe(recipe:Dynamic):Void {
 		var newRecipe:Recipe = { name:Reflect.field(recipe, "name"), ingredients:Reflect.field(recipe, "ingredients"),
-								time:Reflect.field(recipe, "time"), score:Reflect.field(recipe, "score")};
+								time:Reflect.field(recipe, "time"), maxscore:Reflect.field(recipe, "maxscore"), minscore:Reflect.field(recipe, "minscore")};
 		//FlxG.log.add(newRecipe);
 		recipes.push(newRecipe);
 	}
@@ -81,7 +81,7 @@ class MixerComponent extends DropItemComponent {
 	private function checkRecipes():Void {
 		for (recipe in recipes) {
 			if (checkIngredients(recipe.ingredients)){
-				FlxG.switchState(new MatchThreeState(recipe.ingredients, recipe.time, recipe.score));
+				FlxG.switchState(new MatchThreeState(recipe.ingredients, recipe.time, recipe.maxscore, recipe.minscore));
 			}
 		}
 	}

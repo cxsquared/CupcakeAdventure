@@ -77,7 +77,9 @@ class PlayState extends FlxState
 
 	private function startDay(t:FlxTimer):Void {
 		FlxTween.tween(fade, {alpha:0}, 2, {onComplete:fadeDone});
-		FlxTween.tween(dayText, {alpha:0}, 1);
+		if (newDay) {
+			FlxTween.tween(dayText, {alpha:0}, 1);
+		}
 		fadingin = true;
 	}
 
