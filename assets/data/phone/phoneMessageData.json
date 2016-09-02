@@ -1,15 +1,24 @@
 {
 	"Day1": {
-		"default": "assets/data/phone/phoneDay1.json"
+		"StartingOut": "assets/data/phone/StartingOut.json"
 	},
 	"Day2": {
-
+		"HappyChocolate": "assets/data/phone/HappyChocolate.json",
+		"AngryChocolate": "assets/data/phone/AngryChocolate.json"
 	},
 	"Day3": {
-
+		"HappyPumpkinspice": "assets/data/phone/HappyPumpkinspice.json",
+		"MehPumpkinspice": "assets/data/phone/MehPumpkinspice.json",
+		"AngryChocolateAgain": "assets/data/phone/AngryChocolateAgain.json",
+		"SuperAngryChocolate": "assets/data/phone/SuperAngryChocolate.json"
 	},
 	"Day4": {
-
+		"HappyVegan": "",
+		"MehVegan": "",
+		"NoPumpkin": "",
+		"MehPumpkin": "",
+		"YouTriedPumpkin": "",
+		"Fired": ""
 	},
 	"Day5": {
 

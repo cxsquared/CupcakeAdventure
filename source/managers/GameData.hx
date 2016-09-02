@@ -4,15 +4,39 @@ import flixel.FlxG;
 import inventory.*;
 import actors.*;
 import states.PlayState;
+import openfl.Assets;
+import haxe.Json;
 
 class GameData {
 	
 	private static var instance:GameData;
 	public var heldItem:InventorySprite;
 	public var inventory:Inventory;
+	var dayoutcomesPath = "assets/data/dayoutcomes.json";
+	var dayoutcomesData:Dynamic;
 
-	//public static var MatchThree = new MatchThreeState();
-	//public static var PlayScreen = new PlayState();
+	@:isVar
+	public var currentDay(get, null):String = "";
+	private function get_currentDay():String {
+		if (currentDay == "") {
+			if (Reflect.hasField(FlxG.save.data, "dayNames")) {
+				if (Reflect.hasField(FlxG.save.data.dayNames, "day" + day)) {
+					currentDay = Reflect.field(FlxG.save.data.dayNames, "day" + day);
+				} else {
+					currentDay = getCurrentDayName();
+					Reflect.setField(FlxG.save.data.dayNames, "day"+day, currentDay);
+					FlxG.save.flush();
+				}
+			} else {
+				FlxG.save.data.dayNames = {};
+				currentDay = getCurrentDayName();
+				Reflect.setField(FlxG.save.data.dayNames, "day"+day, currentDay);
+				FlxG.save.flush();
+			}
+		}
+
+		return currentDay;
+	}
 
 	@:isVar
 	public static var day(get, set):Int = -1;
@@ -52,6 +76,8 @@ class GameData {
 
 	private function new():Void {
 		inventory = new Inventory();
+
+		dayoutcomesData = Json.parse(Assets.getText(dayoutcomesPath));
 	}
 
 	// This must be done after actors and scenes have been loaded
@@ -82,7 +108,38 @@ class GameData {
 	}
 
 	public function getCurrentDayName():String {
-		return "default";
+		if (day == 1) {
+			return "StartingOut";
+		} else if (wasCupcakeMade(day-1)) {
+			return getDayOutcome();
+		}
+
+		return Reflect.field(Reflect.field(dayoutcomesData, currentDay), "nocupcake");
+	}
+
+	private function getDayOutcome():String {
+		var possibleOutcomes = Reflect.field(dayoutcomesData, Reflect.field(FlxG.save.data.dayNames, "day"+(day-1)));
+		var tags:Array<String> = Reflect.field(FlxG.save.data.cupcakes, "day"+day);
+		for (tag in tags) {
+			if (Reflect.hasField(possibleOutcomes, tag)) {
+				return Reflect.field(possibleOutcomes, tag);
+			}
+		}
+
+		return Reflect.field(possibleOutcomes, "anycupcake");
+	}
+
+	private function wasCupcakeMade(day:Int):Bool {
+		return Reflect.hasField(FlxG.save.data, "cupcakes") && Reflect.hasField(Reflect.field(FlxG.save.data, "cupcakes"), "day"+day);
+	}
+
+	public function saveCupcake(tags:Array<String>):Void {
+		if (!Reflect.hasField(FlxG.save.data, "cupcakes")) {
+			FlxG.save.data.cupcakes = {};
+		}
+
+		Reflect.setField(FlxG.save.data.cupcakes, "day"+day, tags);
+		FlxG.save.flush();
 	}
 
 	public function clearData():Void {

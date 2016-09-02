@@ -28,8 +28,8 @@ class MessageComponent implements ActorComponent {
 	private var nameTextSprite:FlxText;
 	private var name_X = 60;
 	private var name_Y = 15;
-	private var name_width = 150;
-	private var name_size = 16;
+	private var name_width = 160;
+	private var name_size = 15;
 	private var messageTextSprite:FlxText;
 	private var message_X = 60;
 	private var message_Y = 60;
@@ -45,6 +45,7 @@ class MessageComponent implements ActorComponent {
 	public function init(Data:Dynamic):Bool {
 		messages = new Array<Message>();
 		var dayDataLocation = Reflect.field(Data, "messageData");
+		Log.trace(dayDataLocation);
 		var dayJson = Json.parse(Assets.getText(dayDataLocation));
 		Log.trace("Day" + GameData.day);
 		var dayData = Reflect.field(dayJson, "Day" + GameData.day);

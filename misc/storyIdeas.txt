@@ -5,34 +5,34 @@ Thanks for helping. Talk about making cupcakes (tutorial). Gathering items, reci
 
 Outcomes
 	A:
-		Any cupcake made
+		Any cupcake made / Happy Chocolate
 	B:
-		No cupcake made
+		No cupcake made / Angry Chocolate
 
 Day 2:
-	D1 A:
+	D1 A/Happy Chocolate:
 		I heard the customer was pleased. The next one wants a chocalte cupcake. I think I stored the chocolate in the (obscure place). Make sure to look around, remind of recipe book.
 
 		Outcomes:
 			A:
-				Any chocolate
+				Any chocolate / Happy Pumpkinspice
 			B:
-				Any non chocolate
+				Any non chocolate / MehPumpkinspice
 			C:
-				No cupcake
-	D1 B:
+				No cupcake /AngryChocolateAgain
+	D1 B/ Angry Chocolate:
 		I know it's hard but at least try to get a cupcake made today. Really anythink will work but chocolate is what is requested. I think I stored the chocolate in the (obscure place). Make sure to look around, remind of recipe book.
 
 		Outcomes:
 			D:
-				Any chocolate
+				Any chocolate / Happy Pumpkinspice
 			E:
-				Any non chocolate
+				Any non chocolate / MehPumpkinspice
 			F:
-				No cupcake
+				No cupcake / SuperAngryChocolate
 
 Day 3:
-	D2 A/D:
+	D2 A/D/HappyPumpkinspice:
 		Customer liked it. (If D: much better than the first day). Pumkin spice cupcake. Using other things to make ingredients. Need (these spices)
 
 		Outcomes:
@@ -43,7 +43,7 @@ Day 3:
 				Any other cupcake
 			C:
 				No cupcake
-	D2 B/E:
+	D2 B/E/ MehPumpkinspice:
 		Not really what the customer wanted. (If E: but better than the first day). Pumkin spice cupcake. Using other things to make ingredients. Need (these spices)
 
 		Outcomes:
@@ -54,7 +54,7 @@ Day 3:
 				Any other cupcake
 			F:
 				No cupcake
-	D2 C:
+	D2 C/AngryChocolateAgain:
 		Did you forget how to make cupcakes? Just try and get the chocolate cupcake done today.
 
 		Outcomes:
@@ -65,7 +65,7 @@ Day 3:
 			I:
 				no cupcake
 
-	D2 F:
+	D2 F/SuperAngryChocolate:
 		This is your last chance. Mess up again and I'll find someone else to help out. Just make any upcake please!
 
 		Outcome:

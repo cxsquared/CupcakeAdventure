@@ -2,6 +2,7 @@
 	"recipes": [
 		{
 			"name": "Vanilla Cupcake",
+			"tags": ["sweet"],
 			"ingredients": [
 				"flour",
 				"sugar",
@@ -16,6 +17,7 @@
 		},
 		{
 			"name": "Chocolate Cupcake",
+			"tags": ["chocolate"],
 			"ingredients": [
 				"flour",
 				"sugar",
@@ -30,6 +32,7 @@
 		},
 		{
 			"name": "Salted Carmel Cupcake",
+			"tags": ["salty", "sweet", "carmel"],
 			"ingredients": [
 				"flour",
 				"sugar",
@@ -45,6 +48,7 @@
 		},
 		{
 			"name": "Vegan Cupcake",
+			"tags": ["vegan", "sweet"],
 			"ingredients": [
 				"flour",
 				"sugar",
@@ -59,6 +63,7 @@
 		},
 		{
 			"name": "Pumpkin Spice Cupcake",
+			"tags": ["pumpkin", "spice", "sweet", "spicy"],
 			"ingredients": [
 				"flour",
 				"sugar",

@@ -1,0 +1,29 @@
+{
+	"StartingOut": {
+		"anycupcake": "HappyChocolate",
+		"nocupcake": "AngryChocolate"
+	},
+	"HappyChocolate": {
+		"chocolate": "HappyPumpkinspice",
+		"anycupcake": "MehPumpkinspice",
+		"nocupcake": "AngryChocolateAgain"
+	},
+	"AngryChocolate": {
+		"chocolate": "HappyPumpkinspice",
+		"anycupcake": "MehPumpkinspice",
+		"nocupcake": "SuperAngryChocolate"
+	},
+	"HappyPumpkinspice": {
+		
+	},
+	"MehPumpkinspice": {
+
+	},
+	"AngryChocolateAgain": {
+
+	},
+	"SuperAngryChocolate": {
+		
+	}
+	
+}

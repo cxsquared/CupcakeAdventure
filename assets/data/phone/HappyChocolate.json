@@ -1,0 +1,16 @@
+{
+	"messages": [
+		{
+			"name": "Maeve",
+			"message": "I heard the cupcakes turned out well yesterday. I hope things are going well. Oh and I forgot to tell you but there are some ingredients in the cabinet above the oven. It's a bit of a mess but if you look around you should find some usefull things."
+		},
+		{
+			"name": "Abigail",
+			"message": "Hi! I'm putting on a company picnic so I need some cupcakes. I would really love some chocolate cupcakes. See you later to pick up the order."
+		},
+		{
+			"name": "How To Cupcake",
+			"message": "Making cupcakes is a simple process.\n\nFirst, gather your ingredients. All cupcakes will normally use flour, milk, butter, and sugar. Then each cupcake will have it's own special ingredient. You can check the recipe book in the kitchen to see what you need for most cupcakes.\n\nSecond, put all the ingredients in the mixer to form the dough. Make sure not to under or over mix the dough to make the best cupcakes!\n\nFinally, put the dough in the oven and ice the cupcakes. Once they are done you can sit back and relax until the next day."
+		}
+	]
+}
