@@ -68,7 +68,7 @@ class MenuState extends FlxState
 
 	private function startGame(t:FlxTween):Void {
 		FlxG.switchState(new PlayState());
-		FlxG.switchState(new MatchThreeState(["flour", "sugar", "butter", "milk", "salt", "vanilla"], 20, 750, 250));
+		//FlxG.switchState(new MatchThreeState(["flour", "sugar", "butter", "milk", "salt", "vanilla"], 20, 750, 250));
 		//FlxG.switchState(new IcingGameState(null, FlxColor.CYAN));
 	}
 

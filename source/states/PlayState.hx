@@ -72,7 +72,7 @@ class PlayState extends FlxState
 			startDay(null);
 		}
 
-		GameData.getInstance().load();
+		GameData.getInstance().loadInventory();
 	}
 
 	private function startDay(t:FlxTimer):Void {
