@@ -20,19 +20,12 @@ class GameData {
 	public var currentDay(get, null):String = "";
 	private function get_currentDay():String {
 		if (currentDay == "") {
-			if (Reflect.hasField(FlxG.save.data, "dayNames")) {
-				if (Reflect.hasField(FlxG.save.data.dayNames, "day" + day)) {
-					currentDay = Reflect.field(FlxG.save.data.dayNames, "day" + day);
-				} else {
-					currentDay = getCurrentDayName();
-					Reflect.setField(FlxG.save.data.dayNames, "day"+day, currentDay);
-					FlxG.save.flush();
-				}
-			} else {
-				FlxG.save.data.dayNames = {};
+			var possibleName = getData(day, "name");
+			if (possibleName == null){
 				currentDay = getCurrentDayName();
-				Reflect.setField(FlxG.save.data.dayNames, "day"+day, currentDay);
-				FlxG.save.flush();
+				saveData(day, "name", currentDay);
+			} else {
+				currentDay = possibleName;
 			}
 		}
 
@@ -82,12 +75,11 @@ class GameData {
 	}
 
 	// This must be done after actors and scenes have been loaded
-	public function load():Void {
-		if (Reflect.hasField(FlxG.save.data, "inventories")) {
-			var inventoryData:Array<Inventory.InventoryItem> = Reflect.field(FlxG.save.data.inventories, "day"+day);
-
+	public function loadInventory():Void {
+		var tempInv:Array<Inventory.InventoryItem> = getData(day, "inventory");
+		if (tempInv != null) {
 			//TODO: Check if this is working
-			for (item in inventoryData) {
+			for (item in tempInv) {
 				inventory.addItem(item);
 				if (item.DestroyParent) {
 					var actor = ActorFactory.GetInstance().getActor(item.ActorID);
@@ -99,16 +91,8 @@ class GameData {
 		}
 	}
 
-	public function save():Void {
-		if (!Reflect.hasField(FlxG.save.data, "inventories")){
-			FlxG.save.data.inventories = {};
-		}
-
-		Reflect.setField(Reflect.field(FlxG.save.data, "inventories"), "day"+day, inventory.getAllItems());
-
-		FlxG.save.flush();
-
-		ObjectUtil.getInstance().printObject(FlxG.save.data);
+	public function saveInventory():Void {
+		saveData(day, "inventory", inventory.getAllItems());
 	}
 
 	public function getCurrentDayName():String {
@@ -122,8 +106,9 @@ class GameData {
 	}
 
 	private function getDayOutcome():String {
-		var possibleOutcomes = Reflect.field(dayoutcomesData, Reflect.field(FlxG.save.data.dayNames, "day"+(day-1)));
-		var tags:Array<String> = Reflect.field(FlxG.save.data.cupcakes, "day"+day);
+		var dayName = getData(day-1, "name");
+		var possibleOutcomes = Reflect.field(dayoutcomesData, dayName);
+		var tags:Array<String> = getData(day-1, "cupcake");
 		for (tag in tags) {
 			if (Reflect.hasField(possibleOutcomes, tag)) {
 				return Reflect.field(possibleOutcomes, tag);
@@ -134,16 +119,36 @@ class GameData {
 	}
 
 	private function wasCupcakeMade(day:Int):Bool {
-		return Reflect.hasField(FlxG.save.data, "cupcakes") && Reflect.hasField(Reflect.field(FlxG.save.data, "cupcakes"), "day"+day);
+		var possibleCupcake = getData(day, "cupcake");
+		return possibleCupcake != null;
 	}
 
 	public function saveCupcake(tags:Array<String>):Void {
-		if (!Reflect.hasField(FlxG.save.data, "cupcakes")) {
-			FlxG.save.data.cupcakes = {};
+		saveData(day, "cupcake", tags);
+	}
+
+	public function saveData(Day:Int, Field:String, Data:Dynamic):Void {
+		if (!Reflect.hasField(FlxG.save.data, "day"+Day)) {
+			Reflect.setField(FlxG.save.data, "day"+Day, {});
 		}
 
-		Reflect.setField(FlxG.save.data.cupcakes, "day"+day, tags);
+		var tempData = Reflect.field(FlxG.save.data, "day"+Day);
+		Reflect.setField(tempData, Field, Data);
+		Reflect.setField(FlxG.save.data, "day"+Day, tempData);
 		FlxG.save.flush();
+	}
+
+	public function getData(Day:Int, Field:String):Dynamic {
+		if (!Reflect.hasField(FlxG.save.data, "day"+Day)) {
+			return null;
+		}
+
+		var dayData = Reflect.field(FlxG.save.data, "day"+Day);
+		if (Reflect.hasField(dayData, Field)) {
+			return Reflect.field(dayData, Field);
+		}
+
+		return null;
 	}
 
 	public function clearData():Void {

@@ -25,7 +25,7 @@ class Inventory {
 	public function addItem(Item:Inventory.InventoryItem):Void {
 		inventoryItems.set(Item.Name, Item);
 		FlxG.log.add("Adding item " + Item.Name);
-		GameData.getInstance().save();
+		GameData.getInstance().saveInventory();
 	}
 
 	// Can return null if item doesn't exist
@@ -34,7 +34,7 @@ class Inventory {
 			var item = inventoryItems.get(Name);
 			inventoryItems.remove(Name);
 			FlxG.log.add("Getting item " + item.Name);
-			GameData.getInstance().save();
+			GameData.getInstance().saveInventory();
 			return item;
 		}
 
