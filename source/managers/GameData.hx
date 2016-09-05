@@ -6,6 +6,7 @@ import actors.*;
 import states.PlayState;
 import openfl.Assets;
 import haxe.Json;
+import util.ObjectUtil;
 
 class GameData {
 	
@@ -106,6 +107,8 @@ class GameData {
 		Reflect.setField(Reflect.field(FlxG.save.data, "inventories"), "day"+day, inventory.getAllItems());
 
 		FlxG.save.flush();
+
+		ObjectUtil.getInstance().printObject(FlxG.save.data);
 	}
 
 	public function getCurrentDayName():String {

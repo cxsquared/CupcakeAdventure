@@ -66,7 +66,7 @@ Day 3:
 				no cupcake
 
 	D2 F/SuperAngryChocolate:
-		This is your last chance. Mess up again and I'll find someone else to help out. Just make any upcake please!
+		This is your last chance. Mess up again and I'll find someone else to help out. Just make any "upcake" please!
 
 		Outcome:
 			J:

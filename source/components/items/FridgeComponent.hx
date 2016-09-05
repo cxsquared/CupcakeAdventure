@@ -4,6 +4,8 @@ import flixel.FlxG;
 import actors.Actor;
 import managers.SceneManager;
 
+//TODO: Make it where you can't leave scene if it's open
+
 class FridgeComponent extends InteractableComponent {
 
 	var topOpen:Bool = false;
