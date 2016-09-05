@@ -4,6 +4,7 @@ import flixel.FlxG;
 import managers.SoundManager;
 import AssetPaths;
 import flixel.FlxSprite;
+import managers.GameData;
 
 class CabinetComponent extends InteractableComponent {
 
@@ -62,6 +63,7 @@ class CabinetComponent extends InteractableComponent {
 				owner.animation.play("justRightDoor", false);
 			}
 		}
+		onExit();
 	}
 
 	private function leftClicked():Void {
@@ -83,5 +85,20 @@ class CabinetComponent extends InteractableComponent {
 				owner.animation.play("justLeftDoor", false);
 			}
 		}
+		onExit();
+	}
+
+	override public function onEnter():Void {
+		if (GameData.getInstance().getData(GameData.day, getComponentID()+"leftOpen") == true) {
+			leftClicked();
+		}
+		if (GameData.getInstance().getData(GameData.day, getComponentID()+"rightOpen") == true) {
+			rightClicked();
+		}
+	}
+
+	override public function onExit():Void {
+		GameData.getInstance().saveData(GameData.day, getComponentID()+"leftOpen", leftOpen);
+		GameData.getInstance().saveData(GameData.day, getComponentID()+"rightOpen", rightOpen);
 	}
 }
