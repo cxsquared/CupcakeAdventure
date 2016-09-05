@@ -136,4 +136,13 @@ class FridgeComponent extends InteractableComponent {
 			updateNotes(true, true);
 		}
 	}
+
+	override public function onExit():Void {
+		if (topOpen || bottomOpen) {
+			//SceneManager.GetInstance().changeScene("CabinetFridge", SceneDirection.BACKWARD);
+		}
+	}
+
+	override public function onEnter():Void {
+	}
 }

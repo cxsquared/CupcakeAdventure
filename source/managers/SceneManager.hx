@@ -18,6 +18,8 @@ enum SceneDirection {
 	RIGHT;
 }
 
+typedef SceneChangeEvent = {Name:String, Direction:SceneDirection};
+
 class SceneManager extends FlxTypedGroup<FlxSpriteGroup> {
 	
 	static var instance:SceneManager;
@@ -37,11 +39,13 @@ class SceneManager extends FlxTypedGroup<FlxSpriteGroup> {
 	var scenes:Map<String, FlxSpriteGroup>;
 	var currentScene:FlxSpriteGroup;
 	var nextScene:FlxSpriteGroup;
+	var sceneQueue:Array<SceneChangeEvent>;
 
 	private function new():Void {
 		if (SceneManager.instance == null) {
 			super();
 			scenes = new Map<String, FlxSpriteGroup>();
+			sceneQueue = new Array<SceneChangeEvent>();
 			SceneManager.instance = this;
 		}
 	}
@@ -74,7 +78,20 @@ class SceneManager extends FlxTypedGroup<FlxSpriteGroup> {
 		return "";
 	}
 
-	public function changeScene(Name:String, ?Direction:SceneDirection=null):Void {
+	override public function update(elapsed:Float):Void {
+		if (sceneQueue.length > 0 && !changingScenes) {
+			var nextSceneQueue = sceneQueue.shift();
+			executeChangeScene(nextSceneQueue.Name, nextSceneQueue.Direction);
+		}
+		super.update(elapsed);
+	}
+
+	public function changeScene(SceneName:String, ?EnterDirection:SceneDirection=null):Void {
+		var newSceneQueue = { Name:SceneName, Direction:EnterDirection};
+		sceneQueue.push(newSceneQueue);
+	}
+
+	private function executeChangeScene(Name:String, ?Direction:SceneDirection=null):Void {
 		// TODO: Make transitions fancier possibly with FlxTransition
 		if (Direction == null) {
 			Direction = RIGHT;
