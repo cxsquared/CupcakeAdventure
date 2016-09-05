@@ -11,6 +11,7 @@ import flixel.util.FlxTimer;
 import util.MultiIterator;
 import actors.Actor.MOUSEEVENT;
 import states.PlayState;
+import managers.GameData;
 
 typedef MatchData = { type:MatchThreeItems, items:Array<FlxPoint> };
 
@@ -29,6 +30,13 @@ enum MatchThreeItems {
 	PUMPKIN;
 	SPICE;
 	CARROT;
+}
+
+enum CupcakeQuality {
+	BAD;
+	OKAY;
+	GOOD;
+	PERFECT;
 }
 
 class MatchThreeController implements ActorComponent {
@@ -82,7 +90,10 @@ class MatchThreeController implements ActorComponent {
 	//private var timer:FlxTimer;	
 	private var timerComponent:MatchThreeTimerComponent;
 
+	private var cupcake:String;
+
 	public function init(Data:Dynamic):Bool {
+		currentMove = 0;
 		itemsData = new Array<Array<MatchThreeItems>>();
 		matches = new Array<MatchData>();
 		rand = new FlxRandom();
@@ -92,6 +103,9 @@ class MatchThreeController implements ActorComponent {
 		minScore = Reflect.field(Data, "minscore");
 		maxScore = Reflect.field(Data, "maxscore");
 		matchMoves = Reflect.field(Data, "moves");
+		cupcake = Reflect.field(Data, "cupcake");
+
+		FlxG.log.add("Match moves " + matchMoves);
 
 		setUpMeter();
 
@@ -106,7 +120,7 @@ class MatchThreeController implements ActorComponent {
 	}
 
 	private function endLevel(t:FlxTimer):Void {
-		FlxG.switchState(new PlayState());
+		//FlxG.switchState(new PlayState());
 	}
 
 	private function setUpMeter():Void {
@@ -226,6 +240,7 @@ class MatchThreeController implements ActorComponent {
 				//FlxG.log.add("Switching back.");
 				switchItems(lastSwitch[0], lastSwitch[1], false);
 			} else {
+				FlxG.log.add("current moves " + currentMove);
 				currentMove++;
 			}
 			
@@ -247,7 +262,12 @@ class MatchThreeController implements ActorComponent {
 		timerComponent.time = currentMove;
 
 		if (currentMove > matchMoves) {
-			//TODO: Update save data based on how well the cupcake went and what cupcake was made.
+			GameData.getInstance().saveData(GameData.day, "currentDough", cupcake);
+			GameData.getInstance().saveData(GameData.day, "quality", getQuality().getName());
+			//TODO: Make function to find dough icons by getting recipe data
+			GameData.getInstance().loadInventory();
+			GameData.getInstance().inventory.addNewItem(cupcake, "Some " + getQuality().getName().toLowerCase() + " " + cupcake + " dough.", -1, "assets/images/inventory/cupcakeDefaultInv.png", false);
+			GameData.getInstance().saveInventory();
 			FlxG.switchState(new PlayState("Kitchen", false));
 		}
 	}
@@ -912,6 +932,22 @@ class MatchThreeController implements ActorComponent {
 		shuffleBoard();
 		noMatchImage.visible = false;
 		noMatch = false;
+	}
+
+	private function getQuality():CupcakeQuality {
+		var scoreDiff = maxScore - minScore;
+		var midPoint = minScore + (scoreDiff/2);
+		var perfectOffset = scoreDiff/8;
+		var goodOffset = scoreDiff/4;
+		if (score > maxScore || score < minScore) {
+			return CupcakeQuality.BAD;
+		} else if (score < midPoint+perfectOffset && score > midPoint-perfectOffset ) {
+			return CupcakeQuality.PERFECT;
+		} else if (score < midPoint+goodOffset && score > midPoint-goodOffset ) {
+			return CupcakeQuality.GOOD;
+		}
+
+		return CupcakeQuality.OKAY;
 	}
 
 	public function onMouseEvent(e:MOUSEEVENT):Void{}

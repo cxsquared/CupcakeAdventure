@@ -1,0 +1,5 @@
+TODOs
+
+TODO: Make oven bake and possibly go to icing minigame
+TODO: Icing mini game?
+TODO: Make invventory item use mouse manager

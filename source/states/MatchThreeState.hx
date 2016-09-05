@@ -14,13 +14,15 @@ class MatchThreeState extends FlxState {
 	var maxScore:Int;
 	var minScore:Int;
 	var moves:Float;
+	var cupcake:String;
 
-	public function new(ingredients:Array<String>, moveLimit:Float, maxScore:Int, minScore:Int){
+	public function new(Cupcake:String, ingredients:Array<String>, moveLimit:Float, maxScore:Int, minScore:Int){
 		super();
 		this.items = ingredients;
 		this.moves = moveLimit;
 		this.maxScore = maxScore;
 		this.minScore = minScore;
+		this.cupcake = Cupcake;
 	}
 
 	override public function create():Void
@@ -43,7 +45,8 @@ class MatchThreeState extends FlxState {
 						"items": items,
 						"maxscore": maxScore,
 						"minscore": minScore,
-						"moves": moves
+						"moves": moves,
+						"cupcake": cupcake
 					}
 				}
 			]

@@ -110,7 +110,25 @@
 			"width": 76,
 			"height": 81,
 			"spriteSheet": "assets/images/kitchen/oven.png",
-			"components": []
+			"components": [
+				{
+					"name": "OvenComponent",
+					"data": {
+						"recipes": "assets/data/recipes.json"
+					}
+				},
+				{
+					"name": "DescriptionComponent",
+					"data": {
+						"description": "An oven for cooking dough after mixing.",
+						"color": {
+							"r": 200,
+							"g": 150,
+							"b": 100
+						}
+					}
+				}
+			]
 		},
 		{
 			"name": "sauce pan",

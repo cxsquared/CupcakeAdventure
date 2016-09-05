@@ -9,7 +9,7 @@ import haxe.Json;
 import managers.GameData;
 import states.MatchThreeState;
 
-typedef Recipe = { name:String, ingredients:Array<String>, time:Float, maxscore:Int, minscore:Int };
+typedef Recipe = { name:String, ingredients:Array<String>, moves:Float, maxscore:Int, minscore:Int };
 
 class MixerComponent extends DropItemComponent {
 
@@ -34,7 +34,7 @@ class MixerComponent extends DropItemComponent {
 
 	private function parseRecipe(recipe:Dynamic):Void {
 		var newRecipe:Recipe = { name:Reflect.field(recipe, "name"), ingredients:Reflect.field(recipe, "ingredients"),
-								time:Reflect.field(recipe, "time"), maxscore:Reflect.field(recipe, "maxscore"), minscore:Reflect.field(recipe, "minscore")};
+								moves:Reflect.field(recipe, "moves"), maxscore:Reflect.field(recipe, "maxscore"), minscore:Reflect.field(recipe, "minscore")};
 		//FlxG.log.add(newRecipe);
 		recipes.push(newRecipe);
 	}
@@ -71,6 +71,7 @@ class MixerComponent extends DropItemComponent {
 				textComp = cast(textComp, DescriptionComponent);
 				textComp.say("I already put that in the mixer.");
 		} else {
+			//TODO:Save this data
 			owner.animation.play("mix");
 			items.push(GameData.getInstance().inventory.getItem(Item.inventoryData.Name));
 			GameData.getInstance().heldItem = null;
@@ -81,7 +82,7 @@ class MixerComponent extends DropItemComponent {
 	private function checkRecipes():Void {
 		for (recipe in recipes) {
 			if (checkIngredients(recipe.ingredients)){
-				FlxG.switchState(new MatchThreeState(recipe.ingredients, recipe.time, recipe.maxscore, recipe.minscore));
+				FlxG.switchState(new MatchThreeState(recipe.name, recipe.ingredients, recipe.moves, recipe.maxscore, recipe.minscore));
 			}
 		}
 	}

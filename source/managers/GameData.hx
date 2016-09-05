@@ -23,6 +23,7 @@ class GameData {
 			var possibleName = getData(day, "name");
 			if (possibleName == null){
 				currentDay = getCurrentDayName();
+				FlxG.log.add("Getting current day name " + currentDay);
 				saveData(day, "name", currentDay);
 			} else {
 				currentDay = possibleName;
@@ -47,6 +48,7 @@ class GameData {
 		return FlxG.save.data.day;
 	}
 	private static function set_day(v:Int):Int {
+		GameData.getInstance().currentDay = "";
 		FlxG.save.data.day = v;
 		day = v;
 		FlxG.save.flush();
@@ -80,7 +82,6 @@ class GameData {
 	public function loadInventory():Void {
 		var tempInv:Array<Inventory.InventoryItem> = getData(day, "inventory");
 		if (tempInv != null) {
-			//TODO: Check if this is working
 			for (item in tempInv) {
 				inventory.addItem(item);
 				if (!item.DestroyParent) {
@@ -97,7 +98,7 @@ class GameData {
 		saveData(day, "inventory", inventory.getAllItems());
 	}
 
-	public function getCurrentDayName():String {
+	private function getCurrentDayName():String {
 		if (day == 1) {
 			return "StartingOut";
 		} else if (wasCupcakeMade(day-1)) {
@@ -142,7 +143,7 @@ class GameData {
 			FlxG.log.error("Saving failed");
 		}
 
-		ObjectUtil.getInstance().printObject(FlxG.save.data);
+		//ObjectUtil.getInstance().printObject(FlxG.save.data);
 	}
 
 	public function getData(Day:Int, Field:String):Dynamic {

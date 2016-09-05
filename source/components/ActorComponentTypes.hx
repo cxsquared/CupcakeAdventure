@@ -24,4 +24,5 @@ enum ActorComponentTypes {
 	PHONEARROW;
 	CLOUD;
 	CLOUDCONTROLLER;
+	OVEN;
 }

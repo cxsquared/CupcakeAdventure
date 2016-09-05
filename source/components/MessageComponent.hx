@@ -49,7 +49,8 @@ class MessageComponent implements ActorComponent {
 		var dayJson = Json.parse(Assets.getText(dayDataLocation));
 		Log.trace("Day" + GameData.day);
 		var dayData = Reflect.field(dayJson, "Day" + GameData.day);
-		var messagesDataLocation = Reflect.field(dayData, GameData.getInstance().getCurrentDayName());
+		var messagesDataLocation = Reflect.field(dayData, GameData.getInstance().currentDay);
+		Log.trace("Message data location " + messagesDataLocation);
 		var messagesDataJson = Json.parse(Assets.getText(messagesDataLocation));
 
 		var messagesArray:Array<Dynamic> = Reflect.field(messagesDataJson, "messages");

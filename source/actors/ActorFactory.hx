@@ -57,6 +57,7 @@ class ActorFactory {
 		actorComponentCreators.set("PhoneArrowComponent", PhoneArrowComponent);
 		actorComponentCreators.set("CloudController", CloudController);
 		actorComponentCreators.set("CloudComponent", CloudComponent);
+		actorComponentCreators.set("OvenComponent", OvenComponent);
 	}
 
 	public function createActor(Data:Dynamic):Actor {
