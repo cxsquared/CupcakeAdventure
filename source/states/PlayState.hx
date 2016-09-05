@@ -48,8 +48,8 @@ class PlayState extends FlxState
 		SceneManager.GetInstance().clearScenes();
 		sceneManager = SceneManager.GetInstance();
 
-		sceneManager.loadScenes(AssetPaths.sceneData__json);
-		sceneManager.changeScene(startingRoom);
+		sceneManager.loadScenes(AssetPaths.sceneData__json, startingRoom);
+		//sceneManager.changeScene(startingRoom, true);
 
 		add(sceneManager);
 

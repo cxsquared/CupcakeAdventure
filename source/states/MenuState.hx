@@ -15,6 +15,7 @@ import managers.SceneManager;
 import flixel.util.FlxColor;
 import flixel.tweens.FlxTween;
 import managers.GameData;
+import util.ObjectUtil;
 
 class MenuState extends FlxState
 {
@@ -30,8 +31,8 @@ class MenuState extends FlxState
 		var sceneManager = SceneManager.GetInstance();
 		sceneManager.clearScenes();
 
-		sceneManager.loadScenes(AssetPaths.menuSceneData__json);
-		sceneManager.changeScene("MainMenu");
+		sceneManager.loadScenes(AssetPaths.menuSceneData__json, "MainMenu");
+		//sceneManager.changeScene("MainMenu");
 
 		add(sceneManager);
 
@@ -48,6 +49,8 @@ class MenuState extends FlxState
 		fadeout = new FlxSprite();
 		fadeout.makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
 		fadeout.alpha = 0;
+
+		ObjectUtil.getInstance().printObject(FlxG.save.data);
 	}
 
 	private function newGame():Void {

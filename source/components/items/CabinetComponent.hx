@@ -25,6 +25,13 @@ class CabinetComponent extends InteractableComponent {
 
 	override public function postInit(){
 		super.postInit();
+
+		if (GameData.getInstance().getData(GameData.day, Std.string(getComponentID())+Std.string(owner.getID())+"leftOpen") == true) {
+			leftClicked(false);
+		}
+		if (GameData.getInstance().getData(GameData.day, Std.string(getComponentID())+Std.string(owner.getID())+"rightOpen") == true) {
+			rightClicked(false);
+		}
 	}
 
 	override public function update(DeltaTime:Float) {
@@ -45,17 +52,21 @@ class CabinetComponent extends InteractableComponent {
 		}
 	}
 
-	private function rightClicked():Void {
+	private function rightClicked(sound:Bool=true):Void {
 		if (rightOpen) {
 			rightOpen = false;
-			FlxG.sound.play(AssetPaths.closeCabinet__wav);
+			if (sound) {
+				FlxG.sound.play(AssetPaths.closeCabinet__wav);
+			}
 			if (leftOpen) {
 				owner.animation.play("rightAfterLeft", false, true);
 			} else {
 				owner.animation.play("justRightDoor", false,  true);
 			}
 		} else {
-			FlxG.sound.play(AssetPaths.openCabinet__wav);
+			if (sound) {
+				FlxG.sound.play(AssetPaths.openCabinet__wav);
+			}
 			rightOpen = true;
 			if (leftOpen) {
 				owner.animation.play("rightAfterLeft", false);
@@ -63,14 +74,15 @@ class CabinetComponent extends InteractableComponent {
 				owner.animation.play("justRightDoor", false);
 			}
 		}
-		onExit();
 	}
 
-	private function leftClicked():Void {
+	private function leftClicked(sound:Bool=true):Void {
 		//FlxG.log.add("Right Clicked");
 		if (leftOpen) {
 			leftOpen = false;
-			FlxG.sound.play(AssetPaths.closeCabinet__wav);
+			if (sound) {
+				FlxG.sound.play(AssetPaths.closeCabinet__wav);
+			}
 			if (rightOpen) {
 				owner.animation.play("leftAfterRight", false, true);
 			} else {
@@ -78,27 +90,26 @@ class CabinetComponent extends InteractableComponent {
 			}
 		} else {
 			leftOpen = true;
-			FlxG.sound.play(AssetPaths.openCabinet__wav);
+			if (sound) {
+				FlxG.sound.play(AssetPaths.openCabinet__wav);
+			}
 			if (rightOpen) {
 				owner.animation.play("leftAfterRight", false);
 			} else {
 				owner.animation.play("justLeftDoor", false);
 			}
 		}
-		onExit();
 	}
 
 	override public function onEnter():Void {
-		if (GameData.getInstance().getData(GameData.day, getComponentID()+"leftOpen") == true) {
-			leftClicked();
-		}
-		if (GameData.getInstance().getData(GameData.day, getComponentID()+"rightOpen") == true) {
-			rightClicked();
-		}
 	}
 
 	override public function onExit():Void {
-		GameData.getInstance().saveData(GameData.day, getComponentID()+"leftOpen", leftOpen);
-		GameData.getInstance().saveData(GameData.day, getComponentID()+"rightOpen", rightOpen);
+		saveDoors();
+	}
+
+	private function saveDoors():Void {
+		GameData.getInstance().saveData(GameData.day, Std.string(getComponentID())+Std.string(owner.getID())+"leftOpen", leftOpen);
+		GameData.getInstance().saveData(GameData.day, Std.string(getComponentID())+Std.string(owner.getID())+"rightOpen", rightOpen);
 	}
 }

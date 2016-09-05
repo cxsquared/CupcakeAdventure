@@ -61,14 +61,16 @@ class GameData {
 		var gd = new GameData();
 		instance = gd;
 
-		if (!FlxG.save.bind("CupcakeData")) {
-			FlxG.log.error("Save failed to create!");
-		}
-
 		return instance;
 	}
 
 	private function new():Void {
+		if (!FlxG.save.bind("CupcakeData")) {
+			FlxG.log.error("Save failed to create!");
+		}
+
+		ObjectUtil.getInstance().printObject(FlxG.save.data);
+
 		inventory = new Inventory();
 
 		dayoutcomesData = Json.parse(Assets.getText(dayoutcomesPath));
@@ -81,7 +83,7 @@ class GameData {
 			//TODO: Check if this is working
 			for (item in tempInv) {
 				inventory.addItem(item);
-				if (item.DestroyParent) {
+				if (!item.DestroyParent) {
 					var actor = ActorFactory.GetInstance().getActor(item.ActorID);
 					if (actor != null) {
 						actor.destroy();
@@ -128,6 +130,7 @@ class GameData {
 	}
 
 	public function saveData(Day:Int, Field:String, Data:Dynamic):Void {
+		FlxG.log.add("Saving " + Field);
 		if (!Reflect.hasField(FlxG.save.data, "day"+Day)) {
 			Reflect.setField(FlxG.save.data, "day"+Day, {});
 		}
@@ -135,10 +138,16 @@ class GameData {
 		var tempData = Reflect.field(FlxG.save.data, "day"+Day);
 		Reflect.setField(tempData, Field, Data);
 		Reflect.setField(FlxG.save.data, "day"+Day, tempData);
-		FlxG.save.flush();
+		if (!FlxG.save.flush()) {
+			FlxG.log.error("Saving failed");
+		}
+
+		ObjectUtil.getInstance().printObject(FlxG.save.data);
 	}
 
 	public function getData(Day:Int, Field:String):Dynamic {
+		FlxG.log.add("Getting " + Field);
+		ObjectUtil.getInstance().printObject(FlxG.save.data);
 		if (!Reflect.hasField(FlxG.save.data, "day"+Day)) {
 			return null;
 		}
@@ -156,5 +165,6 @@ class GameData {
 		FlxG.save.flush();
 		inventory.clear();
 		day = -1;
+		FlxG.log.add("Clearing Data");
 	}
 }

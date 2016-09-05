@@ -113,20 +113,27 @@ class SceneManager extends FlxTypedGroup<FlxSpriteGroup> {
 		nextScene = null;
 	}
 
-	public function loadScenes(JSONDataPath:String):Void {
+	public function loadScenes(JSONDataPath:String, StartingScene:String):Void {
 		haxe.Log.trace("Scene file path " + JSONDataPath);
 		var jsData = Json.parse(Assets.getText(JSONDataPath));
 		var scenesData:Array<Dynamic> = Reflect.field(jsData, "scenes");
 		for (scene in scenesData) {
 			var newScene = parseScene(Reflect.field(scene, "data"));
-			scenes.set(Reflect.field(scene, "name"), newScene);
+			var sceneName = Reflect.field(scene, "name");
+			scenes.set(sceneName, newScene);
 			add(newScene);
-			if (currentScene != null) {
+			if (sceneName != StartingScene) {
 				//currentScene.alpha = 0;
-				currentScene.setPosition(-FlxG.width, -FlxG.height);
+				newScene.setPosition(-FlxG.width, -FlxG.height);
+			} else{
+				currentScene = newScene;
+				currentScene.setPosition(0, 0);
 			}
-			currentScene = newScene;
 		}
+		for (actor in getActorsInScene()) {
+			actor.onEnter();
+		}
+
 	}
 
 	private function parseScene(JSONDataPath:String):FlxSpriteGroup {
