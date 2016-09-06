@@ -34,25 +34,12 @@ class GameData {
 	}
 
 	@:isVar
-	public static var day(get, set):Int = -1;
-	private static function get_day():Int {
-		if (!Reflect.hasField(FlxG.save.data, "day")) {
-			FlxG.save.data.day = 1;
-			FlxG.log.add("Initializing day");
-			FlxG.save.flush();
-			return 1;
-		} else if (day == -1) {
-			day = 1;
-		}
-
-		return FlxG.save.data.day;
-	}
+	public static var day(default, set):Int = -1;
 	private static function set_day(v:Int):Int {
 		GameData.getInstance().currentDay = "";
-		FlxG.save.data.day = v;
-		day = v;
+		day = FlxG.save.data.day = v;
 		FlxG.save.flush();
-		return v;
+		return day;
 	}
 
 	public static function getInstance():GameData {
@@ -75,7 +62,17 @@ class GameData {
 
 		inventory = new Inventory();
 
-		dayoutcomesData = Json.parse(Assets.getText(dayoutcomesPath));
+		dayoutcomesData = Json.parse(Assets.getText(dayoutcomesPath));	
+	}
+
+	private function init():Void {
+		if (day == -1) {
+			if (Reflect.hasField(FlxG.save.data, "day")){
+				day = FlxG.save.data.day;
+			} else {
+				day = 1;
+			}
+		}
 	}
 
 	// This must be done after actors and scenes have been loaded
@@ -163,9 +160,10 @@ class GameData {
 
 	public function clearData():Void {
 		FlxG.save.erase();
-		FlxG.save.flush();
-		inventory.clear();
-		day = -1;
 		FlxG.log.add("Clearing Data");
+		if (!FlxG.save.bind("CupcakeData")) {
+			FlxG.log.error("Save failed to create!");
+		}
+		day = 1;
 	}
 }

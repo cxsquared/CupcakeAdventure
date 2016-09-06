@@ -41,10 +41,14 @@ class MenuState extends FlxState
 		newButton.y -= newButton.height;
 		add(newButton);
 
-		var continueButton = new FlxButton(FlxG.width/2, FlxG.height/2, "Continue", continueGame);
-		continueButton.x -= continueButton.width/2;
-		continueButton.y += continueButton.height;
-		add(continueButton);
+		GameData.getInstance(); // Just to initalize save
+		if(Reflect.hasField(FlxG.save.data, "day")) {
+			var continueButton = new FlxButton(FlxG.width/2, FlxG.height/2, "Continue", continueGame);
+			continueButton.x -= continueButton.width/2;
+			continueButton.y += continueButton.height;
+			add(continueButton);
+			GameData.day = FlxG.save.data.day;
+		}
 
 		fadeout = new FlxSprite();
 		fadeout.makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
@@ -55,6 +59,7 @@ class MenuState extends FlxState
 
 	private function newGame():Void {
 		GameData.getInstance().clearData();
+		GameData.day = 1;
 		continueGame();
 	}
 

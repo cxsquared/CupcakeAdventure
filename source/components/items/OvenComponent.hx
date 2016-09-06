@@ -36,6 +36,8 @@ class OvenComponent extends DropItemComponent {
 				GameData.getInstance().heldItem = null;
 				GameData.getInstance().saveCupcake(Reflect.field(recipe, "tags"));
 				GameData.day++;
+				GameData.getInstance().inventory.clear();
+				GameData.getInstance().saveInventory();
 				FlxG.switchState(new PlayState());
 			}
 		}

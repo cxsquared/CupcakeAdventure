@@ -13,12 +13,12 @@
 		"SuperAngryChocolate": "assets/data/phone/SuperAngryChocolate.json"
 	},
 	"Day4": {
-		"HappyVegan": "",
-		"MehVegan": "",
-		"NoPumpkin": "",
-		"MehPumpkin": "",
-		"YouTriedPumpkin": "",
-		"Fired": ""
+		"HappyVegan": "assets/data/phone/HappyVegan.json",
+		"MehVegan": "assets/data/phone/MehVegan.json",
+		"NoPumpkin": "assets/data/phone/NoPumpkin.json",
+		"MehPumpkin": "assets/data/phone/MehPumpkin.json",
+		"YouTriedPumpkin": "assets/data/phone/YouTriedPumpkin.json",
+		"Fired": "assets/data/phone/Fired.json"
 	},
 	"Day5": {
 
