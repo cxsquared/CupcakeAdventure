@@ -68,6 +68,7 @@ class PlayState extends FlxState
 
 			dayTextTimer = new FlxTimer();
 			dayTextTimer.start(2, startDay, 1);
+			GameData.getInstance().resetTime();
 		} else {
 			startDay(null);
 		}

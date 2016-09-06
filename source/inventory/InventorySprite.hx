@@ -23,6 +23,7 @@ class InventorySprite extends FlxSprite {
 		super();
 
 		FlxMouseEventManager.add(this, onClick, onRelease, null, null);
+		//TODO: MAke text fancier
 		descriptionText = new FlxText();
 		descriptionTimer = new FlxTimer();
 	}

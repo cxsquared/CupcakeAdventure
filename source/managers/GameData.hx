@@ -8,6 +8,11 @@ import openfl.Assets;
 import haxe.Json;
 import util.ObjectUtil;
 
+enum TimeActions {
+	MIX;
+	PICKUP;
+}
+
 class GameData {
 	
 	private static var instance:GameData;
@@ -15,6 +20,10 @@ class GameData {
 	public var inventory:Inventory;
 	var dayoutcomesPath = "assets/data/dayoutcomes.json";
 	var dayoutcomesData:Dynamic;
+
+	var mixTime = 2.66;
+	var itemTime = .14;
+	var startTime = 8;
 
 	@:isVar
 	public var currentDay(get, null):String = "";
@@ -53,6 +62,14 @@ class GameData {
 		return instance;
 	}
 
+	@:isVar
+	public var time(default, set):Float = -1;
+	private function set_time(v:Float):Float {
+		time = v;
+		saveData(day, "time", v);
+		return time;
+	}
+
 	private function new():Void {
 		if (!FlxG.save.bind("CupcakeData")) {
 			FlxG.log.error("Save failed to create!");
@@ -65,14 +82,29 @@ class GameData {
 		dayoutcomesData = Json.parse(Assets.getText(dayoutcomesPath));	
 	}
 
-	private function init():Void {
-		if (day == -1) {
-			if (Reflect.hasField(FlxG.save.data, "day")){
-				day = FlxG.save.data.day;
-			} else {
-				day = 1;
-			}
+	public function resetTime():Void {
+		this.time = startTime;
+
+		FlxG.watch.add(this, "time", "Time left");
+	}
+
+	public function removeTime(timeType:TimeActions):Float {
+		switch (timeType) {
+			case MIX:
+				time -= mixTime;
+			case PICKUP:
+				time -= itemTime;
+				if (time <= 0) {
+					GameData.day++;
+					GameData.getInstance().inventory.clear();
+					GameData.getInstance().saveInventory();
+					FlxG.switchState(new PlayState());
+				}
 		}
+
+		time = Math.max(time, 0);
+
+		return time;
 	}
 
 	// This must be done after actors and scenes have been loaded
@@ -97,16 +129,18 @@ class GameData {
 
 	private function getCurrentDayName():String {
 		if (day == 1) {
+			FlxG.log.add("Returning day 1 name");
 			return "StartingOut";
 		} else if (wasCupcakeMade(day-1)) {
 			return getDayOutcome();
 		}
-
-		return Reflect.field(Reflect.field(dayoutcomesData, currentDay), "nocupcake");
+		FlxG.log.add("Looking for no cupcake in " + getData(day-1, "name"));
+		return Reflect.field(Reflect.field(dayoutcomesData, getData(day-1, "name")), "nocupcake");
 	}
 
 	private function getDayOutcome():String {
 		var dayName = getData(day-1, "name");
+		FlxG.log.add("Looking for outcome from " + dayName);
 		var possibleOutcomes = Reflect.field(dayoutcomesData, dayName);
 		var tags:Array<String> = getData(day-1, "cupcake");
 		for (tag in tags) {

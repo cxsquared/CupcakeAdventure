@@ -135,8 +135,13 @@ class ActorFactory {
 		return null;
 	}
 
+	var firstListed = true;
 	private function getNextActorId():Int {
 		++lastActorId;
+		if (firstListed) {
+			FlxG.log.add(lastActorId);
+			firstListed = false;
+		}
 		return lastActorId;		
 	}
 
@@ -171,6 +176,6 @@ class ActorFactory {
 	}
 
 	public function resetActorID():Void {
-
+		lastActorId = 0;
 	}
 }

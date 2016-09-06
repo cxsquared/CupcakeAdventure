@@ -59,6 +59,7 @@ class SaucePanComponent extends DropItemComponent {
 			if (inRecipe(Item.inventoryData.Name)) {
 				owner.animation.play("cook");
 				items.push(GameData.getInstance().inventory.getItem(Item.inventoryData.Name));
+				GameData.getInstance().heldItem.destroy();
 				GameData.getInstance().heldItem = null;
 				checkRecipes();
 			} else {
@@ -118,6 +119,8 @@ class SaucePanComponent extends DropItemComponent {
 					GameData.getInstance().inventory.addItem(itemCheck);
 				} else {
 					//FlxG.log.add("New ingredient made " + recipe.name);
+					GameData.getInstance().removeTime(TimeActions.PICKUP);
+					owner.getTextComponent().say(recipe.description);
 					GameData.getInstance().inventory.addNewItem(recipe.name, recipe.description, -1, recipe.iconPath);
 				}
 

@@ -131,6 +131,7 @@ class SceneManager extends FlxTypedGroup<FlxSpriteGroup> {
 	}
 
 	public function loadScenes(JSONDataPath:String, StartingScene:String):Void {
+		ActorFactory.GetInstance().resetActorID();
 		haxe.Log.trace("Scene file path " + JSONDataPath);
 		var jsData = Json.parse(Assets.getText(JSONDataPath));
 		var scenesData:Array<Dynamic> = Reflect.field(jsData, "scenes");

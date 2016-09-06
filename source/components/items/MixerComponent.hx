@@ -93,6 +93,7 @@ class MixerComponent extends DropItemComponent {
 		for (recipe in recipes) {
 			if (checkIngredients(recipe.ingredients)){
 				GameData.getInstance().saveData(GameData.day, "mixer" + owner.getID(), []);
+				GameData.getInstance().removeTime(TimeActions.MIX);
 				FlxG.switchState(new MatchThreeState(recipe.name, recipe.ingredients, recipe.moves, recipe.maxscore, recipe.minscore));
 			}
 		}

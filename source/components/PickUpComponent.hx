@@ -3,6 +3,7 @@ package components;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import managers.GameData;
+import managers.GameData.TimeActions;
 
 class PickUpComponent extends InteractableComponent {
 
@@ -61,5 +62,6 @@ class PickUpComponent extends InteractableComponent {
 			GameData.getInstance().inventory.addNewItem(name, description, owner.getID(), iconPath, perminant);
 			owner.kill();
 		}
+		GameData.getInstance().removeTime(TimeActions.PICKUP);
 	}
 }
