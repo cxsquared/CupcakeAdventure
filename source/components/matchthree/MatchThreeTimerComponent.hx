@@ -32,6 +32,8 @@ class MatchThreeTimerComponent implements ActorComponent {
 
 	public function update(DeltaTime:Float):Void{
 		arrow.angle = FlxMath.lerp(0, 360, Math.min(time/maxTime, 1));
+		arrow.scale.x = owner.scale.x;
+		arrow.scale.y = owner.scale.y;
 	}
 
 	public function getComponentID():ActorComponentTypes{

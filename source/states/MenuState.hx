@@ -21,6 +21,7 @@ class MenuState extends FlxState
 {
 	var fadeout:FlxSprite;
 	var fadingOut:Bool = false;
+	var startingNewGame:Bool = false;
 
 	override public function create():Void
 	{
@@ -60,6 +61,7 @@ class MenuState extends FlxState
 	private function newGame():Void {
 		GameData.getInstance().clearData();
 		GameData.day = 1;
+		startingNewGame = true;
 		continueGame();
 	}
 
@@ -75,7 +77,12 @@ class MenuState extends FlxState
 	}
 
 	private function startGame(t:FlxTween):Void {
-		FlxG.switchState(new PlayState());
+		if (startingNewGame) {
+			FlxG.switchState(new PlayState());
+		} else {
+			FlxG.switchState(new PlayState("Bookshelf", false));
+		}
+
 		//FlxG.switchState(new MatchThreeState(["flour", "sugar", "butter", "milk", "salt", "vanilla"], 20, 750, 250));
 		//FlxG.switchState(new IcingGameState(null, FlxColor.CYAN));
 	}

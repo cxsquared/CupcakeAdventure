@@ -7,6 +7,8 @@ import states.PlayState;
 import openfl.Assets;
 import haxe.Json;
 import util.ObjectUtil;
+import components.ActorComponentTypes;
+import components.matchthree.MatchThreeTimerComponent;
 
 enum TimeActions {
 	MIX;
@@ -18,6 +20,7 @@ class GameData {
 	private static var instance:GameData;
 	public var heldItem:InventorySprite;
 	public var inventory:Inventory;
+	var timer:Actor;
 	var dayoutcomesPath = "assets/data/dayoutcomes.json";
 	var dayoutcomesData:Dynamic;
 
@@ -82,10 +85,36 @@ class GameData {
 		dayoutcomesData = Json.parse(Assets.getText(dayoutcomesPath));	
 	}
 
-	public function resetTime():Void {
-		this.time = startTime;
+	public function resetTime(isNewDay:Bool):Void {
+		if (isNewDay) {
+			this.time = startTime;
+		} else {
+			this.time = getData(day, "time");
+		}
 
 		FlxG.watch.add(this, "time", "Time left");
+		timer = ActorFactory.GetInstance().createActor({
+			"name": "timer",
+			"x": 0,
+			"y": 0,
+			"width": -1,
+			"height": -1,
+			"spriteSheet": "assets/images/match/match_TimerBackground.png",
+			"components": [
+				{
+					"name": "MatchThreeTimerComponent",
+					"data": {
+						"time": startTime
+					}
+				}
+			]
+		});
+		timer.scale.x = timer.scale.y = .5;
+		timer.x = 0;
+		timer.y = 0;
+		timer.addToState(FlxG.state);
+		var timerComp = cast(timer.getComponent(ActorComponentTypes.MATCHTIMER), MatchThreeTimerComponent);
+		timerComp.time = startTime - time;
 	}
 
 	public function removeTime(timeType:TimeActions):Float {
@@ -103,6 +132,9 @@ class GameData {
 		}
 
 		time = Math.max(time, 0);
+
+		var timerComp = cast(timer.getComponent(ActorComponentTypes.MATCHTIMER), MatchThreeTimerComponent);
+		timerComp.time = startTime - time;
 
 		return time;
 	}

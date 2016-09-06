@@ -56,6 +56,8 @@ class PlayState extends FlxState
 		inventoryUI = new InventoryUI();
 		add(inventoryUI);
 
+		GameData.getInstance().resetTime(newDay);
+
 		fade = new FlxSprite();
 		fade.makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
 		add(fade);
@@ -68,7 +70,6 @@ class PlayState extends FlxState
 
 			dayTextTimer = new FlxTimer();
 			dayTextTimer.start(2, startDay, 1);
-			GameData.getInstance().resetTime();
 		} else {
 			startDay(null);
 		}
