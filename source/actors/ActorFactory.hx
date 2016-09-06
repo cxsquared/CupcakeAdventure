@@ -169,4 +169,8 @@ class ActorFactory {
 			FlxG.log.warn("Couldn't remove actor " + ID);
 		}
 	}
+
+	public function resetActorID():Void {
+
+	}
 }

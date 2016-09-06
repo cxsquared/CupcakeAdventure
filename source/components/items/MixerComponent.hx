@@ -32,6 +32,15 @@ class MixerComponent extends DropItemComponent {
 		return true;
 	}
 
+	override public function postInit():Void {
+		var oldItems:Array<InventoryItem> = GameData.getInstance().getData(GameData.day, "mixer" + owner.getID());
+		if (oldItems != null) {
+			for (item in oldItems) {
+				items.push(item);
+			}
+		}
+	}
+
 	private function parseRecipe(recipe:Dynamic):Void {
 		var newRecipe:Recipe = { name:Reflect.field(recipe, "name"), ingredients:Reflect.field(recipe, "ingredients"),
 								moves:Reflect.field(recipe, "moves"), maxscore:Reflect.field(recipe, "maxscore"), minscore:Reflect.field(recipe, "minscore")};
@@ -71,10 +80,10 @@ class MixerComponent extends DropItemComponent {
 				textComp = cast(textComp, DescriptionComponent);
 				textComp.say("I already put that in the mixer.");
 		} else {
-			//TODO:Save this data
 			owner.animation.play("mix");
 			items.push(GameData.getInstance().inventory.getItem(Item.inventoryData.Name));
 			GameData.getInstance().heldItem = null;
+			GameData.getInstance().saveData(GameData.day, "mixer" + owner.getID(), items);
 			checkRecipes();
 		}
 	}
@@ -82,6 +91,7 @@ class MixerComponent extends DropItemComponent {
 	private function checkRecipes():Void {
 		for (recipe in recipes) {
 			if (checkIngredients(recipe.ingredients)){
+				GameData.getInstance().saveData(GameData.day, "mixer" + owner.getID(), []);
 				FlxG.switchState(new MatchThreeState(recipe.name, recipe.ingredients, recipe.moves, recipe.maxscore, recipe.minscore));
 			}
 		}
