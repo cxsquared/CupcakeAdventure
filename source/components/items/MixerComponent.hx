@@ -82,6 +82,7 @@ class MixerComponent extends DropItemComponent {
 		} else {
 			owner.animation.play("mix");
 			items.push(GameData.getInstance().inventory.getItem(Item.inventoryData.Name));
+			GameData.getInstance().heldItem.destroy();
 			GameData.getInstance().heldItem = null;
 			GameData.getInstance().saveData(GameData.day, "mixer" + owner.getID(), items);
 			checkRecipes();

@@ -36,6 +36,7 @@ class DropItemComponent implements ActorComponent {
 	}
 
 	public function onMouseEvent(e:MOUSEEVENT):Void{
+		//FlxG.log.add("Mouse event " + e);
 		if (e == MOUSEEVENT.OVER) {
 			hovering = true;
 		} else if (e == MOUSEEVENT.OUT) {
@@ -45,6 +46,7 @@ class DropItemComponent implements ActorComponent {
 		if (e == MOUSEEVENT.UP && hovering && GameData.getInstance().heldItem != null) {
 			var item = GameData.getInstance().heldItem;
 			onDrop(item);
+			FlxG.log.add("Dropping item");
 		}
 	}
 
