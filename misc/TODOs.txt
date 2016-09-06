@@ -3,3 +3,4 @@ TODOs
 TODO: Make oven bake and possibly go to icing minigame
 TODO: Icing mini game?
 TODO: Make invventory item use mouse manager
+TODO: Add time to days. Remove time for each item picked up and when cooking. Allow for two cupcakes worth of items plus one mixing for a complete day.
