@@ -2,6 +2,7 @@ package components;
 
 import managers.GameData;
 import flixel.FlxG;
+import managers.SoundManager;
 
 class SlideComponent extends InteractableComponent {
 	
@@ -43,14 +44,14 @@ class SlideComponent extends InteractableComponent {
 		if (!hasSlid) {
 			hasSlid = true;
 			if (sound != "") {
-				//TODO: Add sound playing
+				SoundManager.GetInstance().playSound(sound, owner.x, owner.y);
 			}
 			GameData.getInstance().saveData(-1, owner.name + "hasSlid", true);
 			move();
 		} else if (toggle) {
 			hasSlid = false;
 			if (sound != "") {
-				//TODO: Add sound playing
+				SoundManager.GetInstance().playSound(sound, owner.x, owner.y);
 			}
 			GameData.getInstance().saveData(-1, owner.name + "hasSlid", false);
 			move(true);

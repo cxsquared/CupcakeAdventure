@@ -99,7 +99,7 @@
 					"name": "SlideComponent",
 					"data": {
 						"dir": "right",
-						"sound": "",
+						"sound": "slide",
 						"amount": 40,
 						"toggle": false
 					}
@@ -131,7 +131,7 @@
 					"name": "OneTimeUseComponent",
 					"data": {
 						"animation": "break",
-						"sound": "",
+						"sound": "crash",
 						"persistent": true
 					}
 				}

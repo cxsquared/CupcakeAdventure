@@ -1,6 +1,8 @@
 package components;
 
 import managers.GameData;
+import flixel.FlxG;
+import managers.SoundManager;
 
 class OneTimeUseComponent extends InteractableComponent {
 
@@ -37,7 +39,7 @@ class OneTimeUseComponent extends InteractableComponent {
 			owner.animation.play(animation);
 			hasPlayed = true;
 			if (sound != "") {
-				//TODO: Add sound playing
+				SoundManager.GetInstance().playSound(sound, owner.x, owner.y);
 			}
 			if (persistent) {
 				GameData.getInstance().saveData(-1, owner.name + "hasPlayed", true);

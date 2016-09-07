@@ -16,6 +16,7 @@ import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.text.FlxText;
 import flixel.util.FlxTimer;
+import managers.SoundManager;
 
 class PlayState extends FlxState
 {
@@ -42,6 +43,8 @@ class PlayState extends FlxState
 	override public function create():Void
 	{
 		super.create();
+
+		SoundManager.GetInstance().loadSounds("assets/data/sounds.json");
 
 		actorFactory = ActorFactory.GetInstance();
 

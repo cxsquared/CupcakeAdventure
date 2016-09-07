@@ -1,6 +1,7 @@
 package components.items;
 
 import managers.SceneManager;
+import managers.SoundManager;
 
 class PhoneComponent extends SceneChangeComponent {
 
@@ -18,6 +19,7 @@ class PhoneComponent extends SceneChangeComponent {
 	override public function postInit():Void {
 		super.postInit();
 		owner.animation.play("phoneAlert");
+		SoundManager.GetInstance().playSound("phoneAlert", owner.x, owner.y);
 	}
 
 	override public function getComponentID():ActorComponentTypes {
@@ -27,6 +29,7 @@ class PhoneComponent extends SceneChangeComponent {
 	override private function onInteract():Void {
 		messageWaiting = false;
 		owner.animation.play("phoneIdle");
+		SoundManager.GetInstance().stopSound("phoneAlert");
 		super.onInteract();
 	}
 	

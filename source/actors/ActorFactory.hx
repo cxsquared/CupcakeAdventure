@@ -52,7 +52,7 @@ class ActorFactory {
 		actorComponentCreators.set("RecipeBookComponent", RecipeBookComponent);
 		actorComponentCreators.set("SaucePanComponent", SaucePanComponent);
 		actorComponentCreators.set("IcingBrushComponent", IcingBrushComponent);
-		actorComponentCreators.set("PhoneComponent", PhoneComponent);
+		actorComponentCreators.set("PhoneComponent", PhoneComponent);     
 		actorComponentCreators.set("MessageComponent", MessageComponent);
 		actorComponentCreators.set("PhoneArrowComponent", PhoneArrowComponent);
 		actorComponentCreators.set("CloudController", CloudController);

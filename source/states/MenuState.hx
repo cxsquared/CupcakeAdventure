@@ -16,6 +16,7 @@ import flixel.util.FlxColor;
 import flixel.tweens.FlxTween;
 import managers.GameData;
 import util.ObjectUtil;
+import managers.SoundManager;
 
 class MenuState extends FlxState
 {

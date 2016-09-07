@@ -9,6 +9,7 @@ import haxe.Json;
 import util.ObjectUtil;
 import components.ActorComponentTypes;
 import components.matchthree.MatchThreeTimerComponent;
+import flixel.FlxObject;
 
 enum TimeActions {
 	MIX;
@@ -20,6 +21,7 @@ class GameData {
 	private static var instance:GameData;
 	public var heldItem:InventorySprite;
 	public var inventory:Inventory;
+	public var player:FlxObject;
 	var timer:Actor;
 	var dayoutcomesPath = "assets/data/dayoutcomes.json";
 	var dayoutcomesData:Dynamic;
@@ -77,6 +79,8 @@ class GameData {
 		if (!FlxG.save.bind("CupcakeData")) {
 			FlxG.log.error("Save failed to create!");
 		}
+
+		player = new FlxObject(FlxG.width/2-25, FlxG.height/2-25, 50, 50);
 
 		ObjectUtil.getInstance().printObject(FlxG.save.data);
 
