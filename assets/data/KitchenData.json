@@ -60,6 +60,37 @@
 			]
 		},
 		{
+			"name": "plates",
+			"x": 3,
+			"y": 71,
+			"width": 38,
+			"height": 36,
+			"spriteSheet": "assets/images/kitchen/plates.png",
+			"components": [
+				{
+					"name": "AnimationComponent",
+					"data": {
+						"frameRate": 10,
+						"animations": [
+							{
+								"name": "break",
+								"frames": [0, 1, 2],
+								"looped": false
+							}
+						]
+					}
+				},
+				{
+					"name": "OneTimeUseComponent",
+					"data": {
+						"animation": "break",
+						"sound": "",
+						"persistent": true
+					}
+				}
+			]
+		},
+		{
 			"name": "shelf",
 			"x": 0,
 			"y": 0,

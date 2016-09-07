@@ -25,4 +25,5 @@ enum ActorComponentTypes {
 	CLOUD;
 	CLOUDCONTROLLER;
 	OVEN;
+	ONETIMEUSE;
 }

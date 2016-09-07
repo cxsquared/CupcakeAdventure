@@ -58,6 +58,7 @@ class ActorFactory {
 		actorComponentCreators.set("CloudController", CloudController);
 		actorComponentCreators.set("CloudComponent", CloudComponent);
 		actorComponentCreators.set("OvenComponent", OvenComponent);
+		actorComponentCreators.set("OneTimeUseComponent", OneTimeUseComponent);
 	}
 
 	public function createActor(Data:Dynamic):Actor {
