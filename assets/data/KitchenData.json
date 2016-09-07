@@ -60,6 +60,53 @@
 			]
 		},
 		{
+			"name": "chocolate",
+			"x": 10,
+			"y": 31,
+			"width": -1,
+			"height": -1,
+			"spriteSheet": "assets/images/kitchen/chocolate.png",
+			"components": [
+				{
+					"name": "PickUpComponent",
+					"data": {
+						"description": "Some bitter sweet chocolate",
+						"iconPath": "assets/images/inventory/chocolateInv.png"
+					}
+				},
+				{
+					"name": "DescriptionComponent",
+					"data": {
+						"description": "Chocolate built for baking.",
+						"color": {
+							"r": 50,
+							"g": 100,
+							"b": 225
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "bowls",
+			"x": 5,
+			"y": 29,
+			"width": -1,
+			"height": -1,
+			"spriteSheet": "assets/images/kitchen/bowls.png",
+			"components": [
+				{
+					"name": "SlideComponent",
+					"data": {
+						"dir": "right",
+						"sound": "",
+						"amount": 40,
+						"toggle": false
+					}
+				}
+			]
+		},
+		{
 			"name": "plates",
 			"x": 3,
 			"y": 71,

@@ -110,6 +110,7 @@ class MatchThreeItemComponent implements ActorComponent {
 			case VANILLA:
 				owner.loadGraphic("assets/images/match/match_vanilla.png");
 			case CHOCOLATE:
+				owner.loadGraphic("assets/images/match/match_chocolate.png");
 			case CARMEL:
 				owner.loadGraphic("assets/images/match/match_carmel.png");
 			case PUMPKIN:

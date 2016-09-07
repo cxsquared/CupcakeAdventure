@@ -95,8 +95,8 @@ class GameData {
 		FlxG.watch.add(this, "time", "Time left");
 		timer = ActorFactory.GetInstance().createActor({
 			"name": "timer",
-			"x": 0,
-			"y": 0,
+			"x": 315,
+			"y": -5,
 			"width": -1,
 			"height": -1,
 			"spriteSheet": "assets/images/match/match_TimerBackground.png",
@@ -110,8 +110,8 @@ class GameData {
 			]
 		});
 		timer.scale.x = timer.scale.y = .5;
-		timer.x = 0;
-		timer.y = 0;
+		timer.x = 315;
+		timer.y = -5;
 		timer.addToState(FlxG.state);
 		var timerComp = cast(timer.getComponent(ActorComponentTypes.MATCHTIMER), MatchThreeTimerComponent);
 		timerComp.time = startTime - time;
