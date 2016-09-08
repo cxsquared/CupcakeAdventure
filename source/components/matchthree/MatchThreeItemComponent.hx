@@ -8,6 +8,7 @@ import flixel.math.FlxPoint;
 import flixel.tweens.FlxTween;
 import flixel.tweens.FlxEase;
 import actors.Actor;
+import managers.SoundManager;
 
 class MatchThreeItemComponent implements ActorComponent {
 
@@ -162,6 +163,9 @@ class MatchThreeItemComponent implements ActorComponent {
 
 	private function doneDropping(t:FlxTween):Void {
 		dropping = false;
+		if(FlxG.random.bool(50) && t.ease == FlxEase.circOut) {
+			SoundManager.GetInstance().playSound("matchfall", owner.x, owner.y);
+		}
 		controller.numberOfItemsWaiting--;
 	}
 

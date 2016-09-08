@@ -79,12 +79,12 @@ class MenuState extends FlxState
 
 	private function startGame(t:FlxTween):Void {
 		if (startingNewGame) {
-			FlxG.switchState(new PlayState());
+			//FlxG.switchState(new PlayState());
 		} else {
-			FlxG.switchState(new PlayState("Bookshelf", false));
+			//FlxG.switchState(new PlayState("Bookshelf", false));
 		}
 
-		//FlxG.switchState(new MatchThreeState(["flour", "sugar", "butter", "milk", "salt", "vanilla"], 20, 750, 250));
+		FlxG.switchState(new MatchThreeState("Vanilla Cupcake", ["flour", "sugar", "butter", "milk", "salt", "vanilla"], 20, 750, 250));
 		//FlxG.switchState(new IcingGameState(null, FlxColor.CYAN));
 	}
 

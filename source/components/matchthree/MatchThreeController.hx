@@ -12,6 +12,7 @@ import util.MultiIterator;
 import actors.Actor.MOUSEEVENT;
 import states.PlayState;
 import managers.GameData;
+import managers.SoundManager;
 
 typedef MatchData = { type:MatchThreeItems, items:Array<FlxPoint> };
 
@@ -853,6 +854,8 @@ class MatchThreeController implements ActorComponent {
 		var secondActor = getItemActor(Math.floor(secondItemCords.x), Math.floor(secondItemCords.y));
 		var firstComponent = cast(firstActor.getComponent(ActorComponentTypes.MATCHTHREEITEM), MatchThreeItemComponent);
 		var secondComponent = cast(secondActor.getComponent(ActorComponentTypes.MATCHTHREEITEM), MatchThreeItemComponent);
+
+		SoundManager.GetInstance().playSound("slide", Math.max(firstActor.x, secondActor.x), Math.max(firstActor.y, secondActor.y));
 		
 		firstComponent.gridX = Math.floor(secondItemCords.x);
 		firstComponent.gridY = Math.floor(secondItemCords.y);

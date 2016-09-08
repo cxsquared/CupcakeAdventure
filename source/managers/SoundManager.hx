@@ -28,6 +28,8 @@ class SoundManager {
 
 	public function loadSounds(JSONDataPath:String):Void {
 
+		soundsMap = new Map<String, FlxSound>();
+
 		var jsData = Json.parse(Assets.getText(JSONDataPath));
 		var soundData:Array<Dynamic> = Reflect.field(jsData, "sounds");
 
@@ -48,6 +50,7 @@ class SoundManager {
 		if (Y < 0) {
 			Y = FlxG.height/2;
 		}
+
 		if (soundsMap.exists(Name)) {
 			return soundsMap.get(Name).play(true).proximity(X, Y, GameData.getInstance().player, FlxG.width*.75, true);
 		} else {

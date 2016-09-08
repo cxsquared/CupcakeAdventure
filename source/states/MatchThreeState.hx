@@ -5,6 +5,7 @@ import components.matchthree.MatchThreeController;
 import components.matchthree.MatchThreeController.MatchThreeItems;
 import actors.ActorFactory;
 import inventory.InventoryUI;
+import managers.SoundManager;
 
 class MatchThreeState extends FlxState {
 	var actorFactory:ActorFactory;
@@ -28,6 +29,8 @@ class MatchThreeState extends FlxState {
 	override public function create():Void
 	{
 		super.create();
+
+		SoundManager.GetInstance().loadSounds("assets/data/sounds/matchSounds.json");
 
 		actorFactory = ActorFactory.GetInstance();
 
