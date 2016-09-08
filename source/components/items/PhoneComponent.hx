@@ -2,6 +2,7 @@ package components.items;
 
 import managers.SceneManager;
 import managers.SoundManager;
+import managers.GameData;
 
 class PhoneComponent extends SceneChangeComponent {
 
@@ -10,7 +11,6 @@ class PhoneComponent extends SceneChangeComponent {
 	override public function init(Data:Dynamic):Bool {
 		super.init(Data);
 
-
 		hideInventory = true;
 
 		return true;
@@ -18,8 +18,11 @@ class PhoneComponent extends SceneChangeComponent {
 
 	override public function postInit():Void {
 		super.postInit();
-		owner.animation.play("phoneAlert");
-		SoundManager.GetInstance().playSound("phoneAlert", owner.x, owner.y);
+		var hasListend = GameData.getInstance().getData(GameData.day, "phoneListened");
+		if(!hasListend) {
+			owner.animation.play("phoneAlert");
+			SoundManager.GetInstance().playSound("phoneAlert", owner.x, owner.y);
+		}
 	}
 
 	override public function getComponentID():ActorComponentTypes {
@@ -31,6 +34,7 @@ class PhoneComponent extends SceneChangeComponent {
 		owner.animation.play("phoneIdle");
 		SoundManager.GetInstance().stopSound("phoneAlert");
 		super.onInteract();
+		GameData.getInstance().saveData(GameData.day, "phoneListened", true);
 	}
 	
 }

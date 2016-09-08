@@ -34,6 +34,8 @@ class MatchThreeTimerComponent implements ActorComponent {
 		arrow.angle = FlxMath.lerp(0, 360, Math.min(time/maxTime, 1));
 		arrow.scale.x = owner.scale.x;
 		arrow.scale.y = owner.scale.y;
+		arrow.x = owner.x;
+		arrow.y = owner.y;
 	}
 
 	public function getComponentID():ActorComponentTypes{
@@ -55,5 +57,4 @@ class MatchThreeTimerComponent implements ActorComponent {
 
 	public function onExit():Void {
 	}
-	
 }

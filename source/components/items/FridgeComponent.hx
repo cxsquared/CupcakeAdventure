@@ -49,14 +49,14 @@ class FridgeComponent extends InteractableComponent {
 	private function topClicked():Void {
 		if (topOpen) {
 			topOpen = false;
-			SoundManager.GetInstance().playSound("closeCabinet"); 
+			SoundManager.GetInstance().playSound("closeCabinet", owner.x, owner.y); 
 			if (bottomOpen) {
 				owner.animation.play("topAfterBottom", false, true);
 			} else {
 				owner.animation.play("topOnly", false,  true);
 			}
 		} else {
-			SoundManager.GetInstance().playSound("openCabinet"); 
+			SoundManager.GetInstance().playSound("openCabinet", owner.x, owner.y); 
 			topOpen = true;
 			if (bottomOpen) {
 				owner.animation.play("topAfterBottom", false);
@@ -72,7 +72,7 @@ class FridgeComponent extends InteractableComponent {
 		//FlxG.log.add("Right Clicked");
 		if (bottomOpen) {
 			bottomOpen = false;
-			SoundManager.GetInstance().playSound("closeCabinet"); 
+			SoundManager.GetInstance().playSound("closeCabinet", owner.x, owner.y); 
 			if (topOpen) {
 				owner.animation.play("bottomAfterTop", false, true);
 			} else {
@@ -80,7 +80,7 @@ class FridgeComponent extends InteractableComponent {
 			}
 		} else {
 			bottomOpen = true;
-			SoundManager.GetInstance().playSound("openCabinet"); 
+			SoundManager.GetInstance().playSound("openCabinet", owner.x, owner.y); 
 			if (topOpen) {
 				owner.animation.play("bottomAfterTop", false);
 				updateNotes(false, false);
