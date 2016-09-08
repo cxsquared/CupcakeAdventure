@@ -1,0 +1,54 @@
+{
+	"flour": {
+		"chance": 20,
+		"repeat": 2
+	},
+	"sugar": {
+		"chance": 20,
+		"repeat": 3
+	},
+	"salt": {
+		"chance": 20,
+		"repeat": 1
+	},
+	"milk": {
+		"chance": 20,
+		"repeat": 3
+	}, 
+	"butter": {
+		"chance": 20,
+		"repeat": 2
+	},
+	"coconut": {
+		"chance": 20,
+		"repeat": 1
+	},
+	"almond": {
+		"chance": 20,
+		"repeat": 1
+	},
+	"vanilla": {
+		"chance": 20,
+		"repeat": 1
+	},
+	"chocolate": {
+		"chance": 20,
+		"repeat": 1
+	},
+	"carmel": {
+		"chance": 20,
+		"repeat": 1
+	},
+	"pumpkin": {
+		"chance": 20,
+		"repeat": 1
+	},
+	"spice": {
+		"chance": 20,
+		"repeat": 1
+	},
+	"carrot": {
+		"chance": 20,
+		"repeat": 1
+	}
+}

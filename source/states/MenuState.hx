@@ -84,7 +84,7 @@ class MenuState extends FlxState
 			//FlxG.switchState(new PlayState("Bookshelf", false));
 		}
 
-		FlxG.switchState(new MatchThreeState("Vanilla Cupcake", ["flour", "sugar", "butter", "milk", "salt", "vanilla"], 20, 750, 250));
+		FlxG.switchState(new MatchThreeState("Vanilla Cupcake", ["flour", "sugar", "butter", "milk", "chocolate"], 20, 750, 250));
 		//FlxG.switchState(new IcingGameState(null, FlxColor.CYAN));
 	}
 

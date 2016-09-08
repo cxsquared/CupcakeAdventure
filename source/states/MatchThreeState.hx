@@ -30,7 +30,7 @@ class MatchThreeState extends FlxState {
 	{
 		super.create();
 
-		SoundManager.GetInstance().loadSounds("assets/data/sounds/matchSounds.json");
+		//SoundManager.GetInstance().loadSounds("assets/data/sounds/matchSounds.json");
 
 		actorFactory = ActorFactory.GetInstance();
 

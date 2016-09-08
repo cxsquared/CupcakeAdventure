@@ -13,6 +13,8 @@ import actors.Actor.MOUSEEVENT;
 import states.PlayState;
 import managers.GameData;
 import managers.SoundManager;
+import openfl.Assets;
+import haxe.Json;
 
 typedef MatchData = { type:MatchThreeItems, items:Array<FlxPoint> };
 
@@ -40,11 +42,15 @@ enum CupcakeQuality {
 	PERFECT;
 }
 
+typedef ItemChance = { chance:Int, repeat:Int };
+
 class MatchThreeController implements ActorComponent {
 
 	public var owner:Actor;
 
-	private static var itemChances = [20, 20, 15, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20];
+	private var itemChanceData:Map<MatchThreeItems, ItemChance>;
+	private var itemRepeats:Map<MatchThreeItems, Int>;
+	private var itemChanceJsonFile = "assets/data/matchthree/matchIngredients.json";
 
 	private var resolvingMatches = false;
 	private var shouldReslove = false;
@@ -62,7 +68,6 @@ class MatchThreeController implements ActorComponent {
 
 	private var matches:Array<MatchData>;
 	private var possibleItems:Array<MatchThreeItems>;
-	private var randomItemPercentageChange:Array<Float>;
 	private var numberOfMatches = 0;
 
 	private var rand:FlxRandom;
@@ -169,10 +174,17 @@ class MatchThreeController implements ActorComponent {
 
 
 	private function generateItemChance():Void {
-		randomItemPercentageChange = new Array<Float>();
+		itemChanceData = new Map<MatchThreeItems, ItemChance>();
+		itemRepeats = new Map<MatchThreeItems, Int>();
 
-		for (i in 0...possibleItems.length) {
-			randomItemPercentageChange[i] = itemChances[possibleItems[i].getIndex()-1];
+		var allItemData = Json.parse(Assets.getText(itemChanceJsonFile));
+
+		for (item in possibleItems) {
+			var itemData = Reflect.field(allItemData, item.getName().toLowerCase());
+			var chanceData:ItemChance = { chance:Reflect.field(itemData, "chance"), repeat:Reflect.field(itemData, "repeat")};
+			itemChanceData.set(item, chanceData);
+			itemRepeats.set(item, 0);
+			//randomItemPercentageChange[i] = itemChances[possibleItems[i].getIndex()-1];
 		}
 	}
 
@@ -228,7 +240,7 @@ class MatchThreeController implements ActorComponent {
 
 		FlxG.watch.addQuick("possible items", possibleItems);
 		FlxG.watch.addQuick("Moves", currentMove);
-		FlxG.watch.addQuick("item chances", randomItemPercentageChange);
+		//FlxG.watch.addQuick("item chances", randomItemPercentageChange);
 		if (FlxG.keys.justPressed.R) {
 			shuffleBoard();
 		}
@@ -466,7 +478,30 @@ class MatchThreeController implements ActorComponent {
 	}
 
 	private function getRandomItem():MatchThreeItems {
-		return possibleItems[rand.weightedPick(randomItemPercentageChange)];
+		// Do a check if we can actually pick an item
+		// And if not reset the repeats
+		var possiblePicks = new Array<MatchThreeItems>();
+		var possibleChances = new Array<Float>();
+		for (i in 0...possibleItems.length) {
+			if (itemRepeats.get(possibleItems[i]) < itemChanceData.get(possibleItems[i]).repeat) {
+				possiblePicks.push(possibleItems[i]);
+				possibleChances.push(itemChanceData.get(possibleItems[i]).chance);
+			}
+		}
+
+		if (possiblePicks.length <= 0){
+			for (itemKey in itemRepeats.keys()) {
+				itemRepeats.set(itemKey, 0);
+			}
+			return getRandomItem();
+		}
+
+		var pick = possiblePicks[FlxG.random.weightedPick(possibleChances)];
+		var repeatNum = itemRepeats.get(pick);
+		repeatNum++;
+		itemRepeats.set(pick, repeatNum);
+
+		return pick;
 	}
 
 	private function checkItems():Bool {
