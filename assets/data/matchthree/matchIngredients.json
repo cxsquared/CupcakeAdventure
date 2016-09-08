@@ -1,54 +1,67 @@
 {
 	"flour": {
-		"chance": 20,
-		"repeat": 2
+		"chance": 25,
+		"repeat": 2,
+		"points": 15
 	},
 	"sugar": {
-		"chance": 20,
-		"repeat": 3
+		"chance": 30,
+		"repeat": 3,
+		"points": 10
 	},
 	"salt": {
 		"chance": 20,
-		"repeat": 1
+		"repeat": 1,
+		"points": 20
 	},
 	"milk": {
-		"chance": 20,
-		"repeat": 3
+		"chance": 35,
+		"repeat": 3,
+		"points": 10
 	}, 
 	"butter": {
 		"chance": 20,
-		"repeat": 2
+		"repeat": 2,
+		"points": 15
 	},
 	"coconut": {
-		"chance": 20,
-		"repeat": 1
+		"chance": 15,
+		"repeat": 1,
+		"points": 50
 	},
 	"almond": {
-		"chance": 20,
-		"repeat": 1
+		"chance": 10,
+		"repeat": 1,
+		"points": 35
 	},
 	"vanilla": {
-		"chance": 20,
-		"repeat": 1
+		"chance": 15,
+		"repeat": 1,
+		"points": 30
 	},
 	"chocolate": {
 		"chance": 20,
-		"repeat": 1
+		"repeat": 1,
+		"points": 30
 	},
 	"carmel": {
-		"chance": 20,
-		"repeat": 1
+		"chance": 25,
+		"repeat": 1,
+		"points": 40
 	},
 	"pumpkin": {
 		"chance": 20,
-		"repeat": 1
+		"repeat": 1,
+		"points": 35
 	},
 	"spice": {
-		"chance": 20,
-		"repeat": 1
+		"chance": 10,
+		"repeat": 1,
+		"points": 50
 	},
 	"carrot": {
 		"chance": 20,
-		"repeat": 1
+		"repeat": 1,
+		"points": 30
 	}
 }

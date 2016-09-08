@@ -42,7 +42,7 @@ enum CupcakeQuality {
 	PERFECT;
 }
 
-typedef ItemChance = { chance:Int, repeat:Int };
+typedef ItemChance = { chance:Int, repeat:Int, points:Int };
 
 class MatchThreeController implements ActorComponent {
 
@@ -181,7 +181,7 @@ class MatchThreeController implements ActorComponent {
 
 		for (item in possibleItems) {
 			var itemData = Reflect.field(allItemData, item.getName().toLowerCase());
-			var chanceData:ItemChance = { chance:Reflect.field(itemData, "chance"), repeat:Reflect.field(itemData, "repeat")};
+			var chanceData:ItemChance = { chance:Reflect.field(itemData, "chance"), repeat:Reflect.field(itemData, "repeat"), points:Reflect.field(itemData, "points")};
 			itemChanceData.set(item, chanceData);
 			itemRepeats.set(item, 0);
 			//randomItemPercentageChange[i] = itemChances[possibleItems[i].getIndex()-1];
@@ -347,7 +347,6 @@ class MatchThreeController implements ActorComponent {
 	}
 
 	private function resloveMatch(match:MatchData):Void {
-		updateScore(itemsData[Math.floor(match.items[0].y)][Math.floor(match.items[0].x)], match.items.length);
 		// FlxG.log.add("Removing item of type " + itemsData[Math.floor(match.items[0].y)][Math.floor(match.items[0].x)]);
 		switch (match.type) {
 			case SALT:
@@ -358,7 +357,9 @@ class MatchThreeController implements ActorComponent {
 	}
 
 	private function defaultReslove(match:MatchData, ?checkType:Bool=true):Void {
+		var multiplier = 1 + ((match.items.length - 3)/4);
 		for (item in match.items) {
+			updateScore(itemsData[Math.floor(item.y)][Math.floor(item.x)], multiplier);
 			// Have to remove data and actual actors
 			if (checkType) {
 				if (itemsData[Math.floor(item.y)][Math.floor(item.x)] == match.type) {
@@ -419,15 +420,11 @@ class MatchThreeController implements ActorComponent {
 		defaultReslove(match, false);
 
 		match.items.splice(0, match.items.length);
+		score += 100;
 	}
 
-	private function updateScore(itemType:MatchThreeItems, amount:Int):Void {
-		switch (itemType) {
-			case SALT:
-				score += (6 + amount * 3) * amount;
-			default:
-				score += 5 * amount;
-		}
+	private function updateScore(itemType:MatchThreeItems, multiplier:Float=1):Void {
+		score += Math.floor(itemChanceData.get(itemType).points * multiplier);
 	}
 
 	private function fillBoardHoles():Void {
