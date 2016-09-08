@@ -56,7 +56,7 @@ class CabinetComponent extends InteractableComponent {
 		if (rightOpen) {
 			rightOpen = false;
 			if (sound) {
-				FlxG.sound.play(AssetPaths.closeCabinet__wav);
+				SoundManager.GetInstance().playSound("closeCabinet"); 
 			}
 			if (leftOpen) {
 				owner.animation.play("rightAfterLeft", false, true);
@@ -65,7 +65,7 @@ class CabinetComponent extends InteractableComponent {
 			}
 		} else {
 			if (sound) {
-				FlxG.sound.play(AssetPaths.openCabinet__wav);
+				SoundManager.GetInstance().playSound("openCabinet"); 
 			}
 			rightOpen = true;
 			if (leftOpen) {
@@ -81,7 +81,7 @@ class CabinetComponent extends InteractableComponent {
 		if (leftOpen) {
 			leftOpen = false;
 			if (sound) {
-				FlxG.sound.play(AssetPaths.closeCabinet__wav);
+				SoundManager.GetInstance().playSound("closeCabinet"); 
 			}
 			if (rightOpen) {
 				owner.animation.play("leftAfterRight", false, true);
@@ -91,7 +91,7 @@ class CabinetComponent extends InteractableComponent {
 		} else {
 			leftOpen = true;
 			if (sound) {
-				FlxG.sound.play(AssetPaths.openCabinet__wav);
+				SoundManager.GetInstance().playSound("openCabinet"); 
 			}
 			if (rightOpen) {
 				owner.animation.play("leftAfterRight", false);

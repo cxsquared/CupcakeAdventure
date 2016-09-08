@@ -3,6 +3,7 @@ package components.items;
 import flixel.FlxG;
 import actors.Actor;
 import managers.SceneManager;
+import managers.SoundManager;
 
 //TODO: Make it where you can't leave scene if it's open
 
@@ -48,14 +49,14 @@ class FridgeComponent extends InteractableComponent {
 	private function topClicked():Void {
 		if (topOpen) {
 			topOpen = false;
-			FlxG.sound.play(AssetPaths.closeCabinet__wav);
+			SoundManager.GetInstance().playSound("closeCabinet"); 
 			if (bottomOpen) {
 				owner.animation.play("topAfterBottom", false, true);
 			} else {
 				owner.animation.play("topOnly", false,  true);
 			}
 		} else {
-			FlxG.sound.play(AssetPaths.openCabinet__wav);
+			SoundManager.GetInstance().playSound("openCabinet"); 
 			topOpen = true;
 			if (bottomOpen) {
 				owner.animation.play("topAfterBottom", false);
@@ -71,7 +72,7 @@ class FridgeComponent extends InteractableComponent {
 		//FlxG.log.add("Right Clicked");
 		if (bottomOpen) {
 			bottomOpen = false;
-			FlxG.sound.play(AssetPaths.closeCabinet__wav);
+			SoundManager.GetInstance().playSound("closeCabinet"); 
 			if (topOpen) {
 				owner.animation.play("bottomAfterTop", false, true);
 			} else {
@@ -79,7 +80,7 @@ class FridgeComponent extends InteractableComponent {
 			}
 		} else {
 			bottomOpen = true;
-			FlxG.sound.play(AssetPaths.openCabinet__wav);
+			SoundManager.GetInstance().playSound("openCabinet"); 
 			if (topOpen) {
 				owner.animation.play("bottomAfterTop", false);
 				updateNotes(false, false);
