@@ -65,6 +65,7 @@ class MatchThreeController implements ActorComponent {
 
 	private var itemsData:Array<Array<MatchThreeItems>>; // [Column][Row]
 	private var items:Array<FlxTypedGroup<FlxSprite>>;
+	private var dyingItems:FlxTypedGroup<FlxSprite>;
 
 	private var matches:Array<MatchData>;
 	private var possibleItems:Array<MatchThreeItems>;
@@ -297,6 +298,8 @@ class MatchThreeController implements ActorComponent {
 		meter.owner.addToState(Owner);
 		timerComponent.owner.addToState(Owner);
 		Owner.add(noMatchImage);
+		dyingItems = new FlxTypedGroup<FlxSprite>();
+		Owner.add(dyingItems);
 	}
 
 	public function destroy():Void {
@@ -862,7 +865,8 @@ class MatchThreeController implements ActorComponent {
 			if (itemType != null){
 				if (aComponent.gridX == x && itemType == aComponent.itemType) {
 					//FlxG.log.add("Removing " + aComponent.itemType + " at " + x + ":" + y);
-					row.remove(item).destroy();
+					aComponent.removeActorAnimation(meterX, meterY);
+					dyingItems.add(row.remove(item));
 					return;
 				}
 			} else if (aComponent.gridX == x) {
