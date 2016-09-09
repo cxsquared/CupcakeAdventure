@@ -353,7 +353,23 @@ class MatchThreeController implements ActorComponent {
 		// FlxG.log.add("Removing item of type " + itemsData[Math.floor(match.items[0].y)][Math.floor(match.items[0].x)]);
 		switch (match.type) {
 			case SALT:
-				explosionResolve(match);
+				lineResolve(match);
+			case COCONUT:
+				lineResolve(match);
+			case ALMOND:
+				lineResolve(match);
+			case VANILLA:
+				lineResolve(match);
+			case CHOCOLATE:
+				lineResolve(match);
+			case CARMEL:
+				lineResolve(match);
+			case PUMPKIN:
+				lineResolve(match);
+			case SPICE:
+				lineResolve(match);
+			case CARROT:
+				lineResolve(match);
 			default:
 				defaultReslove(match);
 		}
@@ -369,7 +385,7 @@ class MatchThreeController implements ActorComponent {
 					removeItemActor(Math.floor(item.x), Math.floor(item.y), itemsData[Math.floor(item.y)][Math.floor(item.x)] );
 					itemsData[Math.floor(item.y)][Math.floor(item.x)] = NONE;
 				} else if (itemsData[Math.floor(item.y)][Math.floor(item.x)] != NONE) {
-					FlxG.log.error("Item " + itemsData[Math.floor(item.y)][Math.floor(item.x)] + " at " + item.x + ":" + item.y + " isn't a " + match.type);
+					FlxG.log.warn("Item " + itemsData[Math.floor(item.y)][Math.floor(item.x)] + " at " + item.x + ":" + item.y + " isn't a " + match.type);
 				}
 			} else {
 				removeItemActor(Math.floor(item.x), Math.floor(item.y), itemsData[Math.floor(item.y)][Math.floor(item.x)] );
@@ -426,8 +442,60 @@ class MatchThreeController implements ActorComponent {
 		score += 100;
 	}
 
+	private function lineResolve(match:MatchData):Void {
+		if (match.items.length <= 3) {
+			defaultReslove(match);
+		} else if (match.items.length == 4) {
+			var newItems = new Array<FlxPoint>();
+			var horizontal = false;
+			if (match.items[0].y == match.items[1].y) {
+				horizontal = true;
+			}
+			if (horizontal) {
+				for (x in 0...width) {
+					newItems.push(FlxPoint.weak(x, match.items[0].y));
+				}
+			} else {
+				for (y in 0...height) {
+					newItems.push(FlxPoint.weak(match.items[0].x, y));
+				}
+			}
+			match.items = newItems;
+
+			defaultReslove(match, false);
+		} else {
+			var startX = match.items[0].x;
+			var startY = match.items[0].y;
+			var xMatches = 0;
+			var yMatches = 0;
+			for (item in match.items) {
+				if (item.x == startX) {
+					xMatches++;
+				}
+				if (item.y == startY) {
+					yMatches++;
+				}
+			}
+			if (xMatches == match.items.length || yMatches == match.items.length) {
+				var newItems = new Array<FlxPoint>();
+				for (x in 0...width) {
+					for (y in 0...height){
+						newItems.push(FlxPoint.weak(x, y));
+					}
+				}
+				match.items = newItems;
+				score += 150;
+				defaultReslove(match);
+			} else {
+				explosionResolve(match);
+			}
+		}
+	}
+
 	private function updateScore(itemType:MatchThreeItems, multiplier:Float=1):Void {
-		score += Math.floor(itemChanceData.get(itemType).points * multiplier);
+		if (itemChanceData.exists(itemType)) {
+			score += Math.floor(itemChanceData.get(itemType).points * multiplier);
+		}
 	}
 
 	private function fillBoardHoles():Void {
