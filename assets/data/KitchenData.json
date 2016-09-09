@@ -144,22 +144,26 @@
 							{
 								"name": "justRightDoor",
 								"frames": [0, 1, 2],
-								"looped": false
+								"looped": false,
+								"sounds": []
 							},
 							{
 								"name": "justLeftDoor",
 								"frames": [3, 4, 5],
-								"looped": false
+								"looped": false,
+								"sounds": []
 							},
 							{
 								"name": "rightAfterLeft",
 								"frames": [6, 7, 8],
-								"looped": false
+								"looped": false,
+								"sounds": []
 							},
 							{
 								"name": "leftAfterRight",
 								"frames": [9, 10, 11],
-								"looped": false
+								"looped": false,
+								"sounds": []
 							}
 						]
 					}
@@ -226,7 +230,8 @@
 							{
 								"name": "cook",
 								"frames": [0, 1, 2, 3, 2, 1, 3, 2, 1, 0],
-								"looped": false
+								"looped": false,
+								"sounds": []
 							}
 						]
 					}
@@ -275,7 +280,8 @@
 							{
 								"name": "used",
 								"frames": [0, 1, 2, 3, 4, 3, 4, 3, 2, 1, 0],
-								"looped": false
+								"looped": false,
+								"sounds": []
 							}
 						]
 					}

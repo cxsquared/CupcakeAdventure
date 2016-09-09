@@ -59,6 +59,10 @@ class SaucePanComponent extends DropItemComponent {
 			if (inRecipe(Item.inventoryData.Name)) {
 				owner.animation.play("cook");
 				items.push(GameData.getInstance().inventory.getItem(Item.inventoryData.Name));
+				if (Item.inventoryData.Name == "coconut") {
+					GameData.getInstance().inventory.addItem(Item.inventoryData);
+
+				}
 				GameData.getInstance().heldItem.destroy();
 				GameData.getInstance().heldItem = null;
 				checkRecipes();

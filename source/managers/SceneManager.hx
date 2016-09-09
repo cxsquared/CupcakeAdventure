@@ -155,6 +155,7 @@ class SceneManager extends FlxTypedGroup<FlxSpriteGroup> {
 	}
 
 	private function parseScene(JSONDataPath:String):FlxSpriteGroup {
+		haxe.Log.trace("Parseing " + JSONDataPath);
 		var jsData = Json.parse(Assets.getText(JSONDataPath));
 		var backgroundPath = Reflect.field(jsData, "background");
 		var newScene = new FlxSpriteGroup();

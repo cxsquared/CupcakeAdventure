@@ -8,6 +8,15 @@
 			],
 			"description": "Sticky and tasty.",
 			"icon": "assets/images/inventory/carmelInv.png"
+		},
+		{
+			"name": "coconut oil",
+			"ingredients": [
+				"water",
+				"coconut"
+			],
+			"description": "Virgin Coconut Oil",
+			"icon": "assets/images/inventory/coconutOilInv.png"
 		}
 	]
 }

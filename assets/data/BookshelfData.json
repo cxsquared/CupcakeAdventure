@@ -12,8 +12,8 @@
 				{
 					"name": "PickUpComponent",
 					"data": {
-						"description": "Now I need to get the milk out of it.",
-						"iconPath": "assets/images/inventory/coconutInv.png",
+						"description": "This would make some nice oil.",
+						"iconPath": "assets/images/inventory/coconutInv.png"
 					}
 				},
 				{
