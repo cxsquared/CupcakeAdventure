@@ -6,6 +6,7 @@ import openfl.Assets;
 import haxe.Json;
 import flixel.FlxG;
 import managers.GameData;
+import components.AnimationComponent;
 
 typedef InventoryRecipe = { name:String, description:String, iconPath:String, ingredients:Array<String> };
 
@@ -15,6 +16,8 @@ class SaucePanComponent extends DropItemComponent {
 	var recipes:Array<InventoryRecipe>;
 
 	var possibleRecipes:Array<InventoryRecipe>;
+	var animation:String = "";
+	var animationController:AnimationComponent;
 
 	override public function init(Data:Dynamic):Bool {
 		super.init(Data);
@@ -22,6 +25,7 @@ class SaucePanComponent extends DropItemComponent {
 		items = new Array<InventoryItem>();
 		recipes = new Array<InventoryRecipe>();
 		possibleRecipes = new Array<InventoryRecipe>();
+		animation = Reflect.field(Data, "animation");
 
 		var fileData =  Json.parse(Assets.getText(Reflect.field(Data, "recipes")));
 		var recipeData:Array<Dynamic> = Reflect.field(fileData, "recipes");
@@ -31,6 +35,10 @@ class SaucePanComponent extends DropItemComponent {
 		}
 
 		return true;
+	}
+
+	override public function postInit():Void {
+		animationController = cast(owner.getComponent(ActorComponentTypes.ANIMATION), AnimationComponent);
 	}
 
 	private function parseRecipe(recipe:Dynamic):Void {
@@ -57,7 +65,7 @@ class SaucePanComponent extends DropItemComponent {
 				owner.getTextComponent().say("I already put that in the mixer.");
 		} else {
 			if (inRecipe(Item.inventoryData.Name)) {
-				owner.animation.play("cook");
+				animationController.ChangeAnimation(animation);
 				items.push(GameData.getInstance().inventory.getItem(Item.inventoryData.Name));
 				if (Item.inventoryData.Name == "coconut") {
 					GameData.getInstance().inventory.addItem(Item.inventoryData);

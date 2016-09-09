@@ -8,6 +8,7 @@ TODO: Intro cutscene of bouncing cupcake going behind bookshelf/ into little hol
 TODO: Clean up look of recipe book
 TODO: Make other readable books in bookshelf
 TODO: MAke all items reuseabble
+TODO: Make blender and sauce pan list ingredients in it.
 
 DONE: Make invventory item use mouse manager
 DONE: Add time to days. Remove time for each item picked up and when cooking. Allow for two cupcakes worth of items plus one mixing for a complete day.

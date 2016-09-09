@@ -1,0 +1,23 @@
+{
+	"recipes": [
+		{
+			"name": "almond milk",
+			"ingredients": [
+				"water",
+				"almonds",
+				"sugar"
+			],
+			"description": "Proper almond milk.",
+			"icon": "assets/images/inventory/almondMilkInv.png"
+		},
+		{
+			"name": "almond milk",
+			"ingredients": [
+				"milk",
+				"almonds"
+			],
+			"description": "Vegan almond milk...right?",
+			"icon": "assets/images/inventory/almondMilkInv.png"
+		}
+	]
+}

@@ -239,6 +239,7 @@
 				{
 					"name": "SaucePanComponent",
 					"data": {
+						"animation": "cook",
 						"recipes": "assets/data/saucepanRecipes.json"
 					}
 				}
@@ -284,6 +285,86 @@
 								"sounds": []
 							}
 						]
+					}
+				}
+			]
+		},
+		{
+			"name": "blender",
+			"x": 186,
+			"y": 183,
+			"width": 34,
+			"height": 45,
+			"spriteSheet": "assets/images/kitchen/blender.png",
+			"components": [
+				{
+					"name": "DescriptionComponent",
+					"data": {
+						"description": "Will it blend?",
+						"color": {
+							"r": 100,
+							"g": 55,
+							"b": 200
+						}
+					}
+				},
+				{
+					"name": "AnimationComponent",
+					"data": {
+						"frameRate": 10,
+						"animations": [
+							{
+								"name": "blend",
+								"frames": [0, 1, 2, 3, 2, 1, 3, 2, 1, 0],
+								"looped": false,
+								"sounds": []
+							}
+						]
+					}
+				},
+				{
+					"name": "SaucePanComponent",
+					"data": {
+						"animation": "blend",
+						"recipes": "assets/data/blenderRecipes.json"
+					}
+				}
+			]
+		},
+		{
+			"name": "bottomCabinet",
+			"x": 185,
+			"y": 172,
+			"width": 69,
+			"height": 63,
+			"spriteSheet": "assets/images/kitchen/bottomCabinet.png",
+			"components": [
+				{
+					"name": "AnimationComponent",
+					"data": {
+						"frameRate": 10,
+						"animations": [
+							{
+								"name": "open",
+								"frames": [0, 1, 2, 3],
+								"looped": false,
+								"sounds": ["openCabinet"]
+							},
+							{
+								"name": "close",
+								"frames": [3, 2, 1, 0],
+								"looped": false,
+								"sounds": ["closeCabinet"]
+							}
+						]
+					}
+				},
+				{
+					"name": "ToggleComponent",
+					"data": {
+						"animation": "open",
+						"altAnimation": "close",
+						"persistent": false
 					}
 				}
 			]
