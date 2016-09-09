@@ -2,6 +2,53 @@
 	"background": "assets/images/bookshelf/Bookshelf.png",
 	"actors": [
 		{
+			"name": "coconut",
+			"x": 158,
+			"y": 136,
+			"width": -1,
+			"height": -1,
+			"spriteSheet": "assets/images/bookshelf/coconut.png",
+			"components": [
+				{
+					"name": "PickUpComponent",
+					"data": {
+						"description": "Now I need to get the milk out of it.",
+						"iconPath": "assets/images/inventory/coconutInv.png",
+					}
+				},
+				{
+					"name": "DescriptionComponent",
+					"data": {
+						"description": "A cocnut straight from the palm tree.",
+						"color": {
+							"r": 50,
+							"g": 100,
+							"b": 50
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "books1",
+			"x": 164,
+			"y": 127,
+			"width": -1,
+			"height": -1,
+			"spriteSheet": "assets/images/bookshelf/books1.png",
+			"components": [
+				{
+					"name": "SlideComponent",
+					"data": {
+						"dir": "left",
+						"sound": "slide",
+						"amount": 16,
+						"toggle": false
+					}
+				}
+			]
+		},
+		{
 			"name": "arrow",
 			"x": 3,
 			"y": 186,
