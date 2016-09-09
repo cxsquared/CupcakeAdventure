@@ -16,6 +16,17 @@
 					}
 				},
 				{
+					"name": "DescriptionComponent",
+					"data": {
+						"description": "",
+						"color": {
+							"r": 100,
+							"g": 55,
+							"b": 100
+						}
+					}
+				},
+				{
 					"name": "AnimationComponent",
 					"data": {
 						"frameRate": 10,

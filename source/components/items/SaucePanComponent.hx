@@ -7,6 +7,7 @@ import haxe.Json;
 import flixel.FlxG;
 import managers.GameData;
 import components.AnimationComponent;
+import actors.Actor.MOUSEEVENT;
 
 typedef InventoryRecipe = { name:String, description:String, iconPath:String, ingredients:Array<String> };
 
@@ -18,6 +19,8 @@ class SaucePanComponent extends DropItemComponent {
 	var possibleRecipes:Array<InventoryRecipe>;
 	var animation:String = "";
 	var animationController:AnimationComponent;
+
+	var clicks = 0;
 
 	override public function init(Data:Dynamic):Bool {
 		super.init(Data);
@@ -162,5 +165,35 @@ class SaucePanComponent extends DropItemComponent {
 		}
 
 		return false;
+	}
+
+	override public function onMouseEvent(e:MOUSEEVENT):Void {
+		super.onMouseEvent(e);
+		if (e == MOUSEEVENT.DOWN) {
+			if (clicks == 0 && items.length > 0) {
+				clicks++;
+				var outText = "Looks like I've added ";
+				for (i in 0...items.length) {
+					if (i == items.length - 1){
+						if (items.length > 1) {
+							outText += "and " + items[i].Name + ".";
+						} else {
+							outText += items[i].Name + ".";
+						}
+					} else {
+						outText += items[i].Name + " ";
+					}
+				}
+				owner.getTextComponent().say(outText);
+
+			} else if (clicks == 1) {
+				clicks++;
+				owner.getTextComponent().say("Should I just start over?");
+			} else if (items.length > 0) {
+				owner.getTextComponent().say("I guess I'll start over...");
+				items = new Array<InventoryItem>();
+				clicks = 0;
+			}
+		}
 	}
 }
