@@ -8,6 +8,7 @@ import openfl.Assets;
 import haxe.Json;
 import managers.GameData;
 import states.MatchThreeState;
+import actors.Actor.MOUSEEVENT;
 
 typedef Recipe = { name:String, ingredients:Array<String>, moves:Float, maxscore:Int, minscore:Int };
 
@@ -15,6 +16,8 @@ class MixerComponent extends DropItemComponent {
 
 	var items:Array<InventoryItem>;
 	var recipes:Array<Recipe>;
+
+	var clicks = 0;
 
 	override public function init(Data:Dynamic):Bool {
 		super.init(Data);
@@ -53,6 +56,7 @@ class MixerComponent extends DropItemComponent {
 	}
 
 	override private function onDrop(Item:InventorySprite) {
+		clicks = 0;
 		var hasItem = false;
 		for (item in items) {
 			if (item.Name == Item.inventoryData.Name) {
@@ -62,23 +66,7 @@ class MixerComponent extends DropItemComponent {
 		}
 
 		if (hasItem) {
-				var textComp = cast(owner.getComponent(ActorComponentTypes.DESCRIPTION), DescriptionComponent);
-				if (textComp == null) {
-					var tempComp:DescriptionComponent = Type.createInstance(DescriptionComponent, []);
-					tempComp.init({
-						"description": "I already put that in the mixer",
-						"color": {
-							"r": FlxG.random.color().red,
-							"g": FlxG.random.color().green,
-							"b": FlxG.random.color().blue
-						}
-					});
-					textComp = cast(owner.addComponent(tempComp), DescriptionComponent);
-					textComp.postInit();
-				}
-
-				textComp = cast(textComp, DescriptionComponent);
-				textComp.say("I already put that in the mixer.");
+				owner.getTextComponent().say("I already put that in the mixer.");
 		} else {
 			owner.animation.play("mix");
 			items.push(GameData.getInstance().inventory.getItem(Item.inventoryData.Name));
@@ -115,6 +103,39 @@ class MixerComponent extends DropItemComponent {
 		}
 
 		return false;
+	}
+
+	override public function onMouseEvent(e:MOUSEEVENT):Void {
+		super.onMouseEvent(e);
+		if (e == MOUSEEVENT.DOWN) {
+			if (items.length <= 0) {
+				owner.getTextComponent().say("I should put ingredients in there.");
+			}
+			else if (clicks == 0) {
+				clicks++;
+				var outText = "Looks like I've added ";
+				for (i in 0...items.length) {
+					if (i == items.length - 1){
+						if (items.length > 1) {
+							outText += "and " + items[i].Name + ".";
+						} else {
+							outText += items[i].Name + ".";
+						}
+					} else {
+						outText += items[i].Name + " ";
+					}
+				}
+				owner.getTextComponent().say(outText);
+
+			} else if (clicks == 1) {
+				clicks++;
+				owner.getTextComponent().say("Should I just start over?");
+			} else {
+				owner.getTextComponent().say("I guess I'll start over...");
+				items = new Array<InventoryItem>();
+				clicks = 0;
+			}
+		}
 	}
 	
 }

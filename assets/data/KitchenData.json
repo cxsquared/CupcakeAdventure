@@ -16,17 +16,6 @@
 					}
 				},
 				{
-					"name": "DescriptionComponent",
-					"data": {
-						"description": "I should put ingredients in there.",
-						"color": {
-							"r": 55,
-							"g": 150,
-							"b": 55
-						}
-					}
-				},
-				{
 					"name": "AnimationComponent",
 					"data": {
 						"frameRate": 10,
