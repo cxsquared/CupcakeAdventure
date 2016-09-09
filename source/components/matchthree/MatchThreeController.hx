@@ -13,6 +13,8 @@ import actors.Actor.MOUSEEVENT;
 import states.PlayState;
 import managers.GameData;
 import managers.SoundManager;
+import openfl.Assets;
+import haxe.Json;
 
 typedef MatchData = { type:MatchThreeItems, items:Array<FlxPoint> };
 
@@ -40,11 +42,15 @@ enum CupcakeQuality {
 	PERFECT;
 }
 
+typedef ItemChance = { chance:Int, repeat:Int, points:Int };
+
 class MatchThreeController implements ActorComponent {
 
 	public var owner:Actor;
 
-	private static var itemChances = [20, 20, 15, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20];
+	private var itemChanceData:Map<MatchThreeItems, ItemChance>;
+	private var itemRepeats:Map<MatchThreeItems, Int>;
+	private var itemChanceJsonFile = "assets/data/matchthree/matchIngredients.json";
 
 	private var resolvingMatches = false;
 	private var shouldReslove = false;
@@ -59,10 +65,10 @@ class MatchThreeController implements ActorComponent {
 
 	private var itemsData:Array<Array<MatchThreeItems>>; // [Column][Row]
 	private var items:Array<FlxTypedGroup<FlxSprite>>;
+	private var dyingItems:FlxTypedGroup<FlxSprite>;
 
 	private var matches:Array<MatchData>;
 	private var possibleItems:Array<MatchThreeItems>;
-	private var randomItemPercentageChange:Array<Float>;
 	private var numberOfMatches = 0;
 
 	private var rand:FlxRandom;
@@ -169,10 +175,17 @@ class MatchThreeController implements ActorComponent {
 
 
 	private function generateItemChance():Void {
-		randomItemPercentageChange = new Array<Float>();
+		itemChanceData = new Map<MatchThreeItems, ItemChance>();
+		itemRepeats = new Map<MatchThreeItems, Int>();
 
-		for (i in 0...possibleItems.length) {
-			randomItemPercentageChange[i] = itemChances[possibleItems[i].getIndex()-1];
+		var allItemData = Json.parse(Assets.getText(itemChanceJsonFile));
+
+		for (item in possibleItems) {
+			var itemData = Reflect.field(allItemData, item.getName().toLowerCase());
+			var chanceData:ItemChance = { chance:Reflect.field(itemData, "chance"), repeat:Reflect.field(itemData, "repeat"), points:Reflect.field(itemData, "points")};
+			itemChanceData.set(item, chanceData);
+			itemRepeats.set(item, 0);
+			//randomItemPercentageChange[i] = itemChances[possibleItems[i].getIndex()-1];
 		}
 	}
 
@@ -228,7 +241,7 @@ class MatchThreeController implements ActorComponent {
 
 		FlxG.watch.addQuick("possible items", possibleItems);
 		FlxG.watch.addQuick("Moves", currentMove);
-		FlxG.watch.addQuick("item chances", randomItemPercentageChange);
+		//FlxG.watch.addQuick("item chances", randomItemPercentageChange);
 		if (FlxG.keys.justPressed.R) {
 			shuffleBoard();
 		}
@@ -285,6 +298,8 @@ class MatchThreeController implements ActorComponent {
 		meter.owner.addToState(Owner);
 		timerComponent.owner.addToState(Owner);
 		Owner.add(noMatchImage);
+		dyingItems = new FlxTypedGroup<FlxSprite>();
+		Owner.add(dyingItems);
 	}
 
 	public function destroy():Void {
@@ -335,7 +350,6 @@ class MatchThreeController implements ActorComponent {
 	}
 
 	private function resloveMatch(match:MatchData):Void {
-		updateScore(itemsData[Math.floor(match.items[0].y)][Math.floor(match.items[0].x)], match.items.length);
 		// FlxG.log.add("Removing item of type " + itemsData[Math.floor(match.items[0].y)][Math.floor(match.items[0].x)]);
 		switch (match.type) {
 			case SALT:
@@ -346,7 +360,9 @@ class MatchThreeController implements ActorComponent {
 	}
 
 	private function defaultReslove(match:MatchData, ?checkType:Bool=true):Void {
+		var multiplier = 1 + ((match.items.length - 3)/4);
 		for (item in match.items) {
+			updateScore(itemsData[Math.floor(item.y)][Math.floor(item.x)], multiplier);
 			// Have to remove data and actual actors
 			if (checkType) {
 				if (itemsData[Math.floor(item.y)][Math.floor(item.x)] == match.type) {
@@ -407,15 +423,11 @@ class MatchThreeController implements ActorComponent {
 		defaultReslove(match, false);
 
 		match.items.splice(0, match.items.length);
+		score += 100;
 	}
 
-	private function updateScore(itemType:MatchThreeItems, amount:Int):Void {
-		switch (itemType) {
-			case SALT:
-				score += (6 + amount * 3) * amount;
-			default:
-				score += 5 * amount;
-		}
+	private function updateScore(itemType:MatchThreeItems, multiplier:Float=1):Void {
+		score += Math.floor(itemChanceData.get(itemType).points * multiplier);
 	}
 
 	private function fillBoardHoles():Void {
@@ -466,7 +478,30 @@ class MatchThreeController implements ActorComponent {
 	}
 
 	private function getRandomItem():MatchThreeItems {
-		return possibleItems[rand.weightedPick(randomItemPercentageChange)];
+		// Do a check if we can actually pick an item
+		// And if not reset the repeats
+		var possiblePicks = new Array<MatchThreeItems>();
+		var possibleChances = new Array<Float>();
+		for (i in 0...possibleItems.length) {
+			if (itemRepeats.get(possibleItems[i]) < itemChanceData.get(possibleItems[i]).repeat) {
+				possiblePicks.push(possibleItems[i]);
+				possibleChances.push(itemChanceData.get(possibleItems[i]).chance);
+			}
+		}
+
+		if (possiblePicks.length <= 0){
+			for (itemKey in itemRepeats.keys()) {
+				itemRepeats.set(itemKey, 0);
+			}
+			return getRandomItem();
+		}
+
+		var pick = possiblePicks[FlxG.random.weightedPick(possibleChances)];
+		var repeatNum = itemRepeats.get(pick);
+		repeatNum++;
+		itemRepeats.set(pick, repeatNum);
+
+		return pick;
 	}
 
 	private function checkItems():Bool {
@@ -830,7 +865,8 @@ class MatchThreeController implements ActorComponent {
 			if (itemType != null){
 				if (aComponent.gridX == x && itemType == aComponent.itemType) {
 					//FlxG.log.add("Removing " + aComponent.itemType + " at " + x + ":" + y);
-					row.remove(item).destroy();
+					aComponent.removeActorAnimation(meterX, meterY);
+					dyingItems.add(row.remove(item));
 					return;
 				}
 			} else if (aComponent.gridX == x) {

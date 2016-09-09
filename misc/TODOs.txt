@@ -3,10 +3,10 @@ TODOs
 TODO: Make oven bake and possibly go to icing minigame
 TODO: Icing mini game?
 TODO: List ingredients already in the mixer on click
-TODO: Add clock or time indecator to game
 TODO: Fix phone alert sound
-TODO: Make phone alert sound stop on load if already listened
 TODO: Make sounds playable during animations
 
 DONE: Make invventory item use mouse manager
 DONE: Add time to days. Remove time for each item picked up and when cooking. Allow for two cupcakes worth of items plus one mixing for a complete day.
+DONE: Add clock or time indecator to game
+DONE: Make phone alert sound stop on load if already listened

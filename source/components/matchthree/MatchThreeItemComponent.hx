@@ -91,7 +91,7 @@ class MatchThreeItemComponent implements ActorComponent {
 	}
 
 	public function destroy():Void {
-
+		//clickPointOffset.destroy();
 	}
 
 	public function generateImage():Void {
@@ -190,6 +190,17 @@ class MatchThreeItemComponent implements ActorComponent {
 		var xMid = ((startingPoint.x + gridX * owner.width) + owner.width/2);
 		var yMid = ((startingPoint.y + gridY * owner.height) + owner.height/2);
 		return FlxPoint.weak(xMid, yMid);
+	}
+
+	public function removeActorAnimation(X:Int, Y:Int):Void {
+		//FlxG.state.add(owner);
+		dropping = true;
+		FlxTween.tween(owner, {x:X, y:Y}, 0.5, {onComplete:destroyOwner});
+		//FlxG.log.add("Tweening actor to " + X + ":" + Y);
+	}
+
+	private function destroyOwner(t:FlxTween):Void {
+		owner.destroy();
 	}
 
 	public function onMouseEvent(e:MOUSEEVENT):Void{}
