@@ -34,7 +34,8 @@
 							{
 								"name": "mix",
 								"frames": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
-								"looped": false
+								"looped": false,
+								"sounds": []
 							}
 						]
 					}
@@ -122,7 +123,8 @@
 							{
 								"name": "break",
 								"frames": [0, 1, 2],
-								"looped": false
+								"looped": false,
+								"sounds": ["crash"]
 							}
 						]
 					}
@@ -131,7 +133,6 @@
 					"name": "OneTimeUseComponent",
 					"data": {
 						"animation": "break",
-						"sound": "crash",
 						"persistent": true
 					}
 				}

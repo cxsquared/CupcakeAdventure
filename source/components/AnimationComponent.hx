@@ -2,10 +2,12 @@ package components;
 
 import flixel.FlxG;
 import actors.Actor;
+import managers.SoundManager;
 
 typedef AnimData = { 
 	var frames:Array<Int>; 
 	var looped:Bool;
+	var sounds:Array<String>;
 }
 
 class AnimationComponent implements ActorComponent {
@@ -21,7 +23,7 @@ class AnimationComponent implements ActorComponent {
 		//FlxG.log.add(animations);
 		if (animations != null && animations.length > 0) {
 			for (animation in animations) {
-				var animData:AnimData = { frames:Reflect.field(animation, "frames"), looped: Reflect.field(animation, "looped")};
+				var animData:AnimData = { frames:Reflect.field(animation, "frames"), looped: Reflect.field(animation, "looped"), sounds:Reflect.field(animation, "sounds")};
 				animationData.set(Reflect.field(animation, "name"), animData);
 			}
 		} else {
@@ -54,6 +56,9 @@ class AnimationComponent implements ActorComponent {
 	public function ChangeAnimation(Name:String, Reversed:Bool=false) {
 		if (animationData.exists(Name)) {
 			owner.animation.play(Name, Reversed);
+			if (animationData.get(Name).sounds.length > 0){
+				SoundManager.GetInstance().playSound(FlxG.random.getObject(animationData.get(Name).sounds));
+			}
 		} else {
 			FlxG.log.error("Animation " + Name + " doesn't exists in animaiton component on " + owner.getID());
 		}

@@ -3,6 +3,7 @@ package components;
 import managers.GameData;
 import flixel.FlxG;
 import managers.SoundManager;
+import components.AnimationComponent;
 
 class OneTimeUseComponent extends InteractableComponent {
 
@@ -10,11 +11,12 @@ class OneTimeUseComponent extends InteractableComponent {
 	var animation:String = "";
 	var sound:String = "";
 	var hasPlayed:Bool = false;
+	var animationController:AnimationComponent;
 
 	override public function init(Data:Dynamic):Bool {
 		persistent = Reflect.field(Data, "persistent");
 		animation = Reflect.field(Data, "animation");
-		sound = Reflect.field(Data, "sound");
+		//sound = Reflect.field(Data, "sound");
 		return super.init(Data);
 	}
 
@@ -28,6 +30,8 @@ class OneTimeUseComponent extends InteractableComponent {
 				}
 			}
 		}
+
+		animationController = cast(owner.getComponent(ActorComponentTypes.ANIMATION), AnimationComponent);
 	}
 
 	override public function getComponentID():ActorComponentTypes {
@@ -36,11 +40,13 @@ class OneTimeUseComponent extends InteractableComponent {
 
 	override private function onInteract():Void {
 		if (!hasPlayed) {
-			owner.animation.play(animation);
+			animationController.ChangeAnimation(animation);
 			hasPlayed = true;
+			/*
 			if (sound != "") {
 				SoundManager.GetInstance().playSound(sound, owner.x, owner.y);
 			}
+			*/
 			if (persistent) {
 				GameData.getInstance().saveData(-1, owner.name + "hasPlayed", true);
 			}
