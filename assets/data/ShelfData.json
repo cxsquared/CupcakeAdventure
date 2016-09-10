@@ -51,12 +51,6 @@
 					}
 				},
 				{
-					"name": "HighlightComponent",
-					"data": {
-						"sprite": "assets/images/shelves/saltHighlight.png"
-					}
-				},
-				{
 					"name": "DescriptionComponent",
 					"data": {
 						"description": "No need to get salty.",
@@ -82,12 +76,6 @@
 					"data": {
 						"description": "Some sweet Vanilla",
 						"iconPath": "assets/images/inventory/vanillaInv.png"
-					}
-				},
-				{
-					"name": "HighlightComponent",
-					"data": {
-						"sprite": "assets/images/shelves/vanilla_highlight.png"
 					}
 				},
 				{

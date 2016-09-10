@@ -66,6 +66,7 @@ class DescriptionComponent extends InteractableComponent {
 	}
 
 	override private function onInteract():Void {
+		text.text = description;
 		showText();
 		viewTimer.start(viewLength, textTimerComplete, 1);
 	}
@@ -79,8 +80,9 @@ class DescriptionComponent extends InteractableComponent {
 		Owner.add(text);
 	}
 
-	public function say(textToSay:String, ?time:Float=2.5) {
+	public function say(?textToSay:String="", ?time:Float=2.5) {
 		text.text = textToSay;
+
 		if (text.alpha == 0) {
 			showText();
 			viewTimer.start(time, textTimerComplete, 1);

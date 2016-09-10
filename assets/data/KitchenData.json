@@ -18,11 +18,11 @@
 				{
 					"name": "DescriptionComponent",
 					"data": {
-						"description": "I should put ingredients in there.",
+						"description": "",
 						"color": {
-							"r": 55,
-							"g": 150,
-							"b": 55
+							"r": 100,
+							"g": 55,
+							"b": 100
 						}
 					}
 				},
@@ -34,7 +34,8 @@
 							{
 								"name": "mix",
 								"frames": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
-								"looped": false
+								"looped": false,
+								"sounds": []
 							}
 						]
 					}
@@ -71,7 +72,8 @@
 					"name": "PickUpComponent",
 					"data": {
 						"description": "Some bitter sweet chocolate",
-						"iconPath": "assets/images/inventory/chocolateInv.png"
+						"iconPath": "assets/images/inventory/chocolateInv.png",
+						"perminant": true
 					}
 				},
 				{
@@ -122,7 +124,8 @@
 							{
 								"name": "break",
 								"frames": [0, 1, 2],
-								"looped": false
+								"looped": false,
+								"sounds": ["crash"]
 							}
 						]
 					}
@@ -131,7 +134,6 @@
 					"name": "OneTimeUseComponent",
 					"data": {
 						"animation": "break",
-						"sound": "crash",
 						"persistent": true
 					}
 				}
@@ -153,22 +155,26 @@
 							{
 								"name": "justRightDoor",
 								"frames": [0, 1, 2],
-								"looped": false
+								"looped": false,
+								"sounds": []
 							},
 							{
 								"name": "justLeftDoor",
 								"frames": [3, 4, 5],
-								"looped": false
+								"looped": false,
+								"sounds": []
 							},
 							{
 								"name": "rightAfterLeft",
 								"frames": [6, 7, 8],
-								"looped": false
+								"looped": false,
+								"sounds": []
 							},
 							{
 								"name": "leftAfterRight",
 								"frames": [9, 10, 11],
-								"looped": false
+								"looped": false,
+								"sounds": []
 							}
 						]
 					}
@@ -235,7 +241,8 @@
 							{
 								"name": "cook",
 								"frames": [0, 1, 2, 3, 2, 1, 3, 2, 1, 0],
-								"looped": false
+								"looped": false,
+								"sounds": []
 							}
 						]
 					}
@@ -243,6 +250,7 @@
 				{
 					"name": "SaucePanComponent",
 					"data": {
+						"animation": "cook",
 						"recipes": "assets/data/saucepanRecipes.json"
 					}
 				}
@@ -284,9 +292,90 @@
 							{
 								"name": "used",
 								"frames": [0, 1, 2, 3, 4, 3, 4, 3, 2, 1, 0],
-								"looped": false
+								"looped": false,
+								"sounds": []
 							}
 						]
+					}
+				}
+			]
+		},
+		{
+			"name": "blender",
+			"x": 186,
+			"y": 183,
+			"width": 34,
+			"height": 45,
+			"spriteSheet": "assets/images/kitchen/blender.png",
+			"components": [
+				{
+					"name": "DescriptionComponent",
+					"data": {
+						"description": "Will it blend?",
+						"color": {
+							"r": 100,
+							"g": 55,
+							"b": 200
+						}
+					}
+				},
+				{
+					"name": "AnimationComponent",
+					"data": {
+						"frameRate": 10,
+						"animations": [
+							{
+								"name": "blend",
+								"frames": [0, 1, 2, 3, 2, 1, 3, 2, 1, 0],
+								"looped": false,
+								"sounds": []
+							}
+						]
+					}
+				},
+				{
+					"name": "SaucePanComponent",
+					"data": {
+						"animation": "blend",
+						"recipes": "assets/data/blenderRecipes.json"
+					}
+				}
+			]
+		},
+		{
+			"name": "bottomCabinet",
+			"x": 185,
+			"y": 172,
+			"width": 69,
+			"height": 63,
+			"spriteSheet": "assets/images/kitchen/bottomCabinet.png",
+			"components": [
+				{
+					"name": "AnimationComponent",
+					"data": {
+						"frameRate": 10,
+						"animations": [
+							{
+								"name": "open",
+								"frames": [0, 1, 2, 3],
+								"looped": false,
+								"sounds": ["openCabinet"]
+							},
+							{
+								"name": "close",
+								"frames": [3, 2, 1, 0],
+								"looped": false,
+								"sounds": ["closeCabinet"]
+							}
+						]
+					}
+				},
+				{
+					"name": "ToggleComponent",
+					"data": {
+						"animation": "open",
+						"altAnimation": "close",
+						"persistent": false
 					}
 				}
 			]

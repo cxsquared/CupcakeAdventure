@@ -4,6 +4,7 @@ import flixel.FlxG;
 import flixel.FlxSprite;
 import managers.GameData;
 import managers.GameData.TimeActions;
+import components.AnimationComponent;
 
 class PickUpComponent extends InteractableComponent {
 
@@ -11,6 +12,7 @@ class PickUpComponent extends InteractableComponent {
 	var iconPath:String;
 	var perminant:Bool = false;
 	var name:String = "";
+	var animationContoller:AnimationComponent;
 
 	override public function init(Data:Dynamic):Bool {
 		super.init(Data);
@@ -36,6 +38,10 @@ class PickUpComponent extends InteractableComponent {
 			//FlxG.log.add("Setting name to " + owner.name);
 			name = owner.name;
 		}
+
+		if (owner.hasComponent(ActorComponentTypes.ANIMATION)) {
+			animationContoller = cast(owner.getComponent(ActorComponentTypes.ANIMATION), AnimationComponent);
+		}
 	}
 
 	override public function update(DeltaTime:Float) {
@@ -55,7 +61,7 @@ class PickUpComponent extends InteractableComponent {
 			} else {
 				GameData.getInstance().inventory.addNewItem(name, description, owner.getID(), iconPath, perminant);
 				if(owner.animation.getByName("used") != null) {
-					owner.animation.play("used");
+					animationContoller.ChangeAnimation("used");
 				}
 			}
 		} else {

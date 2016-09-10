@@ -2,11 +2,17 @@ TODOs
 
 TODO: Make oven bake and possibly go to icing minigame
 TODO: Icing mini game?
-TODO: List ingredients already in the mixer on click
-TODO: Fix phone alert sound
-TODO: Make sounds playable during animations
+TODO: Make phone alert sound a ringing phone
+TODO: Typing text for messages
+TODO: Intro cutscene of bouncing cupcake going behind bookshelf/ into little hole
+TODO: Clean up look of recipe book
+TODO: Make other readable books in bookshelf
+TODO: MAke all items reuseabble
+TODO: Make blender and sauce pan list ingredients in it.
 
 DONE: Make invventory item use mouse manager
 DONE: Add time to days. Remove time for each item picked up and when cooking. Allow for two cupcakes worth of items plus one mixing for a complete day.
 DONE: Add clock or time indecator to game
 DONE: Make phone alert sound stop on load if already listened
+DONE: Make sounds playable during animations
+DONE: List ingredients already in the mixer on click

@@ -60,6 +60,7 @@ class ActorFactory {
 		actorComponentCreators.set("OvenComponent", OvenComponent);
 		actorComponentCreators.set("OneTimeUseComponent", OneTimeUseComponent);
 		actorComponentCreators.set("SlideComponent", SlideComponent);
+		actorComponentCreators.set("ToggleComponent", ToggleComponent);
 	}
 
 	public function createActor(Data:Dynamic):Actor {

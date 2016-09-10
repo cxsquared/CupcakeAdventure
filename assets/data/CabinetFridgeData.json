@@ -42,7 +42,8 @@
 							{
 								"name": "used",
 								"frames": [0, 1],
-								"looped": false
+								"looped": false,
+								"sounds": []
 							}
 						]
 					}
@@ -100,22 +101,26 @@
 							{
 								"name": "justLeftDoor",
 								"frames": [0, 1, 2],
-								"looped": false
+								"looped": false,
+								"sounds": []
 							},
 							{
 								"name": "justRightDoor",
 								"frames": [3, 4, 5],
-								"looped": false
+								"looped": false,
+								"sounds": []
 							},
 							{
 								"name": "rightAfterLeft",
 								"frames": [6, 7, 8],
-								"looped": false
+								"looped": false,
+								"sounds": []
 							},
 							{
 								"name": "leftAfterRight",
 								"frames": [9, 10, 11],
-								"looped": false
+								"looped": false,
+								"sounds": []
 							}
 						]
 					}
@@ -167,7 +172,8 @@
 							{
 								"name": "used",
 								"frames": [0, 1],
-								"looped": false
+								"looped": false,
+								"sounds": []
 							}
 						]
 					}
@@ -225,22 +231,26 @@
 							{
 								"name": "bottomOnly",
 								"frames": [0, 1, 2],
-								"looped": false
+								"looped": false,
+								"sounds": []
 							},
 							{
 								"name": "topOnly",
 								"frames": [3, 4, 5],
-								"looped": false
+								"looped": false,
+								"sounds": []
 							},
 							{
 								"name": "topAfterBottom",
 								"frames": [6, 7, 8],
-								"looped": false
+								"looped": false,
+								"sounds": []
 							},
 							{
 								"name": "bottomAfterTop",
 								"frames": [9, 10, 11],
-								"looped": false
+								"looped": false,
+								"sounds": []
 							}
 						]
 					}

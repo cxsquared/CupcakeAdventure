@@ -1,0 +1,14 @@
+{
+	"sounds":[
+		{
+			"sound": "slide",
+			"looped": false,
+			"volume": 0.5
+		},
+		{
+			"sound": "matchfall",
+			"looped": false,
+			"volume": 0.5
+		}
+	]
+}
