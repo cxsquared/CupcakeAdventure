@@ -1,29 +1,35 @@
 {
 	"sounds":[
 		{
-			"sound": "closeCabinet",
+			"name": "closeCabinet",
 			"looped": false,
 			"volume": 1
 		},
 		{
-			"sound": "crash",
+			"name": "crash",
 			"looped": false,
 			"volume": 1
 		},
 		{
-			"sound": "openCabinet",
+			"name": "openCabinet",
 			"looped": false,
 			"volume": 1
 		},
 		{
-			"sound": "slide",
+			"name": "slide",
 			"looped": false,
 			"volume": 1
 		},
 		{
-			"sound": "phoneAlert",
+			"name": "phoneAlert",
 			"looped": true,
 			"volume": 1
+		}
+	],
+	"music": [
+		{
+			"name": "Chocolate",
+			"volume": 0.5
 		}
 	]
 }

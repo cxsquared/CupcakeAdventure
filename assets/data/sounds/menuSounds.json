@@ -1,0 +1,10 @@
+{
+	"sounds": [
+	],
+	"music": [
+		{
+			"name": "MenuMusic",
+			"volume": 1
+		}
+	]
+}

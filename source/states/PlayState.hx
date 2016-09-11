@@ -45,6 +45,7 @@ class PlayState extends FlxState
 		super.create();
 
 		SoundManager.GetInstance().loadSounds("assets/data/sounds/gameSounds.json");
+		//FlxG.sound.playMusic(AssetPaths.Chocolate__mp3);
 
 		actorFactory = ActorFactory.GetInstance();
 
@@ -78,6 +79,8 @@ class PlayState extends FlxState
 		}
 
 		GameData.getInstance().loadInventory();
+
+		SoundManager.GetInstance().playMusic("Chocolate");
 	}
 
 	private function startDay(t:FlxTimer):Void {

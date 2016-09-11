@@ -28,6 +28,11 @@ class MenuState extends FlxState
 	{
 		super.create();
 
+		SoundManager.GetInstance().loadSounds("assets/data/sounds/menuSounds.json");
+		
+		SoundManager.GetInstance().playMusic("MenuMusic");
+		//FlxG.sound.playMusic(AssetPaths.MenuMusic__mp3);
+
 		var actorFactory = ActorFactory.GetInstance();
 
 		var sceneManager = SceneManager.GetInstance();
