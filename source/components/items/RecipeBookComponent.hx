@@ -8,6 +8,7 @@ import openfl.Assets;
 import flixel.text.FlxText;
 import flixel.FlxSprite;
 import flixel.tweens.FlxTween;
+import util.FlxSkewedText;
 
 class RecipeBookComponent extends InteractableComponent {
 
@@ -53,8 +54,10 @@ class RecipeBookComponent extends InteractableComponent {
 	private function parseRecipe(recipe:Dynamic):Void {
 		var recipeHolder = new FlxSpriteGroup();
 
+		var skewAmount = 7.5;
+
 		var titlePadding = 5;
-		var title = new FlxText();
+		var title = new FlxSkewedText();
 		title.size = 9;
 		title.text = Reflect.field(recipe, "name");
 		recipeHolder.add(title);
@@ -64,7 +67,7 @@ class RecipeBookComponent extends InteractableComponent {
 		recipeHolder.add(cupcake);
 
 		var ingredientsData:Array<String> = Reflect.field(recipe, "ingredients");
-		var ingredientsText = new FlxText();
+		var ingredientsText = new FlxSkewedText();
 		ingredientsText.height = ingredientsData.length * ingredientsText.height;
 		for (ingredient in ingredientsData) {
 			ingredientsText.text += ingredient + "\n";
@@ -78,6 +81,8 @@ class RecipeBookComponent extends InteractableComponent {
 		if (recipePages.length % 2 == 0) {
 			// Left
 			title.x = FlxG.width/4 - title.width/2;
+			title.skew.y = skewAmount;
+			ingredientsText.skew.y = skewAmount;
 			cupcake.x = cupcakeImageLocation.x;
 			ingredientsText.x = cupcakeImageLocation.x;
 		} else {
@@ -85,6 +90,8 @@ class RecipeBookComponent extends InteractableComponent {
 			title.x = FlxG.width*.75 - title.width/2;
 			cupcake.x = FlxG.width - cupcakeImageLocation.x - cupcake.width;
 			cupcake.flipX = true;
+			title.skew.y = -skewAmount;
+			ingredientsText.skew.y = -skewAmount;
 			ingredientsText.x = FlxG.width - cupcakeImageLocation.x - cupcake.width;
 		}
 
