@@ -6,12 +6,14 @@ import flixel.FlxG;
 import openfl.Assets;
 import managers.GameData;
 
+typedef MusicData = { sound:FlxSound, volume:Float }
+
 class SoundManager {
 	
 	private static var instance:SoundManager;
 
 	var soundsMap:Map<String, FlxSound>;
-	var musicMap:Map<String, FlxSound>;
+	var musicMap:Map<String, MusicData>;
 
 	var currentMusic:FlxSound;
 
@@ -27,7 +29,7 @@ class SoundManager {
 
 	private function new() {
 		soundsMap = new Map<String, FlxSound>();
-		musicMap = new Map<String, FlxSound>();
+		musicMap = new Map<String, MusicData>();
 	}
 
 	public function loadSounds(JSONDataPath:String):Void {
@@ -37,11 +39,11 @@ class SoundManager {
 		}
 
 		for (music in musicMap) {
-			music.destroy();
+			music.sound.destroy();
 		}
 
 		soundsMap = new Map<String, FlxSound>();
-		musicMap = new Map<String, FlxSound>();
+		musicMap = new Map<String, MusicData>();
 
 		var jsData = Json.parse(Assets.getText(JSONDataPath));
 
@@ -65,8 +67,8 @@ class SoundManager {
 				var s = new FlxSound();
 				FlxG.log.add("loading music " + Reflect.field(music, "name"));
 				s.loadEmbedded("assets/sounds/music/" + Reflect.field(music, "name") + ".mp3", true, false);
-				s.volume = Reflect.field(music, "volume");
-				musicMap.set(Reflect.field(music, "name"), s);
+				s.volume = 0;
+				musicMap.set(Reflect.field(music, "name"), {sound:s, volume:Reflect.field(music, "volume")});
 				FlxG.state.add(s);
 			}
 		}
@@ -108,8 +110,8 @@ class SoundManager {
 			if (currentMusic != null) {
 				currentMusic.fadeOut();
 			}
-			currentMusic = musicMap.get(Name);
-			currentMusic.fadeIn();
+			currentMusic = musicMap.get(Name).sound;
+			currentMusic.fadeIn(1, 0, musicMap.get(Name).volume);
 			return currentMusic;
 		} else {
 			FlxG.log.error("The music " + Name + " isn't loaded in game.");

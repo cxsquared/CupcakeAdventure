@@ -23,13 +23,13 @@
 		{
 			"name": "phoneAlert",
 			"looped": true,
-			"volume": 1
+			"volume": 0.5
 		}
 	],
 	"music": [
 		{
 			"name": "Chocolate",
-			"volume": 0.5
+			"volume": 0.1
 		}
 	]
 }
