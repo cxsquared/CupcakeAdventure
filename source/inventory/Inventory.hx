@@ -5,55 +5,66 @@ import managers.GameData;
 
 typedef InventoryItem = { Name:String, Description:String, ActorID:Int, IconPath:String, DestroyParent:Bool };
 
-class Inventory {
-	
-	var inventoryItems:Map<String,InventoryItem>;
+class Inventory
+{
 
-	public function new():Void {
-		init();
-	}
+    var inventoryItems:Map<String, InventoryItem>;
 
-	private function init():Void {
-		inventoryItems = new Map<String,InventoryItem>();
-	}
+    public function new():Void
+    {
+        init();
+    }
 
-	public function addNewItem(Name:String, Description:String, ActorID:Int, IconPath:String, DestroyParent:Bool=false):Void {
-		var item = { Name:Name, Description:Description, ActorID:ActorID, IconPath:IconPath, DestroyParent:DestroyParent };
-		addItem(item);
-	}
+    private function init():Void
+    {
+        inventoryItems = new Map<String, InventoryItem>();
+    }
 
-	public function addItem(Item:Inventory.InventoryItem):Void {
-		inventoryItems.set(Item.Name, Item);
-		FlxG.log.add("Adding item " + Item.Name);
-		GameData.getInstance().saveInventory();
-	}
+    public function addNewItem(Name:String, Description:String, ActorID:Int, IconPath:String, DestroyParent:Bool = false):Void
+    {
+        var item = { Name:Name, Description:Description, ActorID:ActorID, IconPath:IconPath, DestroyParent:DestroyParent };
+        addItem(item);
+    }
 
-	// Can return null if item doesn't exist
-	public function getItem(Name:String):InventoryItem {
-		if (inventoryItems.exists(Name)) {
-			var item = inventoryItems.get(Name);
-			inventoryItems.remove(Name);
-			FlxG.log.add("Getting item " + item.Name);
-			GameData.getInstance().saveInventory();
-			return item;
-		}
+    public function addItem(Item:Inventory.InventoryItem):Void
+    {
+        inventoryItems.set(Item.Name, Item);
+        FlxG.log.add("Adding item " + Item.Name);
+        GameData.getInstance().saveInventory();
+    }
 
-		return null;
-	}
+    // Can return null if item doesn't exist
+    public function getItem(Name:String):InventoryItem
+    {
+        if (inventoryItems.exists(Name))
+        {
+            var item = inventoryItems.get(Name);
+            inventoryItems.remove(Name);
+            FlxG.log.add("Getting item " + item.Name);
+            GameData.getInstance().saveInventory();
+            return item;
+        }
 
-	public function getAllItems():Array<InventoryItem> {
-		var inventoryArray:Array<InventoryItem> = new Array<InventoryItem>();
+        return null;
+    }
 
-		for (item in inventoryItems) {
-			inventoryArray.push(item);
-		}
+    public function getAllItems():Array<InventoryItem>
+    {
+        var inventoryArray:Array<InventoryItem> = new Array<InventoryItem>();
 
-		return inventoryArray;
-	}
+        for (item in inventoryItems)
+        {
+            inventoryArray.push(item);
+        }
 
-	public function clear():Void {
-		for (item in inventoryItems.keys()) {
-			inventoryItems.remove(item);
-		}
-	}
+        return inventoryArray;
+    }
+
+    public function clear():Void
+    {
+        for (item in inventoryItems.keys())
+        {
+            inventoryItems.remove(item);
+        }
+    }
 }

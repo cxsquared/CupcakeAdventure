@@ -4,88 +4,113 @@ import managers.GameData;
 import flixel.FlxG;
 import managers.SoundManager;
 
-class SlideComponent extends InteractableComponent {
-	
-	var direction:String = "";
-	var sound:String = "";
-	var amount:Int = 0;
-	var toggle:Bool = false;
-	var hasSlid:Bool = false;
+class SlideComponent extends InteractableComponent
+{
+    var direction:String = "";
+    var sound:String = "";
+    var amount:Int = 0;
+    var toggle:Bool = false;
+    var hasSlid:Bool = false;
 
-	override public function init(Data:Dynamic):Bool {
-		direction = Reflect.field(Data, "dir");
-		amount = Reflect.field(Data, "amount");
-		sound = Reflect.field(Data, "sound");
-		toggle = Reflect.field(Data, "toggle");
+    override public function init(Data:Dynamic):Bool
+    {
+        direction = Reflect.field(Data, "dir");
+        amount = Reflect.field(Data, "amount");
+        sound = Reflect.field(Data, "sound");
+        toggle = Reflect.field(Data, "toggle");
 
-		if(direction == "") {
-			FlxG.log.error("Slide component on " + owner.name + " " + owner.getID() + " needs a direction.");
-			return false;
-		}
+        if (direction == "")
+        {
+            FlxG.log.error("Slide component on " + owner.name + " " + owner.getID() + " needs a direction.");
+            return false;
+        }
 
-		return super.init(Data);
-	}
+        return super.init(Data);
+    }
 
-	override public function postInit(){
-		var isUsed = GameData.getInstance().getData(-1, owner.name + "hasSlid");
-		if (isUsed) {
-			hasSlid = isUsed;
-			if (hasSlid) {
-				move();
-			}
-		}
-	}
+    override public function postInit()
+    {
+        var isUsed = GameData.getInstance().getData(-1, owner.name + "hasSlid");
+        if (isUsed)
+        {
+            hasSlid = isUsed;
+            if (hasSlid)
+            {
+                move();
+            }
+        }
+    }
 
-	override public function getComponentID():ActorComponentTypes {
-		return ActorComponentTypes.ONETIMEUSE;
-	}
+    override public function getComponentID():ActorComponentTypes
+    {
+        return ActorComponentTypes.ONETIMEUSE;
+    }
 
-	override private function onInteract():Void {
-		if (!hasSlid) {
-			hasSlid = true;
-			if (sound != "") {
-				SoundManager.GetInstance().playSound(sound, owner.x, owner.y);
-			}
-			GameData.getInstance().saveData(-1, owner.name + "hasSlid", true);
-			move();
-		} else if (toggle) {
-			hasSlid = false;
-			if (sound != "") {
-				SoundManager.GetInstance().playSound(sound, owner.x, owner.y);
-			}
-			GameData.getInstance().saveData(-1, owner.name + "hasSlid", false);
-			move(true);
-		}
-	}
+    override private function onInteract():Void
+    {
+        if (!hasSlid)
+        {
+            hasSlid = true;
+            if (sound != "")
+            {
+                SoundManager.GetInstance().playSound(sound, owner.x, owner.y);
+            }
+            GameData.getInstance().saveData(-1, owner.name + "hasSlid", true);
+            move();
+        }
+        else if (toggle)
+        {
+            hasSlid = false;
+            if (sound != "")
+            {
+                SoundManager.GetInstance().playSound(sound, owner.x, owner.y);
+            }
+            GameData.getInstance().saveData(-1, owner.name + "hasSlid", false);
+            move(true);
+        }
+    }
 
-	private function move(reversed:Bool=false):Void {
-		switch (direction.toLowerCase()) {
-			case "left":
-				if(reversed){
-					owner.x += amount;
-				} else {
-					owner.x -= amount;
-				}
-			case "right":
-				if(reversed){
-					owner.x -= amount;
-				} else {
-					owner.x += amount;
-				}
-			case "up":
-				if(reversed){
-					owner.y += amount;
-				} else {
-					owner.y -= amount;
-				}
-			case "down":
-				if(reversed){
-					owner.y -= amount;
-				} else {
-					owner.y += amount;
-				}
-			default:
-				FlxG.log.error(direction + " isn't a valid direciton on " + owner.name + " " + owner.getID());
-		}
-	}
+    private function move(reversed:Bool = false):Void
+    {
+        switch (direction.toLowerCase()) {
+            case "left":
+                if (reversed)
+                {
+                    owner.x += amount;
+                }
+                else
+                {
+                    owner.x -= amount;
+                }
+            case "right":
+                if (reversed)
+                {
+                    owner.x -= amount;
+                }
+                else
+                {
+                    owner.x += amount;
+                }
+            case "up":
+                if (reversed)
+                {
+                    owner.y += amount;
+                }
+                else
+                {
+                    owner.y -= amount;
+                }
+            case "down":
+                if (reversed)
+                {
+                    owner.y -= amount;
+                }
+                else
+                {
+                    owner.y += amount;
+                }
+            default:
+                FlxG.log.error(direction + " isn't a valid direciton on " + owner.name + " " + owner.getID());
+        }
+    }
 }

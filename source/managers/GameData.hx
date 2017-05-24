@@ -11,229 +11,272 @@ import components.ActorComponentTypes;
 import components.matchthree.MatchThreeTimerComponent;
 import flixel.FlxObject;
 
-enum TimeActions {
-	MIX;
-	PICKUP;
+enum TimeActions
+{
+    MIX;
+    PICKUP;
 }
 
-class GameData {
-	
-	private static var instance:GameData;
-	public var heldItem:InventorySprite;
-	public var inventory:Inventory;
-	public var player:FlxObject;
-	var timer:Actor;
-	var dayoutcomesPath = "assets/data/dayoutcomes.json";
-	var dayoutcomesData:Dynamic;
+class GameData
+{
 
-	var mixTime = 2.66;
-	var itemTime = .14;
-	var startTime = 8;
+    private static var instance:GameData;
+    public var heldItem:InventorySprite;
+    public var inventory:Inventory;
+    public var player:FlxObject;
+    var timer:Actor;
+    var dayoutcomesPath = "assets/data/dayoutcomes.json";
+    var dayoutcomesData:Dynamic;
 
-	@:isVar
-	public var currentDay(get, null):String = "";
-	private function get_currentDay():String {
-		if (currentDay == "") {
-			var possibleName = getData(day, "name");
-			if (possibleName == null){
-				currentDay = getCurrentDayName();
-				FlxG.log.add("Getting current day name " + currentDay);
-				saveData(day, "name", currentDay);
-			} else {
-				currentDay = possibleName;
-			}
-		}
+    var mixTime = 2.66;
+    var itemTime = .14;
+    var startTime = 8;
 
-		return currentDay;
-	}
+    @:isVar
+    public var currentDay(get, null):String = "";
 
-	@:isVar
-	public static var day(default, set):Int = -1;
-	private static function set_day(v:Int):Int {
-		GameData.getInstance().currentDay = "";
-		day = FlxG.save.data.day = v;
-		FlxG.save.flush();
-		return day;
-	}
+    private function get_currentDay():String
+    {
+        if (currentDay == "")
+        {
+            var possibleName = getData(day, "name");
+            if (possibleName == null)
+            {
+                currentDay = getCurrentDayName();
+                FlxG.log.add("Getting current day name " + currentDay);
+                saveData(day, "name", currentDay);
+            }
+            else
+            {
+                currentDay = possibleName;
+            }
+        }
 
-	public static function getInstance():GameData {
-		if (instance != null) {
-			return instance;
-		}
+        return currentDay;
+    }
 
-		var gd = new GameData();
-		instance = gd;
+    @:isVar
+    public static var day(default, set):Int = -1;
 
-		return instance;
-	}
+    private static function set_day(v:Int):Int
+    {
+        GameData.getInstance().currentDay = "";
+        day = FlxG.save.data.day = v;
+        FlxG.save.flush();
+        return day;
+    }
 
-	@:isVar
-	public var time(default, set):Float = -1;
-	private function set_time(v:Float):Float {
-		time = v;
-		saveData(day, "time", v);
-		return time;
-	}
+    public static function getInstance():GameData
+    {
+        if (instance != null)
+        {
+            return instance;
+        }
 
-	private function new():Void {
-		if (!FlxG.save.bind("CupcakeData")) {
-			FlxG.log.error("Save failed to create!");
-		}
+        var gd = new GameData();
+        instance = gd;
 
-		player = new FlxObject(FlxG.width/2-25, FlxG.height/2-25, 50, 50);
+        return instance;
+    }
 
-		ObjectUtil.getInstance().printObject(FlxG.save.data);
+    @:isVar
+    public var time(default, set):Float = -1;
 
-		inventory = new Inventory();
+    private function set_time(v:Float):Float
+    {
+        time = v;
+        saveData(day, "time", v);
+        return time;
+    }
 
-		dayoutcomesData = Json.parse(Assets.getText(dayoutcomesPath));	
-	}
+    private function new():Void
+    {
+        if (!FlxG.save.bind("CupcakeData"))
+        {
+            FlxG.log.error("Save failed to create!");
+        }
 
-	public function resetTime(isNewDay:Bool):Void {
-		if (isNewDay) {
-			this.time = startTime;
-		} else {
-			this.time = getData(day, "time");
-		}
+        player = new FlxObject(FlxG.width / 2 - 25, FlxG.height / 2 - 25, 50, 50);
 
-		FlxG.watch.add(this, "time", "Time left");
-		timer = ActorFactory.GetInstance().createActor({
-			"name": "timer",
-			"x": 270,
-			"y": -5,
-			"width": -1,
-			"height": -1,
-			"spriteSheet": "assets/images/match/match_TimerBackground.png",
-			"components": [
-				{
-					"name": "MatchThreeTimerComponent",
-					"data": {
-						"time": startTime
-					}
-				}
-			]
-		});
-		timer.scale.x = timer.scale.y = .5;
-		timer.x = 270;
-		timer.y = -5;
-		timer.addToState(FlxG.state);
-		var timerComp = cast(timer.getComponent(ActorComponentTypes.MATCHTIMER), MatchThreeTimerComponent);
-		timerComp.time = startTime - time;
-	}
+        ObjectUtil.getInstance().printObject(FlxG.save.data);
 
-	public function removeTime(timeType:TimeActions):Float {
-		switch (timeType) {
-			case MIX:
-				time -= mixTime;
-			case PICKUP:
-				time -= itemTime;
-				if (time <= 0) {
-					GameData.day++;
-					GameData.getInstance().inventory.clear();
-					GameData.getInstance().saveInventory();
-					FlxG.switchState(new PlayState());
-				}
-		}
+        inventory = new Inventory();
 
-		time = Math.max(time, 0);
+        dayoutcomesData = Json.parse(Assets.getText(dayoutcomesPath));
+    }
 
-		var timerComp = cast(timer.getComponent(ActorComponentTypes.MATCHTIMER), MatchThreeTimerComponent);
-		timerComp.time = startTime - time;
+    public function resetTime(isNewDay:Bool):Void
+    {
+        if (isNewDay)
+        {
+            this.time = startTime;
+        }
+        else
+        {
+            this.time = getData(day, "time");
+        }
 
-		return time;
-	}
+        FlxG.watch.add(this, "time", "Time left");
+        timer = ActorFactory.GetInstance().createActor({
+            "name": "timer",
+            "x": 270,
+            "y": -5,
+            "width": -1,
+            "height": -1,
+            "spriteSheet": "assets/images/match/match_TimerBackground.png",
+            "components": [
+                {
+                    "name": "MatchThreeTimerComponent",
+                    "data": {
+                        "time": startTime
+                    }
+                }
+            ]
+        });
+        timer.scale.x = timer.scale.y = .5;
+        timer.x = 270;
+        timer.y = -5;
+        timer.addToState(FlxG.state);
+        var timerComp = cast(timer.getComponent(ActorComponentTypes.MATCHTIMER), MatchThreeTimerComponent);
+        timerComp.time = startTime - time;
+    }
 
-	// This must be done after actors and scenes have been loaded
-	public function loadInventory():Void {
-		var tempInv:Array<Inventory.InventoryItem> = getData(day, "inventory");
-		if (tempInv != null) {
-			for (item in tempInv) {
-				inventory.addItem(item);
-				if (!item.DestroyParent) {
-					var actor = ActorFactory.GetInstance().getActor(item.ActorID);
-					if (actor != null) {
-						actor.destroy();
-					}
-				}
-			}
-		}
-	}
+    public function removeTime(timeType:TimeActions):Float
+    {
+        switch (timeType) {
+            case TimeActions.MIX:
+                time -= mixTime;
+            case TimeActions.PICKUP:
+                time -= itemTime;
+                if (time <= 0)
+                {
+                    GameData.day++;
+                    GameData.getInstance().inventory.clear();
+                    GameData.getInstance().saveInventory();
+                    FlxG.switchState(new PlayState());
+                }
+        }
 
-	public function saveInventory():Void {
-		saveData(day, "inventory", inventory.getAllItems());
-	}
+        time = Math.max(time, 0);
 
-	private function getCurrentDayName():String {
-		if (day == 1) {
-			FlxG.log.add("Returning day 1 name");
-			return "StartingOut";
-		} else if (wasCupcakeMade(day-1)) {
-			return getDayOutcome();
-		}
-		FlxG.log.add("Looking for no cupcake in " + getData(day-1, "name"));
-		return Reflect.field(Reflect.field(dayoutcomesData, getData(day-1, "name")), "nocupcake");
-	}
+        var timerComp = cast(timer.getComponent(ActorComponentTypes.MATCHTIMER), MatchThreeTimerComponent);
+        timerComp.time = startTime - time;
 
-	private function getDayOutcome():String {
-		var dayName = getData(day-1, "name");
-		FlxG.log.add("Looking for outcome from " + dayName);
-		var possibleOutcomes = Reflect.field(dayoutcomesData, dayName);
-		var tags:Array<String> = getData(day-1, "cupcake");
-		for (tag in tags) {
-			if (Reflect.hasField(possibleOutcomes, tag)) {
-				return Reflect.field(possibleOutcomes, tag);
-			}
-		}
+        return time;
+    }
 
-		return Reflect.field(possibleOutcomes, "anycupcake");
-	}
+    // This must be done after actors and scenes have been loaded
+    public function loadInventory():Void
+    {
+        var tempInv:Array<Inventory.InventoryItem> = getData(day, "inventory");
+        if (tempInv != null)
+        {
+            for (item in tempInv)
+            {
+                inventory.addItem(item);
+                if (!item.DestroyParent)
+                {
+                    var actor = ActorFactory.GetInstance().getActor(item.ActorID);
+                    if (actor != null)
+                    {
+                        actor.destroy();
+                    }
+                }
+            }
+        }
+    }
 
-	private function wasCupcakeMade(day:Int):Bool {
-		var possibleCupcake = getData(day, "cupcake");
-		return possibleCupcake != null;
-	}
+    public function saveInventory():Void
+    {
+        saveData(day, "inventory", inventory.getAllItems());
+    }
 
-	public function saveCupcake(tags:Array<String>):Void {
-		saveData(day, "cupcake", tags);
-	}
+    private function getCurrentDayName():String
+    {
+        if (day == 1)
+        {
+            FlxG.log.add("Returning day 1 name");
+            return "StartingOut";
+        }
+        else if (wasCupcakeMade(day - 1))
+        {
+            return getDayOutcome();
+        }
+        FlxG.log.add("Looking for no cupcake in " + getData(day - 1, "name"));
+        return Reflect.field(Reflect.field(dayoutcomesData, getData(day - 1, "name")), "nocupcake");
+    }
 
-	public function saveData(Day:Int, Field:String, Data:Dynamic):Void {
-		FlxG.log.add("Saving " + Field);
-		if (!Reflect.hasField(FlxG.save.data, "day"+Day)) {
-			Reflect.setField(FlxG.save.data, "day"+Day, {});
-		}
+    private function getDayOutcome():String
+    {
+        var dayName = getData(day - 1, "name");
+        FlxG.log.add("Looking for outcome from " + dayName);
+        var possibleOutcomes = Reflect.field(dayoutcomesData, dayName);
+        var tags:Array<String> = getData(day - 1, "cupcake");
+        for (tag in tags)
+        {
+            if (Reflect.hasField(possibleOutcomes, tag))
+            {
+                return Reflect.field(possibleOutcomes, tag);
+            }
+        }
 
-		var tempData = Reflect.field(FlxG.save.data, "day"+Day);
-		Reflect.setField(tempData, Field, Data);
-		Reflect.setField(FlxG.save.data, "day"+Day, tempData);
-		if (!FlxG.save.flush()) {
-			FlxG.log.error("Saving failed");
-		}
+        return Reflect.field(possibleOutcomes, "anycupcake");
+    }
 
-		//ObjectUtil.getInstance().printObject(FlxG.save.data);
-	}
+    private function wasCupcakeMade(day:Int):Bool
+    {
+        var possibleCupcake = getData(day, "cupcake");
+        return possibleCupcake != null;
+    }
 
-	public function getData(Day:Int, Field:String):Dynamic {
-		FlxG.log.add("Getting " + Field);
-		ObjectUtil.getInstance().printObject(FlxG.save.data);
-		if (!Reflect.hasField(FlxG.save.data, "day"+Day)) {
-			return null;
-		}
+    public function saveCupcake(tags:Array<String>):Void
+    {
+        saveData(day, "cupcake", tags);
+    }
 
-		var dayData = Reflect.field(FlxG.save.data, "day"+Day);
-		if (Reflect.hasField(dayData, Field)) {
-			return Reflect.field(dayData, Field);
-		}
+    public function saveData(Day:Int, Field:String, Data:Dynamic):Void
+    {
+        FlxG.log.add("Saving " + Field);
+        if (!Reflect.hasField(FlxG.save.data, "day" + Day))
+        {
+            Reflect.setField(FlxG.save.data, "day" + Day, {});
+        }
 
-		return null;
-	}
+        var tempData = Reflect.field(FlxG.save.data, "day" + Day);
+        Reflect.setField(tempData, Field, Data);
+        Reflect.setField(FlxG.save.data, "day" + Day, tempData);
+        if (!FlxG.save.flush())
+        {
+            FlxG.log.error("Saving failed");
+        }
+    }
 
-	public function clearData():Void {
-		FlxG.save.erase();
-		FlxG.log.add("Clearing Data");
-		if (!FlxG.save.bind("CupcakeData")) {
-			FlxG.log.error("Save failed to create!");
-		}
-		day = 1;
-	}
+    public function getData(Day:Int, Field:String):Dynamic
+    {
+        FlxG.log.add("Getting " + Field);
+        ObjectUtil.getInstance().printObject(FlxG.save.data);
+        if (!Reflect.hasField(FlxG.save.data, "day" + Day))
+        {
+            return null;
+        }
+
+        var dayData = Reflect.field(FlxG.save.data, "day" + Day);
+        if (Reflect.hasField(dayData, Field))
+        {
+            return Reflect.field(dayData, Field);
+        }
+
+        return null;
+    }
+
+    public function clearData():Void
+    {
+        FlxG.save.erase();
+        FlxG.log.add("Clearing Data");
+        if (!FlxG.save.bind("CupcakeData"))
+        {
+            FlxG.log.error("Save failed to create!");
+        }
+        day = 1;
+    }
 }
