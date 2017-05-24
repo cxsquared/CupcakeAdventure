@@ -4,17 +4,12 @@ import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.text.FlxText;
-import flixel.ui.FlxButton;
-import flixel.math.FlxMath;
 import actors.*;
-import openfl.Assets;
-import haxe.Json;
 import managers.SceneManager;
 import inventory.*;
 import managers.GameData;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
-import flixel.text.FlxText;
 import flixel.util.FlxTimer;
 import managers.SoundManager;
 
@@ -34,7 +29,8 @@ class PlayState extends FlxState
 	var startingRoom = "Bookshelf";
 	var newDay = true;
 
-	public function new (StartingRoom:String="Bookshelf", NewDay:Bool=true):Void {
+	public function new (StartingRoom:String="Bookshelf", NewDay:Bool=true):Void
+	{
 		super();
 		startingRoom = StartingRoom;
 		newDay = NewDay;
@@ -45,7 +41,6 @@ class PlayState extends FlxState
 		super.create();
 
 		SoundManager.GetInstance().loadSounds("assets/data/sounds/gameSounds.json");
-		//FlxG.sound.playMusic(AssetPaths.Chocolate__mp3);
 
 		actorFactory = ActorFactory.GetInstance();
 
@@ -53,7 +48,6 @@ class PlayState extends FlxState
 		sceneManager = SceneManager.GetInstance();
 
 		sceneManager.loadScenes(AssetPaths.sceneData__json, startingRoom);
-		//sceneManager.changeScene(startingRoom, true);
 
 		add(sceneManager);
 
@@ -83,15 +77,18 @@ class PlayState extends FlxState
 		SoundManager.GetInstance().playMusic("Chocolate");
 	}
 
-	private function startDay(t:FlxTimer):Void {
+	private function startDay(t:FlxTimer):Void
+    {
 		FlxTween.tween(fade, {alpha:0}, 2, {onComplete:fadeDone});
-		if (newDay) {
+		if (newDay)
+        {
 			FlxTween.tween(dayText, {alpha:0}, 1);
 		}
 		fadingin = true;
 	}
 
-	private function fadeDone(t:FlxTween):Void {
+	private function fadeDone(t:FlxTween):Void
+    {
 		if (fadingin) {
 			remove(fade);
 			fadingin = false;

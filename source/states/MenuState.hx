@@ -3,16 +3,10 @@ package states;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
-import flixel.text.FlxText;
 import flixel.ui.FlxButton;
-import flixel.math.FlxMath;
-import actors.Actor;
-import openfl.Assets;
-import haxe.Json;
 import flixel.util.FlxColor;
 import actors.*;
 import managers.SceneManager;
-import flixel.util.FlxColor;
 import flixel.tweens.FlxTween;
 import managers.GameData;
 import util.ObjectUtil;
@@ -31,7 +25,6 @@ class MenuState extends FlxState
 		SoundManager.GetInstance().loadSounds("assets/data/sounds/menuSounds.json");
 		
 		SoundManager.GetInstance().playMusic("MenuMusic");
-		//FlxG.sound.playMusic(AssetPaths.MenuMusic__mp3);
 
 		var actorFactory = ActorFactory.GetInstance();
 
@@ -39,7 +32,6 @@ class MenuState extends FlxState
 		sceneManager.clearScenes();
 
 		sceneManager.loadScenes(AssetPaths.menuSceneData__json, "MainMenu");
-		//sceneManager.changeScene("MainMenu");
 
 		add(sceneManager);
 
@@ -88,9 +80,6 @@ class MenuState extends FlxState
 		} else {
 			FlxG.switchState(new PlayState("Bookshelf", false));
 		}
-
-		//FlxG.switchState(new MatchThreeState("Vanilla Cupcake", ["flour", "sugar", "butter", "milk", "chocolate"], 20, 750, 250));
-		//FlxG.switchState(new IcingGameState(null, FlxColor.CYAN));
 	}
 
 	override public function destroy():Void {

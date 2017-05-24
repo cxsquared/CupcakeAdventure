@@ -1007,7 +1007,7 @@ class MatchThreeController implements ActorComponent {
 		}
 		//FlxG.log.add("Shuffling " + tempCount + " items.");
 
-		rand.shuffleArray(allItems, allItems.length*2);
+		rand.shuffle(allItems);
 
 		var row = 0;
 		var x = 0;
