@@ -1,15 +1,12 @@
 package components.items;
 
-import flixel.FlxG;
 import actors.Actor;
+import flixel.FlxG;
 import managers.SceneManager;
 import managers.SoundManager;
 
-//TODO: Make it where you can't leave scene if it's open
-
 class FridgeComponent extends InteractableComponent
 {
-
     var topOpen:Bool = false;
     var bottomOpen:Bool = false;
 
@@ -181,6 +178,16 @@ class FridgeComponent extends InteractableComponent
 
     override public function onExit():Void
     {
+        //TODO: Fix the text not showing up more than once
+        if (topOpen || bottomOpen)
+        {
+            SceneManager.GetInstance().cancelSceneChange();
+            var textComp = owner.getTextComponent();
+            if (!textComp.isTalking())
+            {
+                owner.getTextComponent().say("I can't leave before closing the fridge.");
+            }
+        }
     }
 
     override public function onEnter():Void

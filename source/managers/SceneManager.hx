@@ -1,5 +1,7 @@
 package managers;
 
+import util.ArrayUtil;
+import util.ArrayUtil;
 import flixel.group.FlxSpriteGroup;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.FlxG;
@@ -108,6 +110,13 @@ class SceneManager extends FlxTypedGroup<FlxSpriteGroup>
         sceneQueue.push(newSceneQueue);
     }
 
+    public function cancelSceneChange():Void
+    {
+        changingScenes = false;
+        nextScene = null;
+        ArrayUtil.clear(sceneQueue);
+    }
+
     private function executeChangeScene(Name:String, Direction:SceneDirection = null):Void
     {
         // TODO: Make transitions fancier possibly with FlxTransition
@@ -121,6 +130,16 @@ class SceneManager extends FlxTypedGroup<FlxSpriteGroup>
             if (nextScene != null)
             {
                 changingScenes = true;
+                for (actor in getActorsInScene())
+                {
+                    actor.onExit();
+                }
+
+                if (changingScenes == false)
+                {
+                    return;
+                }
+
                 if (currentScene != null)
                 {
                     var coords = getDirectionCoords(getOpositeDirection(Direction));
@@ -131,10 +150,7 @@ class SceneManager extends FlxTypedGroup<FlxSpriteGroup>
                 nextScene.x = coords.x;
                 nextScene.y = coords.y;
                 FlxTween.tween(nextScene, { x: 0, y: 0 }, .35, { onComplete: sceneChanged }).start;
-                for (actor in getActorsInScene())
-                {
-                    actor.onExit();
-                }
+
                 for (actor in getActorsInScene(Name))
                 {
                     actor.onEnter();

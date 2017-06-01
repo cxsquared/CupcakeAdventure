@@ -7,7 +7,6 @@ import flixel.FlxG;
 
 class DescriptionComponent extends InteractableComponent
 {
-
     var text:FlxText;
     var description:String;
     var viewLength:Float = 2.5;
@@ -63,6 +62,15 @@ class DescriptionComponent extends InteractableComponent
             text.x = 0;
         }
 
+        if (text.y < 0)
+        {
+            text.y = 0;
+        }
+        else if (text.y + text.height > FlxG.height)
+        {
+            text.y = FlxG.height - text.height;
+        }
+
         if (!owner.alive && !viewTimer.active)
         {
             text.alpha = 0;
@@ -93,7 +101,7 @@ class DescriptionComponent extends InteractableComponent
         Owner.add(text);
     }
 
-    public function say(?textToSay:String = "", ?time:Float = 2.5)
+    public function say(textToSay, time:Float = 2.5)
     {
         text.text = textToSay;
 
@@ -118,5 +126,10 @@ class DescriptionComponent extends InteractableComponent
     override public function onExit():Void
     {
         text.alpha = 0;
+    }
+
+    public function isTalking():Bool
+    {
+        return text.alpha > .5;
     }
 }

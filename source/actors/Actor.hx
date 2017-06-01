@@ -4,10 +4,8 @@ import flixel.FlxSprite;
 import flixel.FlxG;
 import components.*;
 import flixel.system.FlxAssets.FlxGraphicAsset;
-import flixel.FlxState;
 import flixel.input.mouse.FlxMouseEventManager;
 import flixel.group.FlxGroup;
-import components.*;
 
 enum MOUSEEVENT {
 	DOWN;
@@ -24,9 +22,7 @@ class Actor extends FlxSprite {
 
 	public var name:String;
 
-	private var container:FlxGroup;
-
-	override public function new(?X:Float = 0, ?Y:Float = 0, ?SimpleGraphic:FlxGraphicAsset) {
+	public function new(X:Float = 0, Y:Float = 0, ?SimpleGraphic:FlxGraphicAsset) {
 		super(X, Y, SimpleGraphic);
 
 		actorComponents = new Map<ActorComponentTypes, ActorComponent>();
@@ -49,25 +45,18 @@ class Actor extends FlxSprite {
 
 	override public function update(elapsed:Float) {
 		super.update(elapsed);
-		//FlxG.log.add("Updating actor " + actorID);
 		// Update Components
 		for (component in actorComponents) {
 			component.update(elapsed);
-			//FlxG.log.add("Updating component " + component.getComponentID() + " on actor " + actorID);
 		}
 	}
 
 	public function addComponent(ActorComponent:ActorComponent):ActorComponent {
-		//FlxG.log.add("Adding component " + ActorComponent.getComponentID() + " on actor " + actorID);
 		if (!actorComponents.exists(ActorComponent.getComponentID())){
 			actorComponents.set(ActorComponent.getComponentID(), ActorComponent);
 			ActorComponent.owner = this;
 		} else {
 			FlxG.log.warn("Component " + ActorComponent.getComponentID() + " already exists on actor " + actorID);
-		}
-
-		if (container != null) {
-			ActorComponent.onAdd(container);
 		}
 
 		return actorComponents.get(ActorComponent.getComponentID());
